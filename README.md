@@ -13,13 +13,17 @@
 
 ## 技术栈 
 
-`vue 2.x` +` vue-router` +` vuex` +` vue-cli` + `element-ui` + `axios` + `socket.io`
+`vue 2.x` +` vue-router` +` vuex` +` vue-cli` + `element-ui` + `axios` + `socket.io`(`socket.io-client`)  
 
 可选：  
 
 1. normalize.css，可用于设置默认 css 样式，[传送门](https://github.com/necolas/normalize.css)
 2. nprogress，一个进度条插件，[传送门](https://github.com/rstacruz/nprogress)
 3. MD5，md5加密插件，[传送门](https://www.npmjs.com/package/md5)
+
+**备注**  
+
+这里 `socket.io` 为 node 服务端所用的框架，`socket.io-client` 为客户端所用的框架  
 
 ## 实现
 
