@@ -45,7 +45,7 @@ module.exports = {
     // 配置多个代理
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // 这里写的是访问接口的域名和端口号 
+        target: 'http://localhost:5000', // 这里写的是访问接口的域名和端口号
         changeOrigin: true, // 跨域请求
         pathRewrite: { // 重命名
           '^/api': ''

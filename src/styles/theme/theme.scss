@@ -1,0 +1,12 @@
+// 这里定义主题模板 通用配置 修改变量即可
+.theme-#{$theme-name}{
+  #nprogress .bar {
+    background: $nprogress-bgc !important; //自定义颜色
+  }
+}
+
+// 测试 开始
+#nprogress .bar {
+  background: $nprogress-bgc !important; //自定义颜色
+}
+// 测试 结束
