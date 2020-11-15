@@ -1,29 +1,33 @@
 <template>
-  <div class="login-wrap">
-    <div class="login-container">
+  <div class="register-wrap">
+    <div class="register-container">
       <div class="title-wrap">
-        <span class="title-text">登录</span>
+        <span class="title-text">快速注册</span>
       </div>
       <div class="form-wrap">
-        <el-form class="login-form" ref="loginForm" :rules="rules" :model="form">
+        <el-form class="register-form" ref="registerForm" :rules="rules" :model="form">
           <el-form-item prop="username">
             <el-input v-model="form.username" prefix-icon="el-icon-user" placeholder="请输入用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input v-model="form.password" prefix-icon="el-icon-lock" placeholder="请输入密码" type="password"
-              @keyup.enter.native="login" show-password></el-input>
+              @keyup.enter.native="register" show-password></el-input>
           </el-form-item>
-          <div class="login-btn-wrap">
-            <el-button class="login-btn" type="success" :disabled="!enableLogin" @click="login">登录</el-button>
+          <div class="register-btn-wrap">
+            <el-button class="register-btn" type="success" :disabled="!enableRegister" @click="register">快速注册</el-button>
           </div>
-          <div class="login-foot">
+          <div class="register-foot">
+            <div class="register-protocol">
+              <span class="protocol-text">
+                注册即表明同意
+                <router-link to="#">《服务协议》</router-link>
+              </span>
+            </div>
             <third-part-login/>
             <div class="foot-menu">
-              <router-link to="/register">快速注册</router-link>
+              <router-link to="/login">直接登录</router-link>
               <span class="divider"></span>
-              <router-link to="#" @click.native="showTips">邮箱登录</router-link>
-              <span class="divider"></span>
-              <router-link to="#" @click.native="showTips">找回密码</router-link>
+              <router-link to="#" @click.native="showTips">遇到问题</router-link>
             </div>
           </div>
         </el-form>
@@ -36,7 +40,7 @@
 import thirdPartLogin from '@/components/third-part-login/index.vue'
 
 export default {
-  name: 'login',
+  name: 'register',
   data () {
     return {
       form: {
@@ -59,7 +63,7 @@ export default {
     thirdPartLogin
   },
   computed: {
-    enableLogin () {
+    enableRegister () {
       return this.form.username.length && this.form.password.length
     }
   },
@@ -68,9 +72,9 @@ export default {
   beforeDestroy () {
   },
   methods: {
-    // 点击登录
-    login () {
-      this.$refs.loginForm.validate(valid => {
+    // 点击快速注册
+    register () {
+      this.$refs.registerForm.validate(valid => {
         if (valid) {
           console.log(valid)
         } else {
@@ -79,20 +83,25 @@ export default {
         }
       })
     },
-    // 点击 邮箱登录 快速注册
+    // 点击 遇到问题
     showTips () {
-      this.$message.info('该功能暂未开放，敬请期待')
+      this.$message({
+        type: 'info',
+        showClose: true,
+        duration: 0,
+        message: '请联系邮箱313200064@qq.com'
+      })
     }
   }
 }
 </script>
 
 <style lang="scss">
-.login-wrap{
+.register-wrap{
   height: 100%;
   background-color: rgb(250, 250, 250);
   @include flex-center;
-  .login-container{
+  .register-container{
     width: 400px;
     background-color: #fff;
     padding: 20px;
@@ -107,7 +116,7 @@ export default {
       }
     }
     .form-wrap{
-      .login-btn{
+      .register-btn{
         width: 100%;
         span{
           font-size: 18px;
@@ -125,6 +134,12 @@ export default {
         vertical-align: middle;
         margin: 0 8px;
         background-color: #e8e8e8;
+      }
+      .register-protocol{
+        margin-top: 8px;
+        font-size: 14px;
+        color: #8c8c8c;
+        text-align: center;
       }
     }
   }
