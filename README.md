@@ -20,6 +20,7 @@
 1. normalize.css，可用于设置默认 css 样式，[传送门](https://github.com/necolas/normalize.css)
 2. nprogress，一个进度条插件，[传送门](https://github.com/rstacruz/nprogress)
 3. MD5，md5加密插件，[传送门](https://www.npmjs.com/package/md5)
+4. dayjs，处理时间日期等
 
 **备注**  
 
