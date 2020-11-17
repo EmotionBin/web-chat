@@ -193,3 +193,7 @@ console.log()方法使用简写 log() 替换
 2. vuex自动引入，参考 vue-element-admin 或 d2-admin
 3. 数据持久化，参考 d2-admin 
 
+### 路由
+
+1.增加 404 页面，未匹配到任何路由的时候渲染
+

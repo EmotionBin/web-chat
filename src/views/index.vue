@@ -77,7 +77,7 @@ export default {
 <style lang="scss">
 
 $headHeight:40px;
-$footColor:#666;
+$footColor:#000;
 
 .index-wrap{
   position: relative;
@@ -231,6 +231,7 @@ $footColor:#666;
       bottom: 10px;
       color: $footColor;
       a{
+        font-size: 16px;
         color: $footColor;
       }
       .beian-year{

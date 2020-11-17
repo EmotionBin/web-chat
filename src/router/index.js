@@ -5,15 +5,13 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-import Index from '../views/index.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'index',
-    component: Index
+    component: () => import('../views/index.vue')
   },
   {
     path: '/login',
@@ -24,6 +22,16 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import('../views/register/index.vue')
+  },
+  {
+    path: '/redirect/:route',
+    name: 'redirect',
+    redirect: to => { return { name: to.params.route } }
+  },
+  {
+    path: '*',
+    name: 'notFound',
+    component: () => import('../views/404/index.vue')
   }
 ]
 
