@@ -1,7 +1,7 @@
 const databaseQuery = require('./modules/database-query')
-const result = require('./modules/database-query')
+const uniqueString = require('./modules/unique-string')
 
 module.exports = {
   databaseQuery,
-  result
+  uniqueString
 }
