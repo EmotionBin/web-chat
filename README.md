@@ -13,7 +13,7 @@
 
 ## 技术栈 
 
-`vue 2.x` +` vue-router` +` vuex` +` vue-cli` + `element-ui` + `axios` + `socket.io`(`socket.io-client`)  
+`vue 2.x` +` vue-router` +` vuex` +` vue-cli` + `element-ui` + `axios` + `socket.io`(`socket.io-client`) + `koa`  
 
 可选：  
 
@@ -195,5 +195,34 @@ console.log()方法使用简写 log() 替换
 
 ### 路由
 
-1.增加 404 页面，未匹配到任何路由的时候渲染
+1. 增加 404 页面，未匹配到任何路由的时候渲染
 
+### 接口返回的信息
+
+1. 服务端只返回 status, data, errCode 三个字段，操作成功 status 为 1，操作失败 status 为 0，data 为返回的数据， errCode 为操作失败的时候对应的错误代码，前端会根据 errCode 的值来显示提示信息
+2. errCode 可参考如下
+
+| errCOde         | 错误信息            | 
+|:--------:       |  :----:            | 
+| 400             |   请求错误          |   
+| 401	            |   未授权，请登录     |   
+| 403             |   拒绝访问          |   
+| 404             |   请求地址出错      |   
+| 408             |   请求超时          |   
+| 500             |   服务器内部错误    |   
+| 501             |   服务未实现        |   
+| 502             |   网关错误         |   
+| 503             |   服务不可用        |   
+| 504             |   网关超时          |   
+| 505             |   HTTP版本不受支持   |    
+
+### 关于聊天
+
+1. 艾特他人的聊天提示
+
+### 参考案例地址
+
+1. https://github.com/hua1995116/webchat
+2. https://github.com/Amayadream/WebChat
+3. https://github.com/botfront/rasa-webchat
+4. https://github.com/sdelements/lets-chat
