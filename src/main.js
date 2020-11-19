@@ -3,9 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Element from 'element-ui'
+import md5 from 'md5'
 import './styles/index.scss'
+import request from '@/utils/request'
 
 Vue.use(Element)
+
+// 原型链挂载
+Vue.prototype.$request = request
+Vue.prototype.$md5 = md5
 
 Vue.config.productionTip = false
 

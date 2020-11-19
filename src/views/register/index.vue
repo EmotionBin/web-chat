@@ -74,9 +74,23 @@ export default {
   methods: {
     // 点击快速注册
     register () {
-      this.$refs.registerForm.validate(valid => {
+      this.$refs.registerForm.validate(async valid => {
         if (valid) {
-          console.log(valid)
+          const { username, password } = this.form
+          try {
+            const { data } = await this.$request({
+              url: '/api/register',
+              method: 'post',
+              data: {
+                username,
+                password: this.$md5(password)
+              }
+            })
+            this.$message.success(`注册成功,您的用户名为 ${data},即将前往登录页面`)
+            this.$router.push('/login')
+          } catch (error) {
+            console.log('error: ', error)
+          }
         } else {
           this.$message.warning('输入的信息有误，请仔细核对')
           return false
