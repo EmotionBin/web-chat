@@ -37,6 +37,12 @@ import thirdPartLogin from '@/components/third-part-login/index.vue'
 
 export default {
   name: 'login',
+  props: {
+    username: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       form: {
@@ -63,16 +69,40 @@ export default {
       return this.form.username.length && this.form.password.length
     }
   },
+  created () {
+    this.getUserInfo()
+  },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
+    // 获取用户信息
+    getUserInfo () {
+      this.username && (this.form.username = this.username)
+    },
     // 点击登录
     login () {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          console.log(valid)
+          const { username, password } = this.form
+          try {
+            const { data } = await this.$request({
+              url: '/api/login',
+              method: 'post',
+              data: {
+                username,
+                password: this.$md5(password)
+              }
+            })
+            // 写入 token
+            localStorage.setItem('uuid', data)
+            console.log('data: ', data)
+            this.$message.success('登录成功')
+            this.$router.push('/')
+          } catch (error) {
+            console.log('error: ', error)
+          }
         } else {
           this.$message.warning('输入的信息有误，请仔细核对')
           return false

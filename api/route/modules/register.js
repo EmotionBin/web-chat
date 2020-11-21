@@ -12,7 +12,7 @@ module.exports = async ctx => {
     } else {
       const userId = uniqueString()
       await databaseQuery(`insert into user values ('${username}','${password}','${userId}')`)
-      ctx.success(username, 0)
+      ctx.success(username)
     }
   } catch (error) {
     console.log('发生了错误', error)

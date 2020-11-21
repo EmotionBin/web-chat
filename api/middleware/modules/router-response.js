@@ -1,6 +1,6 @@
 module.exports = function routerResponse (option = {}) {
   return async function (ctx, next) {
-    ctx.success = function (data, code) {
+    ctx.success = function (data, code = 0) {
       ctx.type = option.type || 'json'
       ctx.body = {
         status: 1,

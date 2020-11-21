@@ -70,6 +70,7 @@ export default {
   mounted () {
   },
   beforeDestroy () {
+    this.closeMessage()
   },
   methods: {
     // 点击快速注册
@@ -86,8 +87,21 @@ export default {
                 password: this.$md5(password)
               }
             })
-            this.$message.success(`注册成功,您的用户名为 ${data},即将前往登录页面`)
-            this.$router.push('/login')
+            const duration = 2000
+            const messageId = this.$message({
+              type: 'success',
+              message: `注册成功,您的用户名为 ${data},即将前往登录页面`,
+              duration
+            })
+            setTimeout(() => {
+              this.$router.push({
+                name: 'login',
+                params: {
+                  username: data
+                }
+              })
+              messageId.close()
+            }, duration)
           } catch (error) {
             console.log('error: ', error)
           }
@@ -99,12 +113,18 @@ export default {
     },
     // 点击 遇到问题
     showTips () {
-      this.$message({
+      this.closeMessage()
+      this.messageId = this.$message({
         type: 'info',
         showClose: true,
         duration: 0,
         message: '请联系邮箱313200064@qq.com'
       })
+    },
+    // 关闭弹窗
+    closeMessage () {
+      this.messageId && this.messageId.close()
+      this.messageId = null
     }
   }
 }

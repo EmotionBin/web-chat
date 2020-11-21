@@ -12,8 +12,7 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use(
   config => {
-    // token 暂时写死
-    config.headers['user-token'] = localStorage.getItem('user-token') || ''
+    config.headers.uuid = localStorage.getItem('uuid') || ''
     return config
   },
   error => {
