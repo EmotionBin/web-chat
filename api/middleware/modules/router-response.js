@@ -1,3 +1,5 @@
+// 统一处理返回信息的中间件
+
 module.exports = function routerResponse (option = {}) {
   return async function (ctx, next) {
     ctx.success = function (data, code = 0) {

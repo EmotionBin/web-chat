@@ -1,5 +1,6 @@
-const { databaseQuery } = require('../../utils/index')
-const { uniqueString } = require('../../utils/index')
+// 注册接口
+
+const { databaseQuery, uniqueString } = require('../../utils')
 
 module.exports = async ctx => {
   let { username, password } = ctx.request.body

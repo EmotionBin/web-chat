@@ -1,7 +1,7 @@
 const routerResponse = require('./modules/router-response')
-const tokenAutoRefresh = require('./modules/token-auto-refresh')
+const tokenCheck = require('./modules/token-check')
 
 module.exports = {
   routerResponse,
-  tokenAutoRefresh
+  tokenCheck
 }

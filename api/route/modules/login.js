@@ -1,5 +1,6 @@
-const { databaseQuery } = require('../../utils/index')
-const jwt = require('jsonwebtoken')
+// 登录接口
+
+const { databaseQuery, tokenCreate } = require('../../utils/index')
 
 module.exports = async ctx => {
   let { username, password } = ctx.request.body
@@ -15,15 +16,15 @@ module.exports = async ctx => {
     // 用户名存在 匹配密码
     if (password !== userData.password) {
       ctx.fail('', 5008)
-      return 
+      return
     }
-    // 生成 token 
+    // 生成 token
     const { userId } = userData
     const payload = {
       username
-    };
+    }
     // token 过期时间默认一个小时
-    const expiresIn = {
+    const options = {
       expiresIn: 60 * 60
     }
     // token 作映射 活跃用户自动延长 token 时间 要做单点登录 ！！！！！！！！！！！！！！！！！！！！！！
@@ -32,8 +33,8 @@ module.exports = async ctx => {
      * 登录成功后 生成一个 hash 字符串 s-s-s-s 格式 同时生成 token 做好 hash 字符串与 token 的映射 存储到数据库中
      * 映射关系一共三个字段 username、s-s-s-s、token 需要做限制只能在一个地方登录
      */
-    const token = jwt.sign(payload, userId, expiresIn)
-    ctx.success(token)
+    const uuid = await tokenCreate(payload, userId, options, username)
+    ctx.success(uuid)
   } catch (error) {
     console.log('发生了错误', error)
     ctx.fail('', 5000)

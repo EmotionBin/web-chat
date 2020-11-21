@@ -3,7 +3,7 @@ const bodyParser = require('koa-bodyparser')
 // const koaBody = require('koa-body')()
 const register = require('./modules/register')
 const login = require('./modules/login')
-const { routerResponse, tokenAutoRefresh } = require('../middleware/index')
+const { routerResponse, tokenCheck } = require('../middleware')
 
 const router = new Router()
 
@@ -14,7 +14,7 @@ router.post('/login', login)
 module.exports = app => {
   app.use(bodyParser())
     // .use(koaBody)
-    .use(tokenAutoRefresh())
+    .use(tokenCheck)
     .use(routerResponse())
     .use(router.routes())
     .use(router.allowedMethods())
