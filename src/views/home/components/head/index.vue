@@ -33,9 +33,9 @@ export default {
       // username 要从 vuex 中读取
       username: 'admin',
       title: 'web-chat',
-      location: '上海市',
-      // vuex
-      weather: '18°C-22°C'
+      location: '',
+      code: '',
+      weather: ''
     }
   },
   components: {
@@ -43,15 +43,34 @@ export default {
   computed: {
 
   },
-  created () {
-
+  async created () {
+    await this.getLocation()
+    await this.getWeather()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
-
+    // 获取定位
+    async getLocation () {
+      try {
+        const { data: { location, code } } = await this.$request({ url: '/api/getLocation' })
+        this.location = location
+        this.code = code
+      } catch (error) {
+        console.log('error: ', error)
+      }
+    },
+    // 获取天气
+    async getWeather () {
+      try {
+        const { data: { temperature, weather } } = await this.$request({ url: `/api/getWeather?code=${this.code}` })
+        this.weather = `${temperature}°C ${weather}`
+      } catch (error) {
+        console.log('error: ', error)
+      }
+    }
   }
 }
 </script>

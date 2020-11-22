@@ -14,32 +14,22 @@ module.exports = async (ctx, next) => {
     // 查询 每个用户的信息
     const userData = await databaseQuery(`select * from token where uuid='${uuid}'`)
     if (!userData.length) {
-      ctx.body = {
-        status: 0,
-        msg: 'fail',
-        data: '',
-        code: 4001
-      }
+      ctx.fail('', 4001)
       return
     }
-    const { username, token, userId } = userData
-    jwt.verify(token, userId, async (err, decoded) => {
+    const { username, token, userId } = userData[0]
+    await jwt.verify(token, userId, async (err, decoded) => {
       if (err) {
         // token 验证失败 删除记录的信息
         console.log(err, 'token验证失败')
         await databaseQuery(`delete from token where userId='${userId}'`)
-        ctx.body = {
-          status: 0,
-          msg: 'fail',
-          data: '',
-          code: 4001
-        }
+        ctx.fail('', 4001)
         return
       }
       // token 校验成功
       console.log('校验成功', decoded.exp, Math.floor(+new Date() / 1000))
       // 如果 token 还有十分钟过期 刷新token
-      if (Math.floor(+new Date() / 1000) - decoded.exp <= 10 * 60) {
+      if ((decoded.exp - Math.floor(+new Date() / 1000)) <= 10 * 60) {
         const payload = {
           username
         }
@@ -47,7 +37,8 @@ module.exports = async (ctx, next) => {
         const options = {
           expiresIn: 60 * 60
         }
-        tokenRefresh(payload, userId, options, username)
+        console.log('刷新token')
+        await tokenRefresh(payload, userId, options, username)
       }
       await next()
     })
