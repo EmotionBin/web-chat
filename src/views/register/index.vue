@@ -87,6 +87,8 @@ export default {
                 password: this.$md5(password)
               }
             })
+            this.form.username = ''
+            this.form.password = ''
             const duration = 2000
             const messageId = this.$message({
               type: 'success',

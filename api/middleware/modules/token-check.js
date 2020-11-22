@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken')
 const { ignoreList } = require('../../data')
-const { databaseQuery, tokenCreate } = require('../../utils/index')
+const { databaseQuery, tokenRefresh } = require('../../utils/index')
 
 module.exports = async (ctx, next) => {
   const { url } = ctx.request
@@ -11,9 +11,18 @@ module.exports = async (ctx, next) => {
     await next()
   } else {
     const { uuid } = ctx.request.headers
-    // 查询 每个用户的 id
-    const { username, token, userId } = await databaseQuery(`select * from token where uuid='${uuid}'`)
-
+    // 查询 每个用户的信息
+    const userData = await databaseQuery(`select * from token where uuid='${uuid}'`)
+    if (!userData.length) {
+      ctx.body = {
+        status: 0,
+        msg: 'fail',
+        data: '',
+        code: 4001
+      }
+      return
+    }
+    const { username, token, userId } = userData
     jwt.verify(token, userId, async (err, decoded) => {
       if (err) {
         // token 验证失败 删除记录的信息
@@ -28,15 +37,18 @@ module.exports = async (ctx, next) => {
         return
       }
       // token 校验成功
-      console.log('校验成功', decoded.exp)
-      const payload = {
-        username
+      console.log('校验成功', decoded.exp, Math.floor(+new Date() / 1000))
+      // 如果 token 还有十分钟过期 刷新token
+      if (Math.floor(+new Date() / 1000) - decoded.exp <= 10 * 60) {
+        const payload = {
+          username
+        }
+        // token 过期时间默认一个小时
+        const options = {
+          expiresIn: 60 * 60
+        }
+        tokenRefresh(payload, userId, options, username)
       }
-      // token 过期时间默认一个小时
-      const options = {
-        expiresIn: 60 * 60
-      }
-      tokenCreate(payload, userId, options, username)
       await next()
     })
   }
