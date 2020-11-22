@@ -7,6 +7,13 @@
   justify-content: center;
 }
 
+// flex 布局下的两端布局
+@mixin flex-between{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 // 卡片模式
 @mixin card-mode {
   border: 1px solid #e9e9e9;

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import menuRouter from './modules/menu'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,15 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import('../views/register/index.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    redirect: { name: 'chat-index' },
+    component: () => import('../views/home/index.vue'),
+    children: [
+      ...menuRouter
+    ]
   },
   {
     path: '/redirect/:route',

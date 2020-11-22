@@ -98,7 +98,7 @@ export default {
             // 写入 token
             localStorage.setItem('uuid', data)
             this.$message.success('登录成功')
-            this.$router.push('/')
+            this.$router.push('/home')
           } catch (error) {
             console.log('error: ', error)
           }
