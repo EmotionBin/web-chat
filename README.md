@@ -221,6 +221,10 @@ console.log()方法使用简写 log() 替换
 
 1. 艾特他人的聊天提示
 
+### 关于图标
+
+使用阿里的 [iconfont](https://www.iconfont.cn/)  
+
 ### 参考案例地址
 
 1. https://github.com/hua1995116/webchat

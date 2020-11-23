@@ -21,4 +21,16 @@
   background-color: #fff;
 }
 
+// 背景图片
+@mixin bg-icon {
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
+// 文字溢出省略号
+@mixin text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

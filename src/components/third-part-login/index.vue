@@ -40,8 +40,7 @@ export default {
     width: 28px;
     height: 28px;
     margin: 0 15px;
-    background-repeat: no-repeat;
-    background-size: 100%;
+    @include bg-icon;
     cursor: pointer;
     &.wechat{
       background-image: url('~@/assets/login/wechat.png');
