@@ -1,6 +1,6 @@
 <template>
   <div class="home-menu-wrap">
-    <el-menu text-color="#666" active-text-color="#52b95f" unique-opened :default-active="activeMenu">
+    <el-menu text-color="#666" active-text-color="#52b95f" unique-opened :default-active="getCurrentRoute">
       <template v-for="item in menuList">
         <el-submenu v-if="item.subMenu" :index="item.path" :key="item.title">
           <template slot="title">
@@ -27,7 +27,6 @@ export default {
   name: 'homeMenu',
   data () {
     return {
-      activeMenu: '/home/chat/index',
       menuList: []
     }
   },

@@ -1,6 +1,19 @@
 <template>
   <div class="chat-view-wrap">
-    这是聊天面板
+    <div class="chat-view-head">
+      <div class="view-head-back">
+        <i class="el-icon-arrow-left"></i>
+      </div>
+      <div class="view-head-title">
+        <template v-if="!roomInfo.type">
+          {{roomInfo.name}}({{roomInfo.num}})
+        </template>
+        <template v-else>
+          {{roomInfo.name}}
+        </template>
+      </div>
+      <div class="view-head-info"></div>
+    </div>
   </div>
 </template>
 
@@ -10,7 +23,11 @@ export default {
   name: 'chat-view',
   data () {
     return {
-
+      roomInfo: {
+        name: '测试房间',
+        num: '房间人数',
+        type: 0
+      }
     }
   },
   components: {

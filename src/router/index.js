@@ -8,6 +8,10 @@ import menuRouter from './modules/menu'
 
 Vue.use(VueRouter)
 
+const meta = {
+  auth: true
+}
+
 const routes = [
   {
     path: '/',
@@ -28,6 +32,7 @@ const routes = [
   {
     path: '/home',
     name: 'home',
+    meta,
     redirect: { name: 'chat-index' },
     component: () => import('../views/home/index.vue'),
     children: [
@@ -59,8 +64,24 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   // 进度条 开始
   NProgress.start()
-  // 不需要身份校验 直接通过
-  next()
+  // 进行身份校验
+  if (to.matched.some(item => item.meta.auth)) {
+    const uuid = localStorage.getItem('uuid')
+    if (uuid) {
+      next()
+    } else {
+      next({
+        name: 'login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+      NProgress.done()
+    }
+  } else {
+    // 不需要校验权限 直接通过
+    next()
+  }
 })
 
 router.afterEach(to => {

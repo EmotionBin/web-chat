@@ -11,12 +11,14 @@
         <span class="weather-text">{{weather}}</span>
       </div>
       <div class="info-user">
-        <el-dropdown>
+        <el-dropdown @command="clickItem">
           <span class="el-dropdown-link">
             {{username}}
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-switch-button">注销</el-dropdown-item>
+            <template v-for="item in commandList">
+              <el-dropdown-item :key="item.name" :command="item.command" :icon="item.icon">{{item.name}}</el-dropdown-item>
+            </template>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -34,8 +36,17 @@ export default {
       username: 'admin',
       title: 'web-chat',
       location: '',
-      code: '',
-      weather: ''
+      weather: '',
+      commandList: [
+        {
+          name: '注销',
+          command: 'logout',
+          icon: 'el-icon-switch-button',
+          path: {
+            name: 'login'
+          }
+        }
+      ]
     }
   },
   components: {
@@ -43,9 +54,8 @@ export default {
   computed: {
 
   },
-  async created () {
-    await this.getLocation()
-    await this.getWeather()
+  created () {
+    this.getLocation()
   },
   mounted () {
   },
@@ -57,18 +67,28 @@ export default {
       try {
         const { data: { location, code } } = await this.$request({ url: '/api/getLocation' })
         this.location = location
-        this.code = code
+        this.getWeather(code)
       } catch (error) {
         console.log('error: ', error)
       }
     },
     // 获取天气
-    async getWeather () {
+    async getWeather (code) {
       try {
-        const { data: { temperature, weather } } = await this.$request({ url: `/api/getWeather?code=${this.code}` })
+        const { data: { temperature, weather } } = await this.$request({ url: `/api/getWeather?code=${code}` })
         this.weather = `${temperature}°C ${weather}`
       } catch (error) {
         console.log('error: ', error)
+      }
+    },
+    // 点击下拉菜单
+    clickItem (command) {
+      const item = this.commandList.find(item => item.command === command)
+      this.$router.push(item.path)
+      if (item.command === 'logout') {
+        // 进行注销操作
+        localStorage.removeItem('uuid')
+        // vuex 清空用户信息
       }
     }
   }
@@ -98,6 +118,10 @@ export default {
   }
   .info-user{
     margin: 0 10px;
+    .el-dropdown{
+      max-width: 160px;
+      @include text-overflow;
+    }
     .el-dropdown-link{
       cursor: pointer;
     }

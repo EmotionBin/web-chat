@@ -98,7 +98,8 @@ export default {
             // 写入 token
             localStorage.setItem('uuid', data)
             this.$message.success('登录成功')
-            this.$router.push('/home')
+            // 登录成功进行重定向 若没有重定向参数 默认进入首页
+            this.$router.replace(this.$route.query.redirect || '/home')
           } catch (error) {
             console.log('error: ', error)
           }

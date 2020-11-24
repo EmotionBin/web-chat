@@ -4,8 +4,8 @@
       最近聊天记录
     </div>
     <div class="chat-index-body">
-      <template v-for="item in list">
-        <div class="list-item" :key="item.roomId">
+      <template v-for="(item, index) in roomList">
+        <div class="list-item" :key="item.roomId" @click="joinChat(index)">
           <div class="item-icon" :style="{'background-image':`url(${item.avatar})`}"></div>
           <div class="item-text">
             <div class="item-text-title">{{item.name}}</div>
@@ -23,18 +23,20 @@ export default {
   name: 'chat-index',
   data () {
     return {
-      list: [
+      roomList: [
         {
           name: '聊天室1',
           avatar: 'https://s3.qiufengh.com/images/bce5b10ae530f530.png?imageView2/2/w/120/h/120',
           message: 'abc说:你好',
-          roomId: 'ssssss'
+          roomId: 'ssssss',
+          type: 0 // 0-群聊 1-单聊
         },
         {
           name: '聊天室2',
           avatar: 'https://s3.qiufengh.com/images/2016061316082590301.jpg?imageView2/2/w/120/h/120',
           message: 'abc说:你好',
-          roomId: 'sss'
+          roomId: 'sss',
+          type: 0 // 0-群聊 1-单聊
         }
       ]
     }
@@ -52,7 +54,11 @@ export default {
   beforeDestroy () {
   },
   methods: {
-
+    // 点击进入聊天
+    joinChat (index) {
+      const { roomId } = this.roomList[index]
+      this.$router.push(`/home/chat/view/${roomId}`)
+    }
   }
 }
 </script>
