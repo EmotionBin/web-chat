@@ -22,9 +22,10 @@
 
 <script>
 import menu from '@/data/menu/index.js'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'homeMenu',
+  name: 'menu',
   data () {
     return {
       menuList: []
@@ -36,9 +37,7 @@ export default {
     getCurrentRoute () {
       return this.$route.path
     },
-    getUserId () {
-      return this.$store.state.user.userId
-    }
+    ...mapGetters(['user'])
   },
   created () {
     this.init()
@@ -50,7 +49,7 @@ export default {
   methods: {
     // 初始化 获取用户信息
     init () {
-      this.menuList = menu(this.getUserId || '')
+      this.menuList = menu(this.user.userId || '')
     },
     // 点击菜单
     clickMenuItem (path) {
@@ -73,7 +72,8 @@ export default {
       margin-left: 8px;
     }
     &:hover,
-    &:focus{
+    &:focus,
+    &.is-active{
       background-color: rgba(0,0,0,.1);
     }
   }

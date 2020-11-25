@@ -34,6 +34,7 @@
 
 <script>
 import thirdPartLogin from '@/components/third-part-login/index.vue'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'login',
@@ -77,6 +78,9 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    ...mapMutations('user', [
+      'updateUser'
+    ]),
     // 获取用户信息
     getUserInfo () {
       this.username && (this.form.username = this.username)
@@ -95,9 +99,11 @@ export default {
                 password: this.$md5(password)
               }
             })
-            // 写入 token
-            localStorage.setItem('uuid', data)
             this.$message.success('登录成功')
+            // 写入 token
+            localStorage.setItem('uuid', data.uuid)
+            // vuex 写入用户信息
+            this.updateUser(data.userInfo)
             // 登录成功进行重定向 若没有重定向参数 默认进入首页
             this.$router.replace(this.$route.query.redirect || '/home')
           } catch (error) {

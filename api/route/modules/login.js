@@ -19,7 +19,7 @@ module.exports = async ctx => {
       return
     }
     // 生成 token
-    const { userId } = userData
+    const { userId, avatar } = userData
     const payload = {
       username
     }
@@ -34,7 +34,14 @@ module.exports = async ctx => {
      * 映射关系一共三个字段 username、s-s-s-s、token 需要做限制只能在一个地方登录
      */
     const uuid = await tokenCreate(payload, userId, options, username)
-    ctx.success(uuid)
+    ctx.success({
+      uuid,
+      userInfo: {
+        username,
+        userId,
+        avatar
+      }
+    })
   } catch (error) {
     console.log('发生了错误', error)
     ctx.fail('', 5000)

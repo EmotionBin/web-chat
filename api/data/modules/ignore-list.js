@@ -2,5 +2,6 @@
 
 module.exports = [
   '/register',
-  '/login'
+  '/login',
+  '/avatar'
 ]

@@ -29,7 +29,7 @@
 <script>
 
 export default {
-  name: 'home-head',
+  name: 'head',
   data () {
     return {
       // username 要从 vuex 中读取

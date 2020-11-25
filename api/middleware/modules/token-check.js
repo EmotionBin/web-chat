@@ -7,7 +7,7 @@ const { databaseQuery, tokenRefresh } = require('../../utils/index')
 module.exports = async (ctx, next) => {
   const { url } = ctx.request
   // 忽略不需要检测 token 的 url
-  if (ignoreList.indexOf(url) > -1) {
+  if (ignoreList.some(item => url.includes(item))) {
     await next()
   } else {
     const { uuid } = ctx.request.headers
