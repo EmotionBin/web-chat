@@ -6,5 +6,4 @@ const koaStatic = require('koa-static')
 module.exports = function (app) {
   const staticPath = '../../images'
   app.use(koaStatic(path.join(__dirname, staticPath)))
-  console.log('path.join(__dirname, staticPath): ', path.join(__dirname, staticPath))
 }

@@ -25,7 +25,7 @@ import menu from '@/data/menu/index.js'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'menu',
+  name: 'indexMenu',
   data () {
     return {
       menuList: []

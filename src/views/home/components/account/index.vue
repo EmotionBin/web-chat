@@ -20,7 +20,7 @@
 import icon from '@/assets/login/wechat.png'
 
 export default {
-  name: 'account',
+  name: 'indexAccount',
   data () {
     return {
       list: [
