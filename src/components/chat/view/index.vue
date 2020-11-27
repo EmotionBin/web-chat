@@ -41,13 +41,25 @@
             <template v-else-if="item.userId === 'system'">
               <!-- 系统发出的消息 -->
               <div class="item-wrap system">
-                系统
+                <span class="message-text">{{item.message}}</span>
               </div>
             </template>
             <template v-else>
               <!-- 其他用户发出的消息 -->
               <div class="item-wrap other">
-                其他用户
+                <div class="item-info">
+                  <div class="info-time">{{item.time}}</div>
+                  <div class="info-username">{{item.username}}</div>
+                </div>
+                <div class="message-wrap">
+                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}"></div>
+                  <div class="item-message">
+                    <div class="message-container">
+                      <span class="message-text">{{item.message}}</span>
+                    </div>
+                    <div class="message-angle"></div>
+                  </div>
+                </div>
               </div>
             </template>
           </div>
@@ -97,6 +109,18 @@ export default {
           type: 0, // 0-群聊 1-单聊
           avatar: '//s3.qiufengh.com/avatar/16.jpeg',
           username: 'sdfgdfg'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '这是系统消息~',
+          messageId: 'dddsadsda',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'system',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/13.jpeg',
+          username: 'system'
         },
         {
           roomId: this.getRoomId,
@@ -189,6 +213,7 @@ $headHeight:48px;
     .chat-list{
       height: 100%;
       overflow: auto;
+      padding: 0px 10px;
     }
     .list-item{
       margin: 4px 0;
@@ -199,12 +224,26 @@ $headHeight:48px;
       flex-direction: column;
       &.current{
         align-items: flex-end;
+        .message-angle{
+          right: -15px;
+          border: 8px solid #52b95f;
+          border-right-color: transparent;
+        }
       }
       &.system{
         align-items: center;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #949494;
       }
       &.other{
         align-items: flex-start;
+        .message-angle{
+          left: -15px;
+          border: 8px solid #52b95f;
+          border-left-color: transparent;
+        }
       }
     }
     .item-info{
@@ -223,6 +262,7 @@ $headHeight:48px;
       .message-container{
         @include flex-center;
         @include card-mode;
+        border-radius: 10px;
         background-color: #52b95f;
         color: #fff;
         .message-text{
@@ -231,11 +271,8 @@ $headHeight:48px;
       }
       .message-angle{
         position: absolute;
-        right: -15px;
         top: 50%;
         transform: translate(0, -50%);
-        border: 8px solid #52b95f;
-        border-right-color: transparent;
         border-top-color: transparent;
         border-bottom-color: transparent;
       }
@@ -246,6 +283,7 @@ $headHeight:48px;
       margin: 12px;
       @include bg-icon;
       border-radius: 5px;
+      cursor: pointer;
     }
   }
 }
