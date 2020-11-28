@@ -16,7 +16,7 @@
         <i class="el-icon-more"></i>
       </div>
     </div>
-    <div class="chat-view-message">
+    <div class="chat-view-message" :class="{'isEdit':isEdit}">
       <div class="chat-list">
         <template v-for="item in messageList">
           <div class="list-item" :key="item.messageId">
@@ -66,8 +66,42 @@
         </template>
       </div>
     </div>
-    <div class="chat-view-control">
-
+    <div class="chat-view-reply" :class="{'isEdit':isEdit}">
+      <div class="reply-wrap">
+        <div class="arrow-wrap">
+          <div class="arrow-icon" @click="toggleEdit"></div>
+          <div class="arrow-mask"></div>
+        </div>
+        <div class="input-wrap">
+          <div class="input-media">
+            <div class="media-item">
+              <emoji @chooseEmoji="chooseEmoji"/>
+            </div>
+            <div class="media-item">
+              <photo @choosePhoto="choosePhoto"/>
+            </div>
+            <div class="media-item">
+              <money/>
+            </div>
+            <div class="media-item">
+              <help/>
+            </div>
+          </div>
+          <div class="input-container">
+            <div class="input-data">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 1, maxRows: 4}"
+                placeholder="请输入内容"
+                v-model="reply.message">
+              </el-input>
+            </div>
+            <div class="input-btn">
+              <el-button size="mini" type="success" @click="sendMessage">发送</el-button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -75,15 +109,20 @@
 <script>
 import dayjs from 'dayjs'
 import { mapGetters } from 'vuex'
+import emoji from './components/emoji/index.vue'
+import photo from './components/photo/index.vue'
+import money from './components/money/index.vue'
+import help from './components/help/index.vue'
 
 export default {
   name: 'chat-view',
   data () {
     return {
+      isEdit: true,
       roomInfo: {
         name: '测试房间',
         num: 6,
-        type: 0
+        type: 0 // 0-群聊 1-单聊
       },
       messageList: [
         {
@@ -145,11 +184,102 @@ export default {
           type: 0, // 0-群聊 1-单聊
           avatar: '//s3.qiufengh.com/avatar/18.jpeg',
           username: 'cvcvb'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '测试消息',
+          messageId: 'dddasdsada',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'rvnaro6puro0',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/15.jpeg',
+          username: 'asdas'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '测试消息1',
+          messageId: 'dddasdasds',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'sadasd',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/16.jpeg',
+          username: 'sdfgdfg'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '这是系统消息~',
+          messageId: 'dddsasdasdaadsda',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'system',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/13.jpeg',
+          username: 'system'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '测试消息2',
+          messageId: 'dddfasdasd',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'sadasd',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/17.jpeg',
+          username: 'sdfgsdgfd'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '测试消息3',
+          messageId: 'dasdasddasdasdd',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'sadasd',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/18.jpeg',
+          username: 'cvcvb'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '这是系统消息~',
+          messageId: 'dddsxzcasdasdaadsda',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'system',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/13.jpeg',
+          username: 'system'
+        },
+        {
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: '测试消息2',
+          messageId: 'dddfzxcasdasd',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'sadasd',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/17.jpeg',
+          username: 'sdfgsdgfd'
         }
-      ]
+      ],
+      reply: {
+        message: ''
+      }
     }
   },
   components: {
+    emoji,
+    photo,
+    money,
+    help
   },
   computed: {
     getRoomId () {
@@ -174,8 +304,28 @@ export default {
     // 查看聊天详情
     showDetail () {
       this.$router.push({
-        name: 'chat-detail'
+        name: 'chat-detail',
+        query: {
+          type: this.roomInfo.type,
+          name: this.roomInfo.name
+        }
       })
+    },
+    // 选择了表情
+    chooseEmoji (value) {
+      this.reply.message += value
+    },
+    // 选择了照片
+    choosePhoto (value) {
+      console.log(value)
+    },
+    // 点击发送
+    sendMessage () {
+      console.log('发送')
+    },
+    // 切换编辑状态
+    toggleEdit () {
+      this.isEdit = !this.isEdit
     }
   }
 }
@@ -183,9 +333,13 @@ export default {
 
 <style lang="scss">
 $headHeight:48px;
+$commonShadow:0 0 3px #d1d1d1;
+$replyHeight:100px;
 
 .chat-view-wrap{
   height: 100%;
+  position: relative;
+  overflow: hidden;
   .chat-view-head{
     height: $headHeight;
     color: #fff;
@@ -210,6 +364,9 @@ $headHeight:48px;
   }
   .chat-view-message{
     height: calc(100% - #{$headHeight});
+    &.isEdit{
+      height: calc(100% - #{$headHeight + $replyHeight});
+    }
     .chat-list{
       height: 100%;
       overflow: auto;
@@ -228,6 +385,8 @@ $headHeight:48px;
           right: -15px;
           border: 8px solid #52b95f;
           border-right-color: transparent;
+          border-top-color: transparent;
+          border-bottom-color: transparent;
         }
       }
       &.system{
@@ -243,6 +402,8 @@ $headHeight:48px;
           left: -15px;
           border: 8px solid #52b95f;
           border-left-color: transparent;
+          border-top-color: transparent;
+          border-bottom-color: transparent;
         }
       }
     }
@@ -273,8 +434,6 @@ $headHeight:48px;
         position: absolute;
         top: 50%;
         transform: translate(0, -50%);
-        border-top-color: transparent;
-        border-bottom-color: transparent;
       }
     }
     .item-avatar{
@@ -284,6 +443,85 @@ $headHeight:48px;
       @include bg-icon;
       border-radius: 5px;
       cursor: pointer;
+    }
+  }
+  .chat-view-reply{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $replyHeight;
+    @include card-mode;
+    box-shadow: $commonShadow;
+    transform: translateY(90px);
+    transition: transform .3s cubic-bezier(.9,0,.3,.7),-webkit-transform .3s cubic-bezier(.9,0,.3,.7);
+    &.isEdit{
+      transform: translateY(0);
+      .arrow-icon{
+        transform:rotate(0deg) !important;
+      }
+    }
+    .reply-wrap{
+      position: relative;
+      height: 100%;
+    }
+    .arrow-wrap{
+      position: absolute;
+      top: -24px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      .arrow-icon{
+        width: 60px;
+        height: 24px;
+        background-image: url('~@/assets/chat/view/arrow.svg');
+        @include bg-icon;
+        background-size: 40%;
+        background-color: #fff;
+        border-radius: 3px;
+        transform:rotate(180deg);
+        cursor: pointer;
+        box-shadow: $commonShadow;
+      }
+      .arrow-mask{
+        position: absolute;
+        z-index: 1;
+        top: 20px;
+        left: 50%;
+        width: 60px;
+        height: 10px;
+        background-color: #fff;
+        transform: translateX(-50%);
+      }
+    }
+    .input-wrap{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      overflow: auto;
+      padding: 10px;
+      .input-media{
+        width: 100%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+      }
+      .media-item{
+        @include flex-center;
+        width: 24px;
+        height: 24px;
+        margin-right: 6px;
+        cursor: pointer;
+      }
+      .input-container{
+        @include flex-between;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .input-data{
+        width: 100%;
+        margin-right: 10px;
+      }
     }
   }
 }

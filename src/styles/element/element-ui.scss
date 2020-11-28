@@ -5,3 +5,14 @@
   padding: 0;
 }
 
+// emoji 的弹窗
+.emoji-el-popover{
+  .emoji-list{
+    display: inline-block;
+    cursor: pointer;
+    &:hover{
+      transform: scale(1.5);
+    }
+  }
+}
+
