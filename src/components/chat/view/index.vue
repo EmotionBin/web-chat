@@ -297,9 +297,7 @@ export default {
   methods: {
     // 返回
     back () {
-      this.$router.push({
-        name: 'chat-index'
-      })
+      this.$router.go(-1)
     },
     // 查看聊天详情
     showDetail () {
@@ -437,8 +435,8 @@ $replyHeight:100px;
       }
     }
     .item-avatar{
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       margin: 12px;
       @include bg-icon;
       border-radius: 5px;

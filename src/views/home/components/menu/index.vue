@@ -49,7 +49,7 @@ export default {
   methods: {
     // 初始化 获取用户信息
     init () {
-      this.menuList = menu(this.user.userId || '')
+      this.menuList = menu
     },
     // 点击菜单
     clickMenuItem (path) {

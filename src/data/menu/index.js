@@ -1,4 +1,4 @@
-export default userId => {
+export default (() => {
   return [
     {
       title: '聊天',
@@ -12,7 +12,7 @@ export default userId => {
     },
     {
       title: '个人信息',
-      path: `/home/user/${userId}`,
+      path: '/home/my',
       icon: 'el-icon-location'
     },
     {
@@ -26,4 +26,4 @@ export default userId => {
       icon: 'el-icon-location'
     }
   ]
-}
+})()

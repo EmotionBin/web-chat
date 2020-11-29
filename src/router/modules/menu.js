@@ -30,10 +30,10 @@ export default [
     component: () => import('@/views/menu/book/index.vue')
   },
   {
-    path: 'user/:id',
-    name: 'book',
+    path: 'my',
+    name: 'my',
     meta,
-    component: () => import('@/views/menu/user/index.vue')
+    component: () => import('@/views/menu/my/index.vue')
   },
   {
     path: 'help',

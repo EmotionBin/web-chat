@@ -28,7 +28,13 @@ const routes = [
     redirect: { name: 'chat-index' },
     component: () => import('../views/home/index.vue'),
     children: [
-      ...menuRouter
+      ...menuRouter,
+      {
+        path: 'user/:id',
+        name: 'user',
+        meta,
+        component: () => import('@/components/user/index.vue')
+      }
     ]
   },
   {
