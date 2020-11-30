@@ -77,7 +77,7 @@ export default {
 <style lang="scss">
 
 $headHeight:40px;
-$footColor:#000;
+$footColor:#666;
 
 .index-wrap{
   position: relative;
