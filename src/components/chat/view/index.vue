@@ -407,7 +407,7 @@ $replyHeight:100px;
     }
     .item-info{
       @include flex-between;
-      color: #313035;
+      color: #666;
       .info-time{
         margin-right: 30px;
       }

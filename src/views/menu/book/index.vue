@@ -111,6 +111,7 @@ $padding:12px;
       margin-left: 12px;
     }
     .item-text-title{
+      color: #666;
       @include text-overflow;
     }
     .item-text-message{

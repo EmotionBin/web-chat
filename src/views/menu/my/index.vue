@@ -7,7 +7,7 @@
     </div>
     <div class="my-body-wrap">
       <template v-for="item in setList">
-        <div class="item-wrap" :key="item.title">
+        <div class="item-wrap" :key="item.title" @click="clickItem(item.title)">
           <i class="item-icon" :class="[item.icon]"></i>
           <span class="item-name">{{item.title}}</span>
         </div>
@@ -33,6 +33,14 @@ export default {
           icon: 'el-icon-location'
         },
         {
+          title: '设置',
+          icon: 'el-icon-location'
+        },
+        {
+          title: '表情',
+          icon: 'el-icon-location'
+        },
+        {
           title: '敬请期待~',
           icon: 'el-icon-location'
         }
@@ -51,7 +59,12 @@ export default {
   beforeDestroy () {
   },
   methods: {
-
+    // 设置列表的点击事件
+    clickItem (value) {
+      if (value === 'github') {
+        this.$utils.open('https://github.com/EmotionBin/web-chat')
+      }
+    }
   }
 }
 </script>
@@ -65,7 +78,7 @@ export default {
     height: 300px;
     @include flex-center;
     flex-direction: column;
-    margin-bottom: 10px;
+    overflow: hidden;
     .avatar-background{
       position: absolute;
       left: 0;
@@ -95,12 +108,15 @@ export default {
   }
   .my-body-wrap{
     padding: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 0 3px #d1d1d1;
     .item-wrap{
       display: flex;
       align-items: center;
       padding: 10px 12px;
       margin: 4px 0;
       font-size: 18px;
+      color: #666;
       cursor: pointer;
       &:hover{
         background-color: rgba(0,0,0,.1);

@@ -16,8 +16,8 @@ export default (() => {
       icon: 'el-icon-location'
     },
     {
-      title: '帮助',
-      path: '/home/help',
+      title: '搜索',
+      path: '/home/search',
       icon: 'el-icon-location'
     },
     {

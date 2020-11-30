@@ -1,6 +1,38 @@
 <template>
   <div class="about-wrap">
-    这是关于面板
+    <div class="about-head">
+      关于web-chat
+    </div>
+    <div class="about-body">
+      <div class="list-wrap">
+        <div class="list-item">
+          <div class="item-text">Version 1.0.0</div>
+        </div>
+        <div class="list-item">
+          <div class="item-text">Made by huangweibin</div>
+        </div>
+        <div class="list-item">
+          <div class="item-text">All rights reserved</div>
+        </div>
+        <div class="list-item">
+          <div class="item-text">huangweibinupup.cn © 2020</div>
+        </div>
+        <div class="list-item last">
+          <div class="item-text">备案号: 桂ICP备2020008115号</div>
+        </div>
+      </div>
+    </div>
+    <div class="list-wrap">
+      <div class="list-item">
+        <div class="item-text">github</div>
+      </div>
+      <div class="list-item">
+        <div class="item-text">我的博客</div>
+      </div>
+      <div class="list-item last">
+        <div class="item-text">我的邮箱</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,7 +64,35 @@ export default {
 </script>
 
 <style lang="scss">
-.about-wrap{
+$padding: 12px;
 
+.about-wrap{
+  height: 100%;
+  overflow: auto;
+  .about-head{
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+    line-height: 36px;
+    padding: 0 $padding;
+  }
+  .list-wrap{
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 3px #e2e2e2;
+    .list-item{
+      height: 56px;
+      display: flex;
+      align-items: center;
+      color: rgba(0,0,0,.87);
+      padding: 0 $padding;
+      border-bottom: 1px solid #e2e2e2;
+      &.last{
+        border: none;
+      }
+      .item-text{
+        flex: 1;
+      }
+    }
+  }
 }
 </style>

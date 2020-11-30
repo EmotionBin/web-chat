@@ -36,10 +36,10 @@ export default [
     component: () => import('@/views/menu/my/index.vue')
   },
   {
-    path: 'help',
-    name: 'help',
+    path: 'search',
+    name: 'search',
     meta,
-    component: () => import('@/views/menu/help/index.vue')
+    component: () => import('@/views/menu/search/index.vue')
   },
   {
     path: 'about',
