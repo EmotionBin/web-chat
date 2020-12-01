@@ -5,25 +5,20 @@
     </div>
     <div class="about-body">
       <div class="list-wrap">
-        <div class="list-item">
-          <div class="item-text">Version 1.0.0</div>
-        </div>
-        <div class="list-item">
-          <div class="item-text">Made by huangweibin</div>
-        </div>
-        <div class="list-item">
-          <div class="item-text">All rights reserved</div>
-        </div>
-        <div class="list-item">
-          <div class="item-text">huangweibinupup.cn © 2020</div>
-        </div>
-        <div class="list-item last">
-          <div class="item-text">备案号: 桂ICP备2020008115号</div>
-        </div>
+        <template v-for="item in staticData">
+          <div class="list-item" :key="item.title">
+            <div class="item-text">{{item.title}}</div>
+          </div>
+        </template>
       </div>
     </div>
-    <div class="list-wrap">
-      <div class="list-item">
+    <div class="list-wrap hover">
+      <template v-for="(item, index) in list">
+        <div class="list-item" :class="{hover: item.src}" :key="item.title" @click="clickItem(index)">
+          <div class="item-text">{{item.title}}</div>
+        </div>
+      </template>
+      <!-- <div class="list-item">
         <div class="item-text">github</div>
       </div>
       <div class="list-item">
@@ -31,7 +26,7 @@
       </div>
       <div class="list-item last">
         <div class="item-text">我的邮箱</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -42,7 +37,37 @@ export default {
   name: 'about',
   data () {
     return {
-
+      staticData: [
+        {
+          title: 'Version 1.0.0'
+        },
+        {
+          title: 'Made by huangweibin'
+        },
+        {
+          title: 'All rights reserved'
+        },
+        {
+          title: 'huangweibinupup.cn © 2020'
+        },
+        {
+          title: '备案号: 桂ICP备2020008115号'
+        }
+      ],
+      list: [
+        {
+          title: 'github',
+          src: 'https://github.com/EmotionBin'
+        },
+        {
+          title: '我的博客',
+          src: 'https://huangweibinupup.cn'
+        },
+        {
+          title: '我的邮箱',
+          src: ''
+        }
+      ]
     }
   },
   components: {
@@ -58,7 +83,11 @@ export default {
   beforeDestroy () {
   },
   methods: {
-
+    // 点击列表
+    clickItem (index) {
+      const { src } = this.list[index]
+      src && this.$utils.open(src)
+    }
   }
 }
 </script>
@@ -86,6 +115,10 @@ $padding: 12px;
       color: rgba(0,0,0,.87);
       padding: 0 $padding;
       border-bottom: 1px solid #e2e2e2;
+      &.hover:hover{
+        cursor: pointer;
+        background-color: rgba(0,0,0,.1);
+      }
       &.last{
         border: none;
       }
