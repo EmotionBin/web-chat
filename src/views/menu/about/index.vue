@@ -18,15 +18,6 @@
           <div class="item-text">{{item.title}}</div>
         </div>
       </template>
-      <!-- <div class="list-item">
-        <div class="item-text">github</div>
-      </div>
-      <div class="list-item">
-        <div class="item-text">我的博客</div>
-      </div>
-      <div class="list-item last">
-        <div class="item-text">我的邮箱</div>
-      </div> -->
     </div>
   </div>
 </template>

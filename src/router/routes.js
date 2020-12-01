@@ -30,7 +30,7 @@ const routes = [
     children: [
       ...menuRouter,
       {
-        path: 'user/:id',
+        path: 'user/:userId',
         name: 'user',
         meta,
         component: () => import('@/components/user/index.vue')

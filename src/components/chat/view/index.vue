@@ -34,7 +34,7 @@
                     </div>
                     <div class="message-angle"></div>
                   </div>
-                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}"></div>
+                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}" @click="goUserDetail(item.userId)"></div>
                 </div>
               </div>
             </template>
@@ -52,7 +52,7 @@
                   <div class="info-username">{{item.username}}</div>
                 </div>
                 <div class="message-wrap">
-                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}"></div>
+                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}" @click="goUserDetail(item.userId)"></div>
                   <div class="item-message">
                     <div class="message-container">
                       <span class="message-text">{{item.message}}</span>
@@ -324,6 +324,11 @@ export default {
     // 切换编辑状态
     toggleEdit () {
       this.isEdit = !this.isEdit
+    },
+    // 查看用户详细信息
+    goUserDetail (userId) {
+      console.log('userId: ', userId)
+      this.$router.push(`/home/user/${userId}`)
     }
   }
 }
