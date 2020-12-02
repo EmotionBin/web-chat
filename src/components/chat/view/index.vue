@@ -304,7 +304,6 @@ export default {
       this.$router.push({
         name: 'chat-detail',
         query: {
-          type: this.roomInfo.type,
           name: this.roomInfo.name
         }
       })

@@ -5,12 +5,7 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="detail-head-title">
-        <template v-if="!getType">
-          群聊信息
-        </template>
-        <template v-else>
-          聊天信息{{getType}}
-        </template>
+        {{getName}}
       </div>
     </div>
     <div class="chat-detail-body">
@@ -73,16 +68,12 @@ export default {
     getRoomId () {
       return this.$route.params.roomId
     },
-    getType () {
-      return +this.$route.query.type
-    },
     getName () {
       return this.$route.query.name
     }
   },
   created () {
     console.log(this.getRoomId)
-    console.log(this.getType)
     console.log(this.getName)
   },
   mounted () {
