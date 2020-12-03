@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'chat-index',
@@ -44,16 +45,26 @@ export default {
   components: {
   },
   computed: {
-
+    ...mapGetters(['user'])
   },
   created () {
-
+    this.getRoom()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
+    // 初始化 获取房间信息
+    async getRoom () {
+      const { data } = await this.$request({
+        url: '/api/getRoom',
+        params: {
+          userId: this.user.userId
+        }
+      })
+      this.roomList = data
+    },
     // 点击进入聊天
     joinChat (index) {
       const { roomId } = this.roomList[index]
