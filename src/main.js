@@ -7,6 +7,7 @@ import md5 from 'md5'
 import './styles/index.scss'
 import request from '@/utils/request'
 import utils from '@/utils'
+import '@/utils/vuex-persistence'
 
 Vue.use(Element)
 

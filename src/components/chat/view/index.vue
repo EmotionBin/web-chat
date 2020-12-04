@@ -144,7 +144,7 @@ export default {
           message: '测试消息1',
           messageId: 'ddds',
           messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
+          userId: 'rj9n15ckrk00',
           type: 0, // 0-群聊 1-单聊
           avatar: '//s3.qiufengh.com/avatar/16.jpeg',
           username: 'sdfgdfg'
@@ -156,7 +156,7 @@ export default {
           message: '这是系统消息~',
           messageId: 'dddsadsda',
           messageType: 0, // 0-文字 1-图片
-          userId: 'system',
+          userId: 'rj9n15ckrk00',
           type: 0, // 0-群聊 1-单聊
           avatar: '//s3.qiufengh.com/avatar/13.jpeg',
           username: 'system'
@@ -168,7 +168,7 @@ export default {
           message: '测试消息2',
           messageId: 'dddf',
           messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
+          userId: 'rj9n15ckrk00',
           type: 0, // 0-群聊 1-单聊
           avatar: '//s3.qiufengh.com/avatar/17.jpeg',
           username: 'sdfgsdgfd'
@@ -180,7 +180,7 @@ export default {
           message: '测试消息3',
           messageId: 'ddd',
           messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
+          userId: 'ne7ih98gqf40',
           type: 0, // 0-群聊 1-单聊
           avatar: '//s3.qiufengh.com/avatar/18.jpeg',
           username: 'cvcvb'

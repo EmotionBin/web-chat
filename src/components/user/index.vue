@@ -5,14 +5,14 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="view-head-title">
-        {{user.username}}
+        {{userInfo.username}}
       </div>
     </div>
     <div class="user-body-wrap">
       <div class="body-background">
-        <div class="avatar-background" :style="{'background-image':`url(${user.avatar})`}"></div>
-        <div class="avatar-wrap" :style="{'background-image':`url(${user.avatar})`}"></div>
-        <div class="username">{{user.username}}</div>
+        <div class="avatar-background" :style="{'background-image':`url(${userInfo.avatar})`}"></div>
+        <div class="avatar-wrap" :style="{'background-image':`url(${userInfo.avatar})`}"></div>
+        <div class="username">{{userInfo.username}}</div>
       </div>
       <div class="body-userinfo">
         <template v-for="item in userInfo1">
@@ -79,8 +79,18 @@ export default {
   },
   methods: {
     // 获取用户信息
-    getUserInfo () {
-      console.log(111)
+    async getUserInfo () {
+      const { data } = await this.$request({
+        url: '/api/getUser',
+        params: {
+          userId: this.getUserId
+        }
+      })
+      console.log('data: ', data)
+      const { avatar, userId, username } = data
+      this.userInfo.avatar = avatar
+      this.userInfo.userId = userId
+      this.userInfo.username = username
     },
     // 发起聊天
     startChat () {

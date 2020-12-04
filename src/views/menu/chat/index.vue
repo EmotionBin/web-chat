@@ -25,20 +25,20 @@ export default {
   data () {
     return {
       roomList: [
-        {
-          name: '聊天室1',
-          avatar: 'https://s3.qiufengh.com/images/bce5b10ae530f530.png?imageView2/2/w/120/h/120',
-          message: 'abc说:你好',
-          roomId: '111111',
-          type: 0 // 0-群聊 1-单聊
-        },
-        {
-          name: '聊天室2',
-          avatar: 'https://s3.qiufengh.com/images/2016061316082590301.jpg?imageView2/2/w/120/h/120',
-          message: 'abc说:你好',
-          roomId: '222222',
-          type: 0 // 0-群聊 1-单聊
-        }
+        // {
+        //   name: '聊天室1',
+        //   avatar: 'https://s3.qiufengh.com/images/bce5b10ae530f530.png?imageView2/2/w/120/h/120',
+        //   message: 'abc说:你好',
+        //   roomId: '111111',
+        //   type: 0 // 0-群聊 1-单聊
+        // },
+        // {
+        //   name: '聊天室2',
+        //   avatar: 'https://s3.qiufengh.com/images/2016061316082590301.jpg?imageView2/2/w/120/h/120',
+        //   message: 'abc说:你好',
+        //   roomId: '222222',
+        //   type: 0 // 0-群聊 1-单聊
+        // }
       ]
     }
   },
