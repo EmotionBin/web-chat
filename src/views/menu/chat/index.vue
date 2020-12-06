@@ -57,18 +57,29 @@ export default {
   methods: {
     // 初始化 获取房间信息
     async getRoom () {
-      const { data } = await this.$request({
-        url: '/api/getRoom',
-        params: {
-          userId: this.user.userId
-        }
-      })
-      this.roomList = data
+      try {
+        const { data } = await this.$request({
+          url: '/api/getRoom',
+          params: {
+            userId: this.user.userId
+          }
+        })
+        this.roomList = data
+      } catch (error) {
+        console.log(error)
+      }
     },
     // 点击进入聊天
     joinChat (index) {
-      const { roomId } = this.roomList[index]
-      this.$router.push(`/home/chat/view/${roomId}`)
+      const { roomId, name, type, avatar } = this.roomList[index]
+      this.$router.push({
+        path: `/home/chat/view/${roomId}`,
+        query: {
+          name,
+          type,
+          avatar: window.encodeURIComponent(avatar)
+        }
+      })
     }
   }
 }

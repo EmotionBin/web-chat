@@ -10,9 +10,10 @@
     </div>
     <div class="chat-detail-body">
       <div class="avatar-wrap">
-        <template v-for="item in avatarList">
+        <div class="avatar-item" :style="{'background-image':`url(${getAvatar})`}"></div>
+        <!-- <template v-for="item in avatarList">
           <div :key="item.id" class="avatar-item" :style="{'background-image':`url(${item.avatar})`}"></div>
-        </template>
+        </template> -->
       </div>
       <div class="info-wrap">
         <div class="info-title">声音开启设置</div>
@@ -36,12 +37,12 @@ export default {
   name: 'chat-detail',
   data () {
     return {
-      avatarList: [
-        {
-          id: 'asfasf',
-          avatar: '//s3.qiufengh.com/avatar/212.jpeg'
-        }
-      ],
+      // avatarList: [
+      //   {
+      //     id: 'asfasf',
+      //     avatar: '//s3.qiufengh.com/avatar/212.jpeg'
+      //   }
+      // ],
       setList: [
         {
           title: '事件和提醒',
@@ -70,6 +71,9 @@ export default {
     },
     getName () {
       return this.$route.query.name
+    },
+    getAvatar () {
+      return window.decodeURIComponent(this.$route.query.avatar)
     }
   },
   created () {

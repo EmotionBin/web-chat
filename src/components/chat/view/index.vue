@@ -122,153 +122,154 @@ export default {
       roomInfo: {
         name: '测试房间',
         num: 6,
+        avatar: '',
         type: 0 // 0-群聊 1-单聊
       },
       messageList: [
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息',
-          messageId: 'ddda',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'rvnaro6puro0',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/15.jpeg',
-          username: 'asdas'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息1',
-          messageId: 'ddds',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'rj9n15ckrk00',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/16.jpeg',
-          username: 'sdfgdfg'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '这是系统消息~',
-          messageId: 'dddsadsda',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'rj9n15ckrk00',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/13.jpeg',
-          username: 'system'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息2',
-          messageId: 'dddf',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'rj9n15ckrk00',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/17.jpeg',
-          username: 'sdfgsdgfd'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息3',
-          messageId: 'ddd',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'ne7ih98gqf40',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/18.jpeg',
-          username: 'cvcvb'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息',
-          messageId: 'dddasdsada',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'rvnaro6puro0',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/15.jpeg',
-          username: 'asdas'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息1',
-          messageId: 'dddasdasds',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/16.jpeg',
-          username: 'sdfgdfg'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '这是系统消息~',
-          messageId: 'dddsasdasdaadsda',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'system',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/13.jpeg',
-          username: 'system'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息2',
-          messageId: 'dddfasdasd',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/17.jpeg',
-          username: 'sdfgsdgfd'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息3',
-          messageId: 'dasdasddasdasdd',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/18.jpeg',
-          username: 'cvcvb'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '这是系统消息~',
-          messageId: 'dddsxzcasdasdaadsda',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'system',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/13.jpeg',
-          username: 'system'
-        },
-        {
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: '测试消息2',
-          messageId: 'dddfzxcasdasd',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'sadasd',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/17.jpeg',
-          username: 'sdfgsdgfd'
-        }
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息',
+        //   messageId: 'ddda',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'rvnaro6puro0',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/15.jpeg',
+        //   username: 'asdas'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息1',
+        //   messageId: 'ddds',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'rj9n15ckrk00',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/16.jpeg',
+        //   username: 'sdfgdfg'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '这是系统消息~',
+        //   messageId: 'dddsadsda',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'rj9n15ckrk00',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/13.jpeg',
+        //   username: 'system'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息2',
+        //   messageId: 'dddf',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'rj9n15ckrk00',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/17.jpeg',
+        //   username: 'sdfgsdgfd'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息3',
+        //   messageId: 'ddd',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'ne7ih98gqf40',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/18.jpeg',
+        //   username: 'cvcvb'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息',
+        //   messageId: 'dddasdsada',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'rvnaro6puro0',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/15.jpeg',
+        //   username: 'asdas'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息1',
+        //   messageId: 'dddasdasds',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'sadasd',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/16.jpeg',
+        //   username: 'sdfgdfg'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '这是系统消息~',
+        //   messageId: 'dddsasdasdaadsda',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'system',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/13.jpeg',
+        //   username: 'system'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息2',
+        //   messageId: 'dddfasdasd',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'sadasd',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/17.jpeg',
+        //   username: 'sdfgsdgfd'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息3',
+        //   messageId: 'dasdasddasdasdd',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'sadasd',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/18.jpeg',
+        //   username: 'cvcvb'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '这是系统消息~',
+        //   messageId: 'dddsxzcasdasdaadsda',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'system',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/13.jpeg',
+        //   username: 'system'
+        // },
+        // {
+        //   roomId: this.getRoomId,
+        //   time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        //   img: '', // messageType 为 1 的时候才有值
+        //   message: '测试消息2',
+        //   messageId: 'dddfzxcasdasd',
+        //   messageType: 0, // 0-文字 1-图片
+        //   userId: 'sadasd',
+        //   type: 0, // 0-群聊 1-单聊
+        //   avatar: '//s3.qiufengh.com/avatar/17.jpeg',
+        //   username: 'sdfgsdgfd'
+        // }
       ],
       reply: {
         message: ''
@@ -289,22 +290,33 @@ export default {
   },
   created () {
     console.log(this.getRoomId)
+    this.getRoomInfo()
+    this.getMessage()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
+    // 获取当前房间信息
+    getRoomInfo () {
+      const { name, type, avatar } = this.$route.query
+      this.roomInfo.name = name
+      this.roomInfo.type = +type
+      this.roomInfo.avatar = avatar
+    },
     // 返回
     back () {
       this.$router.go(-1)
     },
     // 查看聊天详情
     showDetail () {
+      const { name, avatar } = this.roomInfo
       this.$router.push({
         name: 'chat-detail',
         query: {
-          name: this.roomInfo.name
+          name,
+          avatar
         }
       })
     },
@@ -328,6 +340,26 @@ export default {
     goUserDetail (userId) {
       console.log('userId: ', userId)
       this.$router.push(`/home/user/${userId}`)
+    },
+    // 获取聊天信息
+    async getMessage () {
+      try {
+        const { data } = await this.$request({
+          url: '/api/getMessage',
+          params: {
+            roomId: this.getRoomId
+          }
+        })
+        console.log('data: ', data)
+        this.messageList = data.map(item => {
+          return {
+            ...item,
+            time: dayjs(+item.time).format('YYYY-MM-DD HH:mm:ss')
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
@@ -400,9 +432,15 @@ $replyHeight:100px;
       }
       &.other{
         align-items: flex-start;
+        .message-container{
+          background-color: #fff;
+        }
+        .message-text{
+          color: #666;
+        }
         .message-angle{
           left: -15px;
-          border: 8px solid #52b95f;
+          border: 8px solid #fff;
           border-left-color: transparent;
           border-top-color: transparent;
           border-bottom-color: transparent;

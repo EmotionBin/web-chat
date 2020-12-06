@@ -6,13 +6,20 @@
       </el-input>
     </div>
     <div class="search-body-wrap">
-      <template v-for="item in result">
-        <div class="list-item" :key="item.userId">
-          <div class="item-icon" :style="{'background-image':`url(${item.avatar})`}"></div>
-          <div class="item-text">
-            <div class="item-text-title">{{item.username}}</div>
-          </div>
+      <template v-if="result.length">
+        <div class="list-wrap">
+          <template v-for="item in result">
+            <div class="list-item" :key="item.userId" @click="goUserDetail(index)">
+              <div class="item-icon" :style="{'background-image':`url(${item.avatar})`}"></div>
+              <div class="item-text">
+                <div class="item-text-title">{{item.username}}</div>
+              </div>
+            </div>
+          </template>
         </div>
+      </template>
+      <template v-else>
+        <div class="blank">暂无查询结果</div>
       </template>
     </div>
   </div>
@@ -27,26 +34,26 @@ export default {
       searchWord: '',
       timer: null,
       result: [
-        {
-          username: '小杜',
-          userId: 'bxcbds',
-          avatar: '//s3.qiufengh.com/avatar/16.jpeg'
-        },
-        {
-          username: '小杜11',
-          userId: 'asdasd',
-          avatar: '//s3.qiufengh.com/avatar/15.jpeg'
-        },
-        {
-          username: '小杜sss',
-          userId: 'bxcbsfsds',
-          avatar: '//s3.qiufengh.com/avatar/13.jpeg'
-        },
-        {
-          username: '小杜ddd',
-          userId: 'bxcbzcxzcds',
-          avatar: '//s3.qiufengh.com/avatar/14.jpeg'
-        }
+        // {
+        //   username: '小杜',
+        //   userId: 'bxcbds',
+        //   avatar: '//s3.qiufengh.com/avatar/16.jpeg'
+        // },
+        // {
+        //   username: '小杜11',
+        //   userId: 'asdasd',
+        //   avatar: '//s3.qiufengh.com/avatar/15.jpeg'
+        // },
+        // {
+        //   username: '小杜sss',
+        //   userId: 'bxcbsfsds',
+        //   avatar: '//s3.qiufengh.com/avatar/13.jpeg'
+        // },
+        // {
+        //   username: '小杜ddd',
+        //   userId: 'bxcbzcxzcds',
+        //   avatar: '//s3.qiufengh.com/avatar/14.jpeg'
+        // }
       ]
     }
   },
@@ -69,14 +76,29 @@ export default {
       if (value) {
         clearTimeout(this.timer)
         this.timer = setTimeout(() => this.getData(value), 300)
+      } else {
+        // 清空结果
+        this.result = []
       }
     },
     // 远程搜索
-    getData (value) {
-      console.log('远程搜索')
-      setTimeout(() => {
-        console.log('搜索', value)
-      }, 500)
+    async getData (value) {
+      try {
+        const { data } = await this.$request({
+          url: '/api/searchUser',
+          params: {
+            username: value
+          }
+        })
+        this.result = data
+      } catch (error) {
+        console.log('error: ', error)
+      }
+    },
+    // 查看用户详细信息
+    goUserDetail (index) {
+      const { userId } = this.result[index]
+      this.$router.push(`/home/user/${userId}`)
     }
   }
 }
@@ -92,7 +114,9 @@ $padding:12px;
     margin: $padding;
   }
   .search-body-wrap{
-    box-shadow: 0 0 3px #d1d1d1;
+    .list-wrap{
+      box-shadow: 0 0 3px #d1d1d1;
+    }
     .list-item{
       height: 56px;
       display: flex;
@@ -125,6 +149,10 @@ $padding:12px;
         color: rgba(0,0,0,.54);
         line-height: 2;
       }
+    }
+    .blank{
+      @include flex-center;
+      color: rgba(0,0,0,.54);
     }
   }
 }

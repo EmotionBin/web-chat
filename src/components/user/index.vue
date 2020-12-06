@@ -23,7 +23,8 @@
         </template>
       </div>
     </div>
-    <div class="user-footer-wrap">
+    <!-- 自己不能和自己发起聊天 -->
+    <div class="user-footer-wrap" v-if="getUserId !== user.userId">
       <el-button class="footer-btn" type="success" @click="startChat">发起聊天</el-button>
     </div>
   </div>
@@ -80,22 +81,34 @@ export default {
   methods: {
     // 获取用户信息
     async getUserInfo () {
-      const { data } = await this.$request({
-        url: '/api/getUser',
-        params: {
-          userId: this.getUserId
-        }
-      })
-      console.log('data: ', data)
-      const { avatar, userId, username } = data
-      this.userInfo.avatar = avatar
-      this.userInfo.userId = userId
-      this.userInfo.username = username
+      try {
+        const { data } = await this.$request({
+          url: '/api/getUser',
+          params: {
+            userId: this.getUserId
+          }
+        })
+        console.log('data: ', data)
+        const { avatar, userId, username } = data
+        this.userInfo.avatar = avatar
+        this.userInfo.userId = userId
+        this.userInfo.username = username
+      } catch (error) {
+        console.log(error)
+      }
     },
     // 发起聊天
     startChat () {
-      const roomId = `${this.getUserId}${this.userInfo.userId}`
-      this.$router.push(`/home/chat/view/${roomId}`)
+      const { username, userId, avatar } = this.userInfo
+      const roomId = `${this.getUserId}${userId}`
+      this.$router.push({
+        path: `/home/chat/view/${roomId}`,
+        query: {
+          name: username,
+          type: 1,
+          avatar: window.encodeURIComponent(avatar)
+        }
+      })
     },
     // 返回
     back () {

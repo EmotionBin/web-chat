@@ -55,7 +55,7 @@ export default {
           src: 'https://huangweibinupup.cn'
         },
         {
-          title: '我的邮箱',
+          title: '我的邮箱：313200064@qq.com',
           src: ''
         }
       ]

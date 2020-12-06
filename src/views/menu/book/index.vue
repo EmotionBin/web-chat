@@ -5,7 +5,7 @@
     </div>
     <div class="book-body">
       <template v-for="(item, index) in friendList">
-        <div class="list-item" :class="{last:index === friendList.length - 1}" :key="item.userId">
+        <div class="list-item" :class="{last:index === friendList.length - 1}" :key="item.userId" @click="goUserDetail(index)">
           <div class="item-icon" :style="{'background-image':`url(${item.avatar})`}"></div>
           <div class="item-text">
             <div class="item-text-title">{{item.username}}</div>
@@ -23,31 +23,31 @@ export default {
   data () {
     return {
       friendList: [
-        {
-          username: '小明',
-          userId: 'asdasd',
-          avatar: 'https://s3.qiufengh.com/images/bce5b10ae530f530.png?imageView2/2/w/120/h/120'
-        },
-        {
-          username: '小红',
-          userId: 'asdasff',
-          avatar: 'https://s3.qiufengh.com/images/2016061316082590301.jpg?imageView2/2/w/120/h/120'
-        },
-        {
-          username: '小张',
-          userId: 'aqqqw',
-          avatar: '//s3.qiufengh.com/avatar/15.jpeg'
-        },
-        {
-          username: '小李',
-          userId: 'sdfqw',
-          avatar: '//s3.qiufengh.com/avatar/14.jpeg'
-        },
-        {
-          username: '小杜',
-          userId: 'bxcbds',
-          avatar: '//s3.qiufengh.com/avatar/16.jpeg'
-        }
+        // {
+        //   username: '小明',
+        //   userId: 'asdasd',
+        //   avatar: 'https://s3.qiufengh.com/images/bce5b10ae530f530.png?imageView2/2/w/120/h/120'
+        // },
+        // {
+        //   username: '小红',
+        //   userId: 'asdasff',
+        //   avatar: 'https://s3.qiufengh.com/images/2016061316082590301.jpg?imageView2/2/w/120/h/120'
+        // },
+        // {
+        //   username: '小张',
+        //   userId: 'aqqqw',
+        //   avatar: '//s3.qiufengh.com/avatar/15.jpeg'
+        // },
+        // {
+        //   username: '小李',
+        //   userId: 'sdfqw',
+        //   avatar: '//s3.qiufengh.com/avatar/14.jpeg'
+        // },
+        // {
+        //   username: '小杜',
+        //   userId: 'bxcbds',
+        //   avatar: '//s3.qiufengh.com/avatar/16.jpeg'
+        // }
       ]
     }
   },
@@ -57,14 +57,29 @@ export default {
 
   },
   created () {
-
+    this.getFriend()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
-
+    // 获取通讯录列表
+    async getFriend () {
+      try {
+        const { data } = await this.$request({
+          url: '/api/getUserList'
+        })
+        this.friendList = data
+      } catch (error) {
+        console.log('error: ', error)
+      }
+    },
+    // 查看用户详细信息
+    goUserDetail (index) {
+      const { userId } = this.friendList[index]
+      this.$router.push(`/home/user/${userId}`)
+    }
   }
 }
 </script>
