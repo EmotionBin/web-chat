@@ -50,6 +50,11 @@ module.exports = {
         pathRewrite: { // 重命名
           '^/api': ''
         }
+      },
+      '/socket.io': {
+        target: 'http://localhost:3808', // 这里写的是访问接口的域名和端口号
+        changeOrigin: true, // 跨域请求
+        ws: true
       }
     }
   },

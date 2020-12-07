@@ -1,8 +1,11 @@
 const Koa = require('koa')
 const route = require('./route')
+const socket = require('./socket')
 const staticFile = require('./utils/modules/static-files')
 
 const app = new Koa()
+
+socket(app)
 
 route(app)
 
