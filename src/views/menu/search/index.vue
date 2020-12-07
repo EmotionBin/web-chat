@@ -8,7 +8,7 @@
     <div class="search-body-wrap">
       <template v-if="result.length">
         <div class="list-wrap">
-          <template v-for="item in result">
+          <template v-for="(item, index) in result">
             <div class="list-item" :key="item.userId" @click="goUserDetail(index)">
               <div class="item-icon" :style="{'background-image':`url(${item.avatar})`}"></div>
               <div class="item-text">

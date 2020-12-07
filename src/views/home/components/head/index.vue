@@ -13,7 +13,7 @@
       <div class="info-user">
         <el-dropdown @command="clickItem">
           <span class="el-dropdown-link">
-            {{username}}
+            {{user.username}}
           </span>
           <el-dropdown-menu slot="dropdown">
             <template v-for="item in commandList">
@@ -27,13 +27,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'indexHead',
   data () {
     return {
-      // username 要从 vuex 中读取
-      username: 'admin',
       title: 'web-chat',
       location: '',
       weather: '',
@@ -52,7 +51,7 @@ export default {
   components: {
   },
   computed: {
-
+    ...mapGetters(['user'])
   },
   created () {
     this.getLocation()
