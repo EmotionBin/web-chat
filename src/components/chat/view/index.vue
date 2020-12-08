@@ -272,7 +272,8 @@ export default {
         // }
       ],
       reply: {
-        message: ''
+        message: '',
+        socketId: ''
       }
     }
   },
@@ -292,6 +293,7 @@ export default {
     console.log(this.getRoomId)
     this.getRoomInfo()
     this.getMessage()
+    this.getMsg()
   },
   mounted () {
   },
@@ -328,9 +330,33 @@ export default {
     choosePhoto (value) {
       console.log(value)
     },
+    // 接收聊天消息
+    getMsg () {
+      this.$socket.on('broadcast', data => {
+        console.log(this.$socket.id)
+        if (this.reply.socketId === this.$socket.id) {
+          // 如果接收到了自己发的消息 说明消息发送成功 清空
+          this.reply.message = ''
+        }
+        this.messageList.push({
+          roomId: this.getRoomId,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          img: '', // messageType 为 1 的时候才有值
+          message: data,
+          messageId: 'dddddda',
+          messageType: 0, // 0-文字 1-图片
+          userId: 'rvnaro6puro0',
+          type: 0, // 0-群聊 1-单聊
+          avatar: '//s3.qiufengh.com/avatar/15.jpeg',
+          username: 'xxx'
+        })
+      })
+    },
     // 点击发送
     sendMessage () {
       console.log('发送')
+      this.reply.socketId = this.$socket.id
+      this.$socket.emit('message', this.reply.message)
     },
     // 切换编辑状态
     toggleEdit () {
