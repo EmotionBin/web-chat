@@ -11,7 +11,6 @@ module.exports = async ctx => {
   try {
     const url = `https://restapi.amap.com/v3/weather/weatherInfo?key=${KEY}&city=${code}`
     const res = await axios.get(url)
-    console.log('res: ', res.data)
     ctx.success({
       temperature: res.data.lives[0].temperature,
       weather: res.data.lives[0].weather

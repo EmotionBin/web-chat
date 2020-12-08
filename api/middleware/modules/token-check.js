@@ -26,8 +26,6 @@ module.exports = async (ctx, next) => {
         ctx.fail('', 4001)
         return
       }
-      // token 校验成功
-      console.log('校验成功', decoded.exp, Math.floor(+new Date() / 1000))
       // 如果 token 还有十分钟过期 刷新token
       if ((decoded.exp - Math.floor(+new Date() / 1000)) <= 10 * 60) {
         const payload = {

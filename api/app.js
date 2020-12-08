@@ -5,12 +5,13 @@ const staticFile = require('./utils/modules/static-files')
 
 const app = new Koa()
 
-socket(app)
-
 route(app)
 
 staticFile(app)
 
 const port = process.env.PORT || 3808
 
-app.listen(port, () => console.log(`serve is running on ${port}`))
+const serve = app.listen(port, () => console.log(`serve is running on ${port}`))
+
+// 建立 socket 连接
+socket(serve)

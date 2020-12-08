@@ -1,4 +1,3 @@
-const server = require('http')
 const socket = require('socket.io')
 
 // 与客户端连接成功
@@ -15,7 +14,7 @@ const broadcast = (socket, data) => {
   socket.broadcast.emit('broadcast', data)
 }
 
-module.exports = app => {
-  const io = socket(server.createServer(app.callback()))
+module.exports = server => {
+  const io = socket(server)
   io.on('connection', connection)
 }

@@ -5,9 +5,7 @@ const { databaseQuery } = require('../../utils/index')
 const getMessage = async ctx => {
   try {
     const { roomId } = ctx.request.query
-    console.log('roomId: ', roomId)
     const messageInfo = await databaseQuery(`select * from message where roomId = '${roomId}' order by messageId desc limit 20`)
-    console.log('messageInfo: ', messageInfo)
     ctx.success(messageInfo.reverse())
   } catch (error) {
     console.log('发生了错误', error)
