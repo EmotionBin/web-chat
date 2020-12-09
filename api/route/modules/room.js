@@ -15,7 +15,7 @@ module.exports = async ctx => {
         const messageItem = messageInfo[i]
         if (item.roomId === messageItem.roomId) {
           const { username, message } = messageItem
-          lastMessage = `${username}说:${message}`
+          lastMessage = `${username}说:${decodeURI(message)}`
           break
         }
       }

@@ -22,7 +22,7 @@ const onMessage = async (io, socket, data) => {
     console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, img, message, messageType, userId, type, avatar, username)
     await databaseQuery(`insert into message values 
     ('${roomId}','${time}','${img}','${encodeURI(message)}','${messageType}','${userId}','${type}','${avatar}','${username}',null)`)
-    // 获取刚插入的数据的 id 
+    // 获取刚插入的数据的 id
     const messageInfo = await databaseQuery('select * from message order by messageId desc limit 1')
     const lastMessage = messageInfo[0]
     io.emit('broadcast', {
