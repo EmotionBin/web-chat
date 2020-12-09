@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="chat-view-message" :class="{'isEdit':isEdit}">
-      <div class="chat-list">
+      <div class="chat-list" ref="chatList">
         <template v-for="item in messageList">
           <div class="list-item" :key="item.messageId">
             <template v-if="user.userId === item.userId">
@@ -298,6 +298,8 @@ export default {
   mounted () {
   },
   beforeDestroy () {
+    // 在销毁之前要取消监听 防止重复监听
+    this.$socket.removeAllListeners('broadcast')
   },
   methods: {
     // 获取当前房间信息
@@ -332,31 +334,47 @@ export default {
     },
     // 接收聊天消息
     getMsg () {
-      this.$socket.on('broadcast', data => {
-        console.log(this.$socket.id)
-        if (this.reply.socketId === this.$socket.id) {
+      const { $socket, $refs, reply } = this
+      const that = this
+      $socket.on('broadcast', data => {
+        console.log($socket.id)
+        if (reply.socketId === $socket.id) {
           // 如果接收到了自己发的消息 说明消息发送成功 清空
-          this.reply.message = ''
+          reply.message = ''
         }
-        this.messageList.push({
-          roomId: this.getRoomId,
-          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          img: '', // messageType 为 1 的时候才有值
-          message: data,
-          messageId: 'dddddda',
-          messageType: 0, // 0-文字 1-图片
-          userId: 'rvnaro6puro0',
-          type: 0, // 0-群聊 1-单聊
-          avatar: '//s3.qiufengh.com/avatar/15.jpeg',
-          username: 'xxx'
+        that.messageList.push({
+          ...data,
+          time: dayjs(+data.time).format('YYYY-MM-DD HH:mm:ss')
+        })
+        that.$nextTick(() => {
+          const { clientHeight, scrollHeight } = $refs.chatList
+          // 有新消息 滚动条强制触底
+          $refs.chatList.scrollTop = scrollHeight - clientHeight
         })
       })
     },
     // 点击发送
     sendMessage () {
       console.log('发送')
-      this.reply.socketId = this.$socket.id
-      this.$socket.emit('message', this.reply.message)
+      const { reply, getRoomId, roomInfo, user, $socket } = this
+      const { userId, avatar, username } = user
+      if (!reply.message) {
+        this.$message.warning('不能发送空消息!')
+        return
+      }
+      reply.socketId = $socket.id
+      const message = {
+        roomId: getRoomId,
+        time: +new Date(),
+        img: '', // messageType 为 1 的时候才有值
+        message: reply.message,
+        messageType: 0, // 0-文字 1-图片
+        userId,
+        type: roomInfo.type, // 0-群聊 1-单聊
+        avatar,
+        username
+      }
+      $socket.emit('message', message)
     },
     // 切换编辑状态
     toggleEdit () {

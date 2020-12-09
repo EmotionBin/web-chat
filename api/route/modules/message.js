@@ -6,7 +6,13 @@ const getMessage = async ctx => {
   try {
     const { roomId } = ctx.request.query
     const messageInfo = await databaseQuery(`select * from message where roomId = '${roomId}' order by messageId desc limit 20`)
-    ctx.success(messageInfo.reverse())
+    const data = messageInfo.reverse().map(item => {
+      return {
+        ...item,
+        message: decodeURI(item.message)
+      }
+    })
+    ctx.success(data)
   } catch (error) {
     console.log('发生了错误', error)
     ctx.fail('', 5000)
