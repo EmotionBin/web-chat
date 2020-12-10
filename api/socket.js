@@ -10,15 +10,27 @@ const config = {
 
 // 与客户端连接成功
 const connection = (io, socket) => {
-  console.log('socket 连接成功!')
-  // 有人加入聊天室
+  console.log('socket 连接成功!', socket.id)
+  socket.on('login', data => userLogin(io, socket, data))
   socket.on('joinRoom', data => userJoin(io, socket, data))
   socket.on('message', data => onMessage(io, socket, data))
+  socket.on('disconnecting', () => onDisconnecting(socket.id))
+}
+
+// 用户登录
+const userLogin = async (io, socket, data) => {
+  const res = await databaseQuery(`select * from online_user where userId = '${data.userId}'`)
+  const sql = res.length
+    ? `update online_user set socketId='${socket.id}' where userId='${data.userId}'`
+    : `insert into online_user values ('${data.userId}', '${socket.id}')`
+  console.log('sql: ', sql)
+  await databaseQuery(sql)
 }
 
 // 有用户加入聊天室
 const userJoin = async (io, socket, data) => {
-  console.log(`用户${data.username}加入聊天室,id为${data.userId},聊天室类型为${data.type}`);
+  console.log(`用户${data.username}加入聊天室,id为${data.userId},聊天室类型为${data.type}`)
+  if (!data.userId) return
   if (data.type === 0) {
     socket.broadcast.emit('broadcast', {
       ...data,
@@ -43,6 +55,16 @@ const onMessage = async (io, socket, data) => {
       ...lastMessage,
       message: decodeURI(lastMessage.message)
     })
+  } catch (error) {
+    console.log('发生了错误', error)
+  }
+}
+
+// 用户退出
+const onDisconnecting = async (socketId) => {
+  try {
+    console.log(`${socketId}退出`)
+    await databaseQuery(`delete from online_user where socketId = '${socketId}'`)
   } catch (error) {
     console.log('发生了错误', error)
   }

@@ -17,19 +17,12 @@
 </template>
 
 <script>
-import icon from '@/assets/login/wechat.png'
 
 export default {
   name: 'indexAccount',
   data () {
     return {
-      list: [
-        {
-          username: '111',
-          userId: '123456',
-          avatar: icon
-        }
-      ]
+      list: []
     }
   },
   components: {
@@ -38,14 +31,25 @@ export default {
 
   },
   created () {
-
+    this.getOnlineUser()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
-
+    // 获取当前在线的用户
+    async getOnlineUser () {
+      try {
+        const { data } = await this.$request({
+          url: '/api/getOnlineUser'
+        })
+        console.log('data: ', data)
+        this.list = data
+      } catch (error) {
+        console.log('error: ', error)
+      }
+    }
   }
 }
 </script>
@@ -76,8 +80,7 @@ export default {
       .item-avatar{
         width: 36px;
         height: 36px;
-        background-position: center;
-        background-repeat: no-repeat;
+        @include bg-icon;
         border-radius: 50%;
       }
       .item-username{

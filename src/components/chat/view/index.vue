@@ -343,7 +343,7 @@ export default {
         img: '', // messageType 为 1 的时候才有值
         message: '',
         messageType: 0, // 0-文字 1-图片
-        userId: user.username,
+        userId: user.userId,
         type: roomInfo.type, // 0-群聊 1-单聊
         avatar: '',
         username: user.username

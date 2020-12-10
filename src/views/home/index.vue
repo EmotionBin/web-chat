@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import homeHead from './components/head/index.vue'
 import homeMenu from './components/menu/index.vue'
 import homeAccount from './components/account/index.vue'
@@ -34,17 +35,26 @@ export default {
     homeAccount
   },
   computed: {
-
+    ...mapGetters(['user'])
   },
   created () {
-
+    this.init()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
-
+    // 初始化
+    init () {
+      // socket 初始化
+      console.log(this.$socket)
+      const { io, server } = this.$socket
+      // 初始化完成 原型链覆盖
+      this.$socket = io(server)
+      // socket 登录 让服务端知道你的 id
+      this.$socket.emit('login', this.user)
+    }
   }
 }
 </script>

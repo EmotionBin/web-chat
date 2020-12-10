@@ -53,8 +53,30 @@ const searchUser = async ctx => {
   }
 }
 
+// 获取在线用户
+const getOnlineUser = async ctx => {
+  try {
+    const userInfo = await databaseQuery('select * from user')
+    const onlineUser = await databaseQuery('select * from online_user')
+    console.log('onlineUser: ', onlineUser);
+    const result = onlineUser.map(item => {
+      const { username, userId, avatar } = userInfo.find(data => data.userId === item.userId)
+      return {
+        username,
+        userId,
+        avatar
+      }
+    })
+    ctx.success(result)
+  } catch (error) {
+    console.log('发生了错误', error)
+    ctx.fail('', 5000)
+  }
+}
+
 module.exports = {
   getUser,
   getUserList,
-  searchUser
+  searchUser,
+  getOnlineUser
 }
