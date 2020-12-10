@@ -11,7 +11,21 @@ const config = {
 // 与客户端连接成功
 const connection = (io, socket) => {
   console.log('socket 连接成功!')
+  // 有人加入聊天室
+  socket.on('joinRoom', data => userJoin(io, socket, data))
   socket.on('message', data => onMessage(io, socket, data))
+}
+
+// 有用户加入聊天室
+const userJoin = async (io, socket, data) => {
+  console.log(`用户${data.username}加入聊天室,id为${data.userId},聊天室类型为${data.type}`);
+  if (data.type === 0) {
+    socket.broadcast.emit('broadcast', {
+      ...data,
+      message: `用户 ${data.username} 加入聊天室`,
+      userId: 'system'
+    })
+  }
 }
 
 // 接收到了消息

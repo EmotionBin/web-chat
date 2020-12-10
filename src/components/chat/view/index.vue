@@ -334,14 +334,30 @@ export default {
     },
     // 接收聊天消息
     getMsg () {
-      const { $socket, $refs, reply } = this
+      const { $socket, $refs, reply, roomInfo, user } = this
       const that = this
+      // 告诉服务器加入的聊天室类型 群聊 或者 单聊
+      const message = {
+        roomId: '',
+        time: '',
+        img: '', // messageType 为 1 的时候才有值
+        message: '',
+        messageType: 0, // 0-文字 1-图片
+        userId: user.username,
+        type: roomInfo.type, // 0-群聊 1-单聊
+        avatar: '',
+        username: user.username
+      }
+      $socket.emit('joinRoom', message)
+      // 接收聊天消息
       $socket.on('broadcast', data => {
         console.log($socket.id)
         if (reply.socketId === $socket.id) {
           // 如果接收到了自己发的消息 说明消息发送成功 清空
           reply.message = ''
         }
+        // 忽略空消息
+        if (!data.message) return
         that.messageList.push({
           ...data,
           time: dayjs(+data.time).format('YYYY-MM-DD HH:mm:ss')
@@ -469,8 +485,8 @@ $replyHeight:100px;
       }
       &.system{
         align-items: center;
-        height: 30px;
-        line-height: 30px;
+        height: 60px;
+        line-height: 60px;
         text-align: center;
         color: #949494;
       }
