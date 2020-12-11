@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import socket from '@/utils/socket'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -54,6 +55,7 @@ export default {
     ...mapGetters(['user'])
   },
   created () {
+    this.init()
     this.getLocation()
   },
   mounted () {
@@ -61,6 +63,13 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    // 初始化
+    init () {
+      // 初始化 socket 建立 socket 连接
+      socket.init()
+      // socket 登录 让服务端知道你的 id
+      this.$socket.emit('login', this.user)
+    },
     // 获取定位
     async getLocation () {
       try {

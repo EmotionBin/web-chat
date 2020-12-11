@@ -7,7 +7,6 @@ import md5 from 'md5'
 import './styles/index.scss'
 import request from '@/utils/request'
 import utils from '@/utils'
-import socket from '@/utils/socket'
 import '@/utils/vuex-persistence'
 
 Vue.use(Element)
@@ -16,7 +15,6 @@ Vue.use(Element)
 Vue.prototype.$request = request
 Vue.prototype.$md5 = md5
 Vue.prototype.$utils = utils
-Vue.prototype.$socket = socket
 
 Vue.config.productionTip = false
 

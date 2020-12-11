@@ -31,13 +31,21 @@ export default {
 
   },
   created () {
-    this.getOnlineUser()
+    this.init()
   },
   mounted () {
   },
   beforeDestroy () {
   },
   methods: {
+    // 初始化
+    init () {
+      const that = this
+      this.$socket.on('login-success', data => {
+        console.log(data)
+        that.getOnlineUser()
+      })
+    },
     // 获取当前在线的用户
     async getOnlineUser () {
       try {

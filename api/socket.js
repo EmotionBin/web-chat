@@ -25,6 +25,8 @@ const userLogin = async (io, socket, data) => {
     : `insert into online_user values ('${data.userId}', '${socket.id}')`
   console.log('sql: ', sql)
   await databaseQuery(sql)
+  // 告诉客户端 socket 登录成功
+  io.to(socket.id).emit('login-success', 'success')
 }
 
 // 有用户加入聊天室
@@ -43,7 +45,6 @@ const userJoin = async (io, socket, data) => {
 // 接收到了消息
 const onMessage = async (io, socket, data) => {
   try {
-    console.log(`收到了消息${data}，即将写入数据库...`)
     const { roomId, time, img, message, messageType, userId, type, avatar, username } = data
     console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, img, message, messageType, userId, type, avatar, username)
     await databaseQuery(`insert into message values 

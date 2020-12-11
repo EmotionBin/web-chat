@@ -58,7 +58,6 @@ const getOnlineUser = async ctx => {
   try {
     const userInfo = await databaseQuery('select * from user')
     const onlineUser = await databaseQuery('select * from online_user')
-    console.log('onlineUser: ', onlineUser);
     const result = onlineUser.map(item => {
       const { username, userId, avatar } = userInfo.find(data => data.userId === item.userId)
       return {
