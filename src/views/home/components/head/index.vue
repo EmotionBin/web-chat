@@ -68,7 +68,7 @@ export default {
       // 初始化 socket 建立 socket 连接
       socket.init()
       // socket 登录 让服务端知道你的 id
-      this.$socket.emit('login', this.user)
+      this.user.userId && this.$socket.emit('login', this.user)
     },
     // 获取定位
     async getLocation () {

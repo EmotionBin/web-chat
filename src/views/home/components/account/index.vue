@@ -94,7 +94,9 @@ export default {
         border-radius: 50%;
       }
       .item-username{
-        margin-left: 4px;
+        font-weight: 600;
+        color: rgba(0,0,0,.5);
+        margin-left: 10px;
       }
     }
   }

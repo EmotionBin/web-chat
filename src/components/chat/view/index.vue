@@ -121,7 +121,7 @@ export default {
       isEdit: true,
       roomInfo: {
         name: '',
-        num: 6,
+        num: 666,
         avatar: '',
         type: 0 // 0-群聊 1-单聊
       },

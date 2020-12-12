@@ -1,6 +1,6 @@
 // 注册接口
 
-const { databaseQuery, uniqueString } = require('../../utils')
+const { databaseQuery, uniqueString, avatarCreate } = require('../../utils')
 
 module.exports = async ctx => {
   let { username, password } = ctx.request.body
@@ -12,7 +12,8 @@ module.exports = async ctx => {
       ctx.fail('', 5006)
     } else {
       const userId = uniqueString()
-      await databaseQuery(`insert into user values ('${username}','${password}','${userId}')`)
+      const avatar = avatarCreate()
+      await databaseQuery(`insert into user values ('${username}','${password}','${userId}','${avatar}')`)
       ctx.success(username)
     }
   } catch (error) {
