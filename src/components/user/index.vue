@@ -94,7 +94,7 @@ export default {
         this.userInfo.userId = userId
         this.userInfo.username = username
       } catch (error) {
-        console.log(error)
+        console.log('获取用户信息发生了错误', error)
       }
     },
     // 发起聊天

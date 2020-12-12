@@ -72,7 +72,7 @@ export default {
         })
         this.friendList = data
       } catch (error) {
-        console.log('error: ', error)
+        console.log('获取通讯录列表时发生了错误', error)
       }
     },
     // 查看用户详细信息

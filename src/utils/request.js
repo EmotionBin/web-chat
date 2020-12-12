@@ -27,6 +27,8 @@ service.interceptors.response.use(
     const res = response.data
     if (!res.status) {
       // status为0 失败
+      // 控制只显示一个消息弹窗
+      Message.closeAll()
       Message({
         message: codeList[res.code] || '请求失败',
         type: 'error'

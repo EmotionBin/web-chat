@@ -107,7 +107,7 @@ export default {
             // 登录成功进行重定向 若没有重定向参数 默认进入首页
             this.$router.replace(this.$route.query.redirect || '/home')
           } catch (error) {
-            console.log('error: ', error)
+            console.log('登录时发生了错误', error)
           }
         } else {
           this.$message.warning('输入的信息有误，请仔细核对')

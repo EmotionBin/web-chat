@@ -11,9 +11,6 @@
     <div class="chat-detail-body">
       <div class="avatar-wrap">
         <div class="avatar-item" :style="{'background-image':`url(${getAvatar})`}"></div>
-        <!-- <template v-for="item in avatarList">
-          <div :key="item.id" class="avatar-item" :style="{'background-image':`url(${item.avatar})`}"></div>
-        </template> -->
       </div>
       <div class="info-wrap">
         <div class="info-title">声音开启设置</div>
@@ -37,12 +34,6 @@ export default {
   name: 'chat-detail',
   data () {
     return {
-      // avatarList: [
-      //   {
-      //     id: 'asfasf',
-      //     avatar: '//s3.qiufengh.com/avatar/212.jpeg'
-      //   }
-      // ],
       setList: [
         {
           title: '事件和提醒',

@@ -77,7 +77,7 @@ export default {
         this.location = location
         this.getWeather(code)
       } catch (error) {
-        console.log('error: ', error)
+        console.log('获取位置信息时发生了错误', error)
       }
     },
     // 获取天气
@@ -86,7 +86,7 @@ export default {
         const { data: { temperature, weather } } = await this.$request({ url: `/api/getWeather?code=${code}` })
         this.weather = `${temperature}°C ${weather}`
       } catch (error) {
-        console.log('error: ', error)
+        console.log('获取天气信息时发生了错误', error)
       }
     },
     // 点击下拉菜单

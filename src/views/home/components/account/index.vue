@@ -36,6 +36,8 @@ export default {
   mounted () {
   },
   beforeDestroy () {
+    // 在销毁之前要取消监听 防止重复监听
+    this.$socket.removeAllListeners('login-success')
   },
   methods: {
     // 初始化
@@ -55,7 +57,7 @@ export default {
         console.log('data: ', data)
         this.list = data
       } catch (error) {
-        console.log('error: ', error)
+        console.log('获取当前在线的用户信息时发生了错误', error)
       }
     }
   }

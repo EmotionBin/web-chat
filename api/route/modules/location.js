@@ -18,5 +18,6 @@ module.exports = async ctx => {
     })
   } catch (error) {
     console.log(error)
+    ctx.fail('', 5000)
   }
 }

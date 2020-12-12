@@ -19,14 +19,18 @@ const connection = (io, socket) => {
 
 // 用户登录
 const userLogin = async (io, socket, data) => {
-  const res = await databaseQuery(`select * from online_user where userId = '${data.userId}'`)
-  const sql = res.length
-    ? `update online_user set socketId='${socket.id}' where userId='${data.userId}'`
-    : `insert into online_user values ('${data.userId}', '${socket.id}')`
-  console.log('sql: ', sql)
-  await databaseQuery(sql)
-  // 告诉客户端 socket 登录成功
-  io.to(socket.id).emit('login-success', 'success')
+  try {
+    const res = await databaseQuery(`select * from online_user where userId = '${data.userId}'`)
+    const sql = res.length
+      ? `update online_user set socketId='${socket.id}' where userId='${data.userId}'`
+      : `insert into online_user values ('${data.userId}', '${socket.id}')`
+    console.log('sql: ', sql)
+    await databaseQuery(sql)
+    // 告诉客户端 socket 登录成功
+    io.to(socket.id).emit('login-success', 'success')
+  } catch (error) {
+    console.log('socket 登录失败', error)
+  }
 }
 
 // 有用户加入聊天室
@@ -57,7 +61,7 @@ const onMessage = async (io, socket, data) => {
       message: decodeURI(lastMessage.message)
     })
   } catch (error) {
-    console.log('发生了错误', error)
+    console.log('接收到了消息，但是发生了错误', error)
   }
 }
 
@@ -67,14 +71,9 @@ const onDisconnecting = async (socketId) => {
     console.log(`${socketId}退出`)
     await databaseQuery(`delete from online_user where socketId = '${socketId}'`)
   } catch (error) {
-    console.log('发生了错误', error)
+    console.log('用户退出，发生了错误', error)
   }
 }
-
-// 广播消息
-// const broadcast = (socket, data) => {
-//   socket.broadcast.emit('broadcast', data)
-// }
 
 module.exports = server => {
   const io = socket(server, config)

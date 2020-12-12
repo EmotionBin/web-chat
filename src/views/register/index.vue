@@ -105,7 +105,7 @@ export default {
               messageId.close()
             }, duration)
           } catch (error) {
-            console.log('error: ', error)
+            console.log('注册时发生了错误', error)
           }
         } else {
           this.$message.warning('输入的信息有误，请仔细核对')

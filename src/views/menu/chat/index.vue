@@ -66,7 +66,7 @@ export default {
         })
         this.roomList = data
       } catch (error) {
-        console.log(error)
+        console.log('获取房间信息时发生了错误', error)
       }
     },
     // 点击进入聊天

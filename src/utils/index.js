@@ -2,7 +2,10 @@
 
 const utils = {}
 
-// 打开一个新的页面
+/**
+ * 打开一个新的页面
+ * @param {string} url 要打开的 url
+ */
 utils.open = function (url) {
   const a = document.createElement('a')
   a.setAttribute('href', url)
@@ -13,7 +16,12 @@ utils.open = function (url) {
   document.body.removeChild(document.getElementById('web-chat-link-temp'))
 }
 
-// 防抖
+/**
+ * 防抖
+ * @param {Function} cb 防抖时执行的回调
+ * @param {number} wait 防抖时间间隔
+ * @param {immediate} immediate 是否马上执行一次
+ */
 utils.debounce = function (cb, wait, immediate) {
   let timer
   return function () {

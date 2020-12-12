@@ -92,7 +92,7 @@ export default {
         })
         this.result = data
       } catch (error) {
-        console.log('error: ', error)
+        console.log('进行搜索时发生了错误', error)
       }
     },
     // 查看用户详细信息
