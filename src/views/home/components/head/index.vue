@@ -56,7 +56,6 @@ export default {
   },
   created () {
     this.init()
-    this.getLocation()
   },
   mounted () {
   },
@@ -64,18 +63,24 @@ export default {
   },
   methods: {
     // 初始化
-    init () {
-      // 初始化 socket 建立 socket 连接
-      socket.init()
-      // socket 登录 让服务端知道你的 id
-      this.user.userId && this.$socket.emit('login', this.user)
+    async init () {
+      try {
+        // 初始化 socket 建立 socket 连接
+        socket.init()
+        // socket 登录 让服务端知道你的 id
+        this.user.userId && this.$socket.emit('login', this.user)
+        const code = await this.getLocation()
+        this.getWeather(code)
+      } catch (error) {
+        console.log('初始化失败', error)
+      }
     },
     // 获取定位
     async getLocation () {
       try {
         const { data: { location, code } } = await this.$request({ url: '/api/getLocation' })
         this.location = location
-        this.getWeather(code)
+        return code
       } catch (error) {
         console.log('获取位置信息时发生了错误', error)
       }

@@ -70,6 +70,12 @@ export default {
     },
     ...mapGetters(['user'])
   },
+  watch: {
+    getUserId (userId) {
+      console.log('userId: ', userId)
+      this.getUserInfo()
+    }
+  },
   created () {
     console.log(this.getUserId)
     this.getUserInfo()

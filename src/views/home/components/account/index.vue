@@ -5,8 +5,8 @@
     </div>
     <div class="account-list">
       <div class="list-wrap">
-        <template v-for="item in list">
-          <div class="list-item" :key="item.userId">
+        <template v-for="(item, index) in list">
+          <div class="list-item" :key="item.userId" @click="goUserDetail(index)">
             <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}"></div>
             <div class="item-username">{{item.username}}</div>
           </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'indexAccount',
@@ -28,7 +29,7 @@ export default {
   components: {
   },
   computed: {
-
+    ...mapGetters(['user'])
   },
   created () {
     this.init()
@@ -38,13 +39,18 @@ export default {
   beforeDestroy () {
     // 在销毁之前要取消监听 防止重复监听
     this.$socket.removeAllListeners('login-success')
+    this.$socket.removeAllListeners('exit')
   },
   methods: {
     // 初始化
     init () {
       const that = this
-      this.$socket.on('login-success', data => {
-        console.log(data)
+      this.$socket.on('login-success', () => {
+        console.log('socket 登录成功')
+        that.getOnlineUser()
+      })
+      this.$socket.on('exit', () => {
+        console.log('socket 退出成功')
         that.getOnlineUser()
       })
     },
@@ -59,6 +65,13 @@ export default {
       } catch (error) {
         console.log('获取当前在线的用户信息时发生了错误', error)
       }
+    },
+    // 查看用户详细信息
+    goUserDetail (index) {
+      const { userId } = this.list[index]
+      // 避免跳转到相同路由
+      const path = userId === this.user.userId ? '/home/my' : `/home/user/${userId}`
+      path !== this.$route.path && this.$router.push(path)
     }
   }
 }

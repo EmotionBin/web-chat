@@ -14,7 +14,7 @@ const connection = (io, socket) => {
   socket.on('login', data => userLogin(io, socket, data))
   socket.on('joinRoom', data => userJoin(io, socket, data))
   socket.on('message', data => onMessage(io, socket, data))
-  socket.on('disconnecting', () => onDisconnecting(socket.id))
+  socket.on('disconnecting', () => onDisconnecting(socket, io))
 }
 
 // 用户登录
@@ -27,7 +27,8 @@ const userLogin = async (io, socket, data) => {
     console.log('sql: ', sql)
     await databaseQuery(sql)
     // 告诉客户端 socket 登录成功
-    io.to(socket.id).emit('login-success', 'success')
+    io.emit('login-success')
+    // io.to(socket.id).emit('login-success')
   } catch (error) {
     console.log('socket 登录失败', error)
   }
@@ -66,10 +67,11 @@ const onMessage = async (io, socket, data) => {
 }
 
 // 用户退出
-const onDisconnecting = async (socketId) => {
+const onDisconnecting = async (socket, io) => {
   try {
-    console.log(`${socketId}退出`)
-    await databaseQuery(`delete from online_user where socketId = '${socketId}'`)
+    console.log(`${socket.id}退出`)
+    await databaseQuery(`delete from online_user where socketId = '${socket.id}'`)
+    io.emit('exit')
   } catch (error) {
     console.log('用户退出，发生了错误', error)
   }

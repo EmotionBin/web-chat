@@ -4,8 +4,12 @@ const { databaseQuery } = require('../../utils/index')
 
 const getMessage = async ctx => {
   try {
-    const { roomId } = ctx.request.query
-    const messageInfo = await databaseQuery(`select * from message where roomId = '${roomId}' order by messageId desc limit 20`)
+    const { roomId, messageId } = ctx.request.query
+    console.log('messageId: ', messageId)
+    const sql = messageId
+      ? `select * from message where roomId = '${roomId}' and messageId<${messageId} order by messageId desc limit 20`
+      : `select * from message where roomId = '${roomId}' order by messageId desc limit 20`
+    const messageInfo = await databaseQuery(sql)
     const data = messageInfo.reverse().map(item => {
       return {
         ...item,

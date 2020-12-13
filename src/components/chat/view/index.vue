@@ -5,19 +5,17 @@
         <i class="el-icon-arrow-left"></i>
       </div>
       <div class="view-head-title">
-        <template v-if="!roomInfo.type">
-          {{roomInfo.name}}({{roomInfo.num}})
-        </template>
-        <template v-else>
-          {{roomInfo.name}}
-        </template>
+        {{roomInfo.name}}
       </div>
       <div class="view-head-info" @click="showDetail">
         <i class="el-icon-more"></i>
       </div>
     </div>
     <div class="chat-view-message" :class="{'isEdit':isEdit}">
-      <div class="chat-list" ref="chatList">
+      <div class="chat-list" ref="chatList" @scroll="this.scrollToTop">
+        <div class="loading-wrap" v-show="isLoading">
+          <i class="el-icon-loading"></i>
+        </div>
         <template v-for="item in messageList">
           <div class="list-item" :key="item.messageId">
             <template v-if="user.userId === item.userId">
@@ -121,7 +119,6 @@ export default {
       isEdit: true,
       roomInfo: {
         name: '',
-        num: 666,
         avatar: '',
         type: 0 // 0-群聊 1-单聊
       },
@@ -129,7 +126,9 @@ export default {
       reply: {
         message: '',
         socketId: ''
-      }
+      },
+      isLoading: false,
+      isFirstJoin: true
     }
   },
   components: {
@@ -189,7 +188,7 @@ export default {
     },
     // 接收聊天消息
     getMsg () {
-      const { $socket, $refs, reply, roomInfo, user } = this
+      const { $socket, reply, roomInfo, user } = this
       const that = this
       // 告诉服务器加入的聊天室类型 群聊 或者 单聊
       const message = {
@@ -217,11 +216,7 @@ export default {
           ...data,
           time: dayjs(+data.time).format('YYYY-MM-DD HH:mm:ss')
         })
-        that.$nextTick(() => {
-          const { clientHeight, scrollHeight } = $refs.chatList
-          // 有新消息 滚动条强制触底
-          $refs.chatList.scrollTop = scrollHeight - clientHeight
-        })
+        that.scrollToBottom()
       })
     },
     // 点击发送
@@ -262,19 +257,49 @@ export default {
         const { data } = await this.$request({
           url: '/api/getMessage',
           params: {
-            roomId: this.getRoomId
+            roomId: this.getRoomId,
+            messageId: this.messageList[0] ? this.messageList[0].messageId : ''
           }
         })
         console.log('data: ', data)
-        this.messageList = data.map(item => {
+        const messageInfo = data.map(item => {
           return {
             ...item,
             time: dayjs(+item.time).format('YYYY-MM-DD HH:mm:ss')
           }
         })
+        this.messageList.unshift(...messageInfo)
+        // 只有第一次进入的时候会执行 滚动到底部 查看最新消息
+        if (this.isFirstJoin) {
+          this.isFirstJoin = false
+          this.scrollToBottom()
+        }
       } catch (error) {
         console.log('获取聊天信息发生了错误', error)
       }
+    },
+    // 滚动条滚动到顶部
+    async scrollToTop () {
+      const { scrollTop } = this.$refs.chatList
+      if (scrollTop === 0) {
+        console.log('滚动收到了顶部')
+        // 强制更改滚动条距离 否则滚动条会一直在顶部
+        this.$refs.chatList.scrollTop = 1
+        if (this.isLoading) {
+          // 在加载数据的时候不做判断 否则会造成请求容易 必要时可以用防抖处理
+          return
+        }
+        this.isLoading = true
+        await this.getMessage()
+        this.isLoading = false
+      }
+    },
+    // 滚动条自动触底
+    scrollToBottom () {
+      this.$nextTick(() => {
+        const { clientHeight, scrollHeight } = this.$refs.chatList
+        this.$refs.chatList.scrollTop = scrollHeight - clientHeight
+      })
     }
   }
 }
@@ -317,9 +342,17 @@ $replyHeight:100px;
       height: calc(100% - #{$headHeight + $replyHeight});
     }
     .chat-list{
+      position: relative;
       height: 100%;
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: scroll;
       padding: 0px 10px;
+    }
+    .loading-wrap{
+      position: absolute;
+      top: 0;
+      width: 100%;
+      @include flex-center;
     }
     .list-item{
       margin: 4px 0;
