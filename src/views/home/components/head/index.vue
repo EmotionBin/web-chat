@@ -28,7 +28,7 @@
 
 <script>
 import socket from '@/utils/socket'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'indexHead',
@@ -62,6 +62,9 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    ...mapMutations('user', [
+      'updateUser'
+    ]),
     // 初始化
     async init () {
       try {
@@ -102,6 +105,13 @@ export default {
         // 进行注销操作
         localStorage.removeItem('uuid')
         // vuex 清空用户信息
+        this.updateUser({
+          username: '',
+          userId: '',
+          avatar: ''
+        })
+        // socket 退出
+        this.$socket.emit('logout', this.user)
       }
     }
   }

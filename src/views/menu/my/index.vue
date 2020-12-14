@@ -7,7 +7,7 @@
     </div>
     <div class="my-body-wrap">
       <template v-for="item in setList">
-        <div class="item-wrap" :key="item.title" @click="clickItem(item.title)">
+        <div class="item-wrap" :key="item.title" @click="clickItem(item.alias)">
           <i class="item-icon" :class="[item.icon]"></i>
           <span class="item-name">{{item.title}}</span>
         </div>
@@ -26,23 +26,28 @@ export default {
       setList: [
         {
           title: '请我喝杯饮料',
-          icon: 'el-icon-location'
+          alias: 'drink',
+          icon: 'el-icon-milk-tea'
         },
         {
           title: 'github',
-          icon: 'el-icon-location'
+          alias: 'github',
+          icon: 'el-icon-link'
         },
         {
           title: '设置',
-          icon: 'el-icon-location'
+          alias: 'setting',
+          icon: 'el-icon-setting'
         },
         {
           title: '表情',
-          icon: 'el-icon-location'
+          alias: 'expression',
+          icon: 'el-icon-thumb'
         },
         {
           title: '敬请期待~',
-          icon: 'el-icon-location'
+          alias: 'forward',
+          icon: 'el-icon-magic-stick'
         }
       ]
     }
@@ -63,6 +68,13 @@ export default {
     clickItem (value) {
       if (value === 'github') {
         this.$utils.open('https://github.com/EmotionBin/web-chat')
+      } else if (value === 'drink') {
+        this.$message.success('请给我付钱嗷!')
+      } else {
+        // 暂未开放的功能列表
+        const noDemoList = ['setting', 'expression']
+        const index = noDemoList.findIndex(item => item === value)
+        index > -1 && this.$message.info('该功能暂未开放，敬请期待')
       }
     }
   }

@@ -70,7 +70,8 @@ export default {
     goUserDetail (index) {
       const { userId } = this.list[index]
       // 避免跳转到相同路由
-      const path = userId === this.user.userId ? '/home/my' : `/home/user/${userId}`
+      // const path = userId === this.user.userId ? '/home/my' : `/home/user/${userId}`
+      const path = `/home/user/${userId}`
       path !== this.$route.path && this.$router.push(path)
     }
   }

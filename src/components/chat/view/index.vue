@@ -66,7 +66,7 @@
     </div>
     <div class="chat-view-reply" :class="{'isEdit':isEdit}">
       <div class="reply-wrap">
-        <div class="arrow-wrap">
+        <div class="arrow-wrap" v-show="false">
           <div class="arrow-icon" @click="toggleEdit"></div>
           <div class="arrow-mask"></div>
         </div>
@@ -373,8 +373,8 @@ $replyHeight:100px;
       }
       &.system{
         align-items: center;
-        height: 60px;
-        line-height: 60px;
+        height: 30px;
+        line-height: 30px;
         text-align: center;
         color: #949494;
       }

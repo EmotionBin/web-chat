@@ -19,7 +19,7 @@
         </div>
       </template>
       <template v-else>
-        <div class="blank">暂无查询结果</div>
+        <div class="blank">暂无搜索结果</div>
       </template>
     </div>
   </div>
@@ -33,28 +33,7 @@ export default {
     return {
       searchWord: '',
       timer: null,
-      result: [
-        // {
-        //   username: '小杜',
-        //   userId: 'bxcbds',
-        //   avatar: '//s3.qiufengh.com/avatar/16.jpeg'
-        // },
-        // {
-        //   username: '小杜11',
-        //   userId: 'asdasd',
-        //   avatar: '//s3.qiufengh.com/avatar/15.jpeg'
-        // },
-        // {
-        //   username: '小杜sss',
-        //   userId: 'bxcbsfsds',
-        //   avatar: '//s3.qiufengh.com/avatar/13.jpeg'
-        // },
-        // {
-        //   username: '小杜ddd',
-        //   userId: 'bxcbzcxzcds',
-        //   avatar: '//s3.qiufengh.com/avatar/14.jpeg'
-        // }
-      ]
+      result: []
     }
   },
   components: {

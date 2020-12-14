@@ -14,6 +14,7 @@ const connection = (io, socket) => {
   socket.on('login', data => userLogin(io, socket, data))
   socket.on('joinRoom', data => userJoin(io, socket, data))
   socket.on('message', data => onMessage(io, socket, data))
+  socket.on('logout', () => onDisconnecting(socket, io))
   socket.on('disconnecting', () => onDisconnecting(socket, io))
 }
 
