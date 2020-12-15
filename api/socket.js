@@ -1,5 +1,5 @@
 const socket = require('socket.io')
-const { databaseQuery } = require('./utils/index')
+const { databaseQuery, savefile } = require('./utils/index')
 
 // socket 配置
 const config = {
@@ -52,16 +52,24 @@ const userJoin = async (io, socket, data) => {
 const onMessage = async (io, socket, data) => {
   try {
     const { roomId, time, img, message, messageType, userId, type, avatar, username } = data
-    console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, img, message, messageType, userId, type, avatar, username)
-    await databaseQuery(`insert into message values 
-    ('${roomId}','${time}','${img}','${encodeURI(message)}','${messageType}','${userId}','${type}','${avatar}','${username}',null)`)
-    // 获取刚插入的数据的 id
-    const messageInfo = await databaseQuery('select * from message order by messageId desc limit 1')
-    const lastMessage = messageInfo[0]
-    io.emit('broadcast', {
-      ...lastMessage,
-      message: decodeURI(lastMessage.message)
-    })
+    // console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, img, message, messageType, userId, type, avatar, username)
+    if (messageType) {
+      // 图片消息
+      const filePath = await savefile(img)
+      console.log('保存图片完成', filePath)
+      // 将图片路径写入数据库!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    } else {
+      // 文字消息
+      await databaseQuery(`insert into message values 
+      ('${roomId}','${time}','${img}','${encodeURI(message)}','${messageType}','${userId}','${type}','${avatar}','${username}',null)`)
+      // 获取刚插入的数据的 id
+      const messageInfo = await databaseQuery('select * from message order by messageId desc limit 1')
+      const lastMessage = messageInfo[0]
+      io.emit('broadcast', {
+        ...lastMessage,
+        message: decodeURI(lastMessage.message)
+      })
+    }
   } catch (error) {
     console.log('接收到了消息，但是发生了错误', error)
   }

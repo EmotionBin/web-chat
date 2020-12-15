@@ -89,6 +89,8 @@
             <div class="input-data">
               <el-input
                 type="textarea"
+                maxlength="30"
+                show-word-limit
                 :autosize="{ minRows: 1, maxRows: 4}"
                 placeholder="请输入内容"
                 v-model="reply.message">
@@ -185,6 +187,20 @@ export default {
     // 选择了照片
     choosePhoto (value) {
       console.log(value)
+      const { getRoomId, roomInfo, user, $socket } = this
+      const { userId, avatar, username } = user
+      const message = {
+        roomId: getRoomId,
+        time: +new Date(),
+        img: value, // messageType 为 1 的时候才有值
+        message: '',
+        messageType: 1, // 0-文字 1-图片
+        userId,
+        type: roomInfo.type, // 0-群聊 1-单聊
+        avatar,
+        username
+      }
+      $socket.emit('message', message)
     },
     // 接收聊天消息
     getMsg () {
