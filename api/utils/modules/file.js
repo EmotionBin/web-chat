@@ -16,7 +16,10 @@ const savefile = base64 => {
         reject(err)
       } else {
         console.log(`保存成功,路径为 /api/images/${id}.png`)
-        resolve(filePath)
+        resolve({
+          path: `/api/images/${id}.png`,
+          filePath
+        })
       }
     })
   })

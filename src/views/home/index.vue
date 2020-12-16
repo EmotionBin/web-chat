@@ -14,6 +14,9 @@
         <home-account/>
       </div>
     </div>
+    <div class="home-dialog">
+      <custom-dialog/>
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,7 @@
 import homeHead from './components/head/index.vue'
 import homeMenu from './components/menu/index.vue'
 import homeAccount from './components/account/index.vue'
+import CustomDialog from './components/dialog/index.vue'
 
 export default {
   name: 'home',
@@ -31,7 +35,8 @@ export default {
   components: {
     homeHead,
     homeMenu,
-    homeAccount
+    homeAccount,
+    CustomDialog
   },
   computed: {
   },

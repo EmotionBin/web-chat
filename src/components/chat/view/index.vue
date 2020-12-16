@@ -18,45 +18,36 @@
         </div>
         <template v-for="item in messageList">
           <div class="list-item" :key="item.messageId">
-            <template v-if="user.userId === item.userId">
-              <!-- 当前用户发出的消息 -->
-              <div class="item-wrap current">
-                <div class="item-info">
-                  <div class="info-time">{{item.time}}</div>
-                  <div class="info-username">{{item.username}}</div>
-                </div>
-                <div class="message-wrap">
-                  <div class="item-message">
-                    <div class="message-container">
-                      <span class="message-text">{{item.message}}</span>
-                    </div>
-                    <div class="message-angle"></div>
-                  </div>
-                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}" @click="goUserDetail(item.userId)"></div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="item.userId === 'system'">
+            <template v-if="item.userId === 'system'">
               <!-- 系统发出的消息 -->
               <div class="item-wrap system">
                 <span class="message-text">{{item.message}}</span>
               </div>
             </template>
             <template v-else>
-              <!-- 其他用户发出的消息 -->
-              <div class="item-wrap other">
+              <div :class="['item-wrap', user.userId === item.userId ? 'current' : 'other']">
                 <div class="item-info">
                   <div class="info-time">{{item.time}}</div>
                   <div class="info-username">{{item.username}}</div>
                 </div>
                 <div class="message-wrap">
-                  <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}" @click="goUserDetail(item.userId)"></div>
+                  <template v-if="user.userId !== item.userId">
+                    <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}" @click="goUserDetail(item.userId)"></div>
+                  </template>
                   <div class="item-message">
                     <div class="message-container">
-                      <span class="message-text">{{item.message}}</span>
+                      <template v-if="item.messageType === 0">
+                        <span class="message-text">{{item.message}}</span>
+                      </template>
+                      <template v-else>
+                        <div class="message-img" :style="{'background-image':`url(${item.img})`}" @click="showImage(item.img)"></div>
+                      </template>
                     </div>
                     <div class="message-angle"></div>
                   </div>
+                  <template v-if="user.userId === item.userId">
+                    <div class="item-avatar" :style="{'background-image':`url(${item.avatar})`}" @click="goUserDetail(item.userId)"></div>
+                  </template>
                 </div>
               </div>
             </template>
@@ -107,6 +98,7 @@
 </template>
 
 <script>
+import bus from '@/utils/bus'
 import dayjs from 'dayjs'
 import { mapGetters } from 'vuex'
 import emoji from './components/emoji/index.vue'
@@ -186,7 +178,6 @@ export default {
     },
     // 选择了照片
     choosePhoto (value) {
-      console.log(value)
       const { getRoomId, roomInfo, user, $socket } = this
       const { userId, avatar, username } = user
       const message = {
@@ -201,6 +192,10 @@ export default {
         username
       }
       $socket.emit('message', message)
+    },
+    // 点击查看图片大图
+    showImage (image) {
+      bus.$emit('showBigImage', image)
     },
     // 接收聊天消息
     getMsg () {
@@ -226,8 +221,6 @@ export default {
           // 如果接收到了自己发的消息 说明消息发送成功 清空
           reply.message = ''
         }
-        // 忽略空消息
-        if (!data.message) return
         that.messageList.push({
           ...data,
           time: dayjs(+data.time).format('YYYY-MM-DD HH:mm:ss')
@@ -432,6 +425,13 @@ $replyHeight:100px;
         color: #fff;
         .message-text{
           margin: 12px;
+        }
+        .message-img{
+          width: 200px;
+          height: 150px;
+          margin: 12px;
+          @include bg-icon;
+          cursor: zoom-in;
         }
       }
       .message-angle{

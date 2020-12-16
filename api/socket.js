@@ -52,24 +52,26 @@ const userJoin = async (io, socket, data) => {
 const onMessage = async (io, socket, data) => {
   try {
     const { roomId, time, img, message, messageType, userId, type, avatar, username } = data
-    // console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, img, message, messageType, userId, type, avatar, username)
+    console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, message, messageType, userId, type, avatar, username)
     if (messageType) {
       // 图片消息
-      const filePath = await savefile(img)
-      console.log('保存图片完成', filePath)
-      // 将图片路径写入数据库!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      const { path, filePath } = await savefile(img)
+      console.log('保存图片完成', filePath, path)
+      // 将图片路径写入数据库
+      await databaseQuery(`insert into message values 
+      ('${roomId}','${time}','${path}','${encodeURI(message)}','${messageType}','${userId}','${type}','${avatar}','${username}',null)`)
     } else {
       // 文字消息
       await databaseQuery(`insert into message values 
       ('${roomId}','${time}','${img}','${encodeURI(message)}','${messageType}','${userId}','${type}','${avatar}','${username}',null)`)
-      // 获取刚插入的数据的 id
-      const messageInfo = await databaseQuery('select * from message order by messageId desc limit 1')
-      const lastMessage = messageInfo[0]
-      io.emit('broadcast', {
-        ...lastMessage,
-        message: decodeURI(lastMessage.message)
-      })
     }
+    // 获取刚插入的数据的 id
+    const messageInfo = await databaseQuery('select * from message order by messageId desc limit 1')
+    const lastMessage = messageInfo[0]
+    io.emit('broadcast', {
+      ...lastMessage,
+      message: decodeURI(lastMessage.message)
+    })
   } catch (error) {
     console.log('接收到了消息，但是发生了错误', error)
   }

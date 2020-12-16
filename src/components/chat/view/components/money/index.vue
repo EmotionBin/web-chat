@@ -1,10 +1,11 @@
 <template>
-  <div class="money-wrap">
+  <div class="money-wrap" @click="payMe">
     💰
   </div>
 </template>
 
 <script>
+import bus from '@/utils/bus'
 
 export default {
   name: 'money',
@@ -26,6 +27,10 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    // 请我和咖啡
+    payMe () {
+      bus.$emit('payMe')
+    }
   }
 }
 </script>
