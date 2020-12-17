@@ -13,6 +13,7 @@ const connection = (io, socket) => {
   console.log('socket 连接成功!', socket.id)
   socket.on('login', data => userLogin(io, socket, data))
   socket.on('joinRoom', data => userJoin(io, socket, data))
+  socket.on('leaveRoom', data => userLeave(io, socket, data))
   socket.on('message', data => onMessage(io, socket, data))
   socket.on('logout', () => onDisconnecting(socket, io))
   socket.on('disconnecting', () => onDisconnecting(socket, io))
@@ -29,7 +30,6 @@ const userLogin = async (io, socket, data) => {
     await databaseQuery(sql)
     // 告诉客户端 socket 登录成功
     io.emit('login-success')
-    // io.to(socket.id).emit('login-success')
   } catch (error) {
     console.log('socket 登录失败', error)
   }
@@ -37,12 +37,31 @@ const userLogin = async (io, socket, data) => {
 
 // 有用户加入聊天室
 const userJoin = async (io, socket, data) => {
-  console.log(`用户${data.username}加入聊天室,id为${data.userId},聊天室类型为${data.type}`)
+  console.log(`用户${data.username}加入聊天室,id为${data.userId},聊天室类型为${data.type},房间id为${data.roomId}`)
   if (!data.userId) return
+  // 加入 socket 房间
+  socket.join(data.roomId)
   if (data.type === 0) {
-    socket.broadcast.emit('broadcast', {
+    socket.to(data.roomId).emit('broadcast', {
+    // socket.broadcast.emit('broadcast', {
       ...data,
       message: `用户 ${data.username} 加入聊天室`,
+      userId: 'system'
+    })
+  }
+}
+
+// 有用户离开聊天室
+const userLeave = async (io, socket, data) => {
+  console.log(`用户${data.username}离开聊天室,id为${data.userId},聊天室类型为${data.type},房间id为${data.roomId}`)
+  if (!data.userId) return
+  // 加入 socket 房间
+  socket.leave(data.roomId)
+  if (data.type === 0) {
+    socket.to(data.roomId).emit('broadcast', {
+    // socket.broadcast.emit('broadcast', {
+      ...data,
+      message: `用户 ${data.username} 离开聊天室`,
       userId: 'system'
     })
   }
@@ -68,7 +87,7 @@ const onMessage = async (io, socket, data) => {
     // 获取刚插入的数据的 id
     const messageInfo = await databaseQuery('select * from message order by messageId desc limit 1')
     const lastMessage = messageInfo[0]
-    io.emit('broadcast', {
+    io.to(data.roomId).emit('broadcast', {
       ...lastMessage,
       message: decodeURI(lastMessage.message)
     })
@@ -82,7 +101,7 @@ const onDisconnecting = async (socket, io) => {
   try {
     console.log(`${socket.id}退出`)
     await databaseQuery(`delete from online_user where socketId = '${socket.id}'`)
-    io.emit('exit')
+    socket.broadcast.emit('exit')
   } catch (error) {
     console.log('用户退出，发生了错误', error)
   }

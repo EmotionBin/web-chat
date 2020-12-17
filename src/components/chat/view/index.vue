@@ -159,6 +159,19 @@ export default {
     },
     // 返回
     back () {
+      const message = {
+        roomId: this.getRoomId,
+        time: '',
+        img: '', // messageType 为 1 的时候才有值
+        message: '',
+        messageType: 0, // 0-文字 1-图片
+        userId: this.user.userId,
+        type: this.roomInfo.type, // 0-群聊 1-单聊
+        avatar: '',
+        username: this.user.username
+      }
+      // 离开聊天室
+      this.$socket.emit('leaveRoom', message)
       this.$router.go(-1)
     },
     // 查看聊天详情
@@ -199,11 +212,11 @@ export default {
     },
     // 接收聊天消息
     getMsg () {
-      const { $socket, reply, roomInfo, user } = this
+      const { $socket, reply, roomInfo, user, getRoomId } = this
       const that = this
       // 告诉服务器加入的聊天室类型 群聊 或者 单聊
       const message = {
-        roomId: '',
+        roomId: getRoomId,
         time: '',
         img: '', // messageType 为 1 的时候才有值
         message: '',
@@ -431,6 +444,7 @@ $replyHeight:100px;
           height: 150px;
           margin: 12px;
           @include bg-icon;
+          background-size: contain;
           cursor: zoom-in;
         }
       }

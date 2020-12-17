@@ -14,8 +14,8 @@ module.exports = async ctx => {
       for (let i = messageInfo.length - 1; i >= 0; i--) {
         const messageItem = messageInfo[i]
         if (item.roomId === messageItem.roomId) {
-          const { username, message } = messageItem
-          lastMessage = `${username}说:${decodeURI(message)}`
+          const { username, message, messageType } = messageItem
+          lastMessage = messageType ? `${username}:[图片]` : `${username}:${decodeURI(message)}`
           break
         }
       }

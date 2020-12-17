@@ -35,7 +35,9 @@ export default {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = () => {
-        this.imageCompress(reader.result)
+        const limitSize = 1024 * 1000
+        // 对大于 1M 的图片进行压缩
+        file.size >= limitSize ? this.imageCompress(reader.result) : this.transformImage(reader.result)
       }
     },
     // 进行图片压缩
