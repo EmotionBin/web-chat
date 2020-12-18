@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const sizeOf = require('image-size')
 const uniqueString = require('./unique-string')
 
 // 保存文件 目前只支持 base64 格式
@@ -16,8 +17,10 @@ const savefile = base64 => {
         reject(err)
       } else {
         console.log(`保存成功,路径为 /api/images/${id}.png`)
+        // 获取图片宽高
+        const dimensions = sizeOf(filePath)
         resolve({
-          path: `/api/images/${id}.png`,
+          path: `/api/images/${id}.png?width=${dimensions.width}&height=${dimensions.height}`,
           filePath
         })
       }

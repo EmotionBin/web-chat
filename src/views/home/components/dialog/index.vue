@@ -6,7 +6,7 @@
     :visible.sync="dialogVisible"
     @close="closeDialog">
       <div class="image-conatiner" @click="closeDialog">
-        <div :class="['image-wrap', isPayMe ? 'payMe' : '']" :style="{'background-image':`url(${data.image})`}"></div>
+        <div class="image-wrap" :style="dynamicImageSize(data.image)"></div>
       </div>
     </el-dialog>
   </div>
@@ -24,8 +24,7 @@ export default {
       data: {
         image: ''
       },
-      payImage,
-      isPayMe: false
+      payImage
     }
   },
   components: {
@@ -47,6 +46,24 @@ export default {
       bus.$on('showBigImage', this.showBigImage)
       bus.$on('payMe', this.payMe)
     },
+    // 动态生成图片宽高
+    dynamicImageSize (image) {
+      let width = 200
+      let height = 150
+      const imageData = this.$utils.dynamicImageSize(image)
+      if (imageData.width === width && imageData.height === height) {
+        width = '100%'
+        height = '100%'
+      } else {
+        width = `${imageData.width}px`
+        height = `${imageData.height}px`
+      }
+      return {
+        width,
+        height,
+        'background-image': `url(${image})`
+      }
+    },
     // 查看大图
     showBigImage (value) {
       this.dialogVisible = true
@@ -55,15 +72,11 @@ export default {
     // 请我喝咖啡
     payMe () {
       this.dialogVisible = true
-      this.isPayMe = true
       this.data.image = this.payImage
     },
     // 关闭弹窗
     closeDialog () {
       this.dialogVisible = false
-      setTimeout(() => {
-        this.isPayMe = false
-      }, 1000)
     }
   }
 }
@@ -90,13 +103,8 @@ export default {
     @include flex-center;
   }
   .image-wrap{
-    width: 100%;
-    height: 100%;
     @include bg-icon;
     background-size: contain;
-    &.payMe{
-      width: 300px;
-    }
   }
 }
 </style>

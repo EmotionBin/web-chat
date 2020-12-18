@@ -40,7 +40,7 @@
                         <span class="message-text">{{item.message}}</span>
                       </template>
                       <template v-else>
-                        <div class="message-img" :style="{'background-image':`url(${item.img})`}" @click="showImage(item.img)"></div>
+                        <div class="message-img" :style="dynamicImageSize(item.img)" @click="showImage(item.img)"></div>
                       </template>
                     </div>
                     <div class="message-angle"></div>
@@ -209,6 +209,15 @@ export default {
     // 点击查看图片大图
     showImage (image) {
       bus.$emit('showBigImage', image)
+    },
+    // 动态生成图片宽高
+    dynamicImageSize (image) {
+      const imageData = this.$utils.dynamicImageSize(image)
+      return {
+        width: `${imageData.width}px`,
+        height: `${imageData.height}px`,
+        'background-image': `url(${image})`
+      }
     },
     // 接收聊天消息
     getMsg () {
@@ -444,7 +453,6 @@ $replyHeight:100px;
           height: 150px;
           margin: 12px;
           @include bg-icon;
-          background-size: contain;
           cursor: zoom-in;
         }
       }

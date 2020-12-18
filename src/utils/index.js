@@ -42,4 +42,31 @@ utils.debounce = function (cb, wait, immediate) {
   }
 }
 
+/**
+ * 动态生成图片的宽高
+ * @param {String} image 图片的路径
+ */
+utils.dynamicImageSize = function (image) {
+  let width = 200
+  let height = 150
+  const imageData = /width=([0-9]+)&height=([0-9]+)/.exec(image)
+  if (imageData) {
+    const natureWidth = +imageData[1]
+    const naturehHeight = +imageData[2]
+    let scale = 1
+    if (natureWidth * scale > width) {
+      scale = width / natureWidth
+    }
+    if (naturehHeight * scale > height) {
+      scale = height / naturehHeight
+    }
+    width = natureWidth * scale
+    height = naturehHeight * scale
+  }
+  return {
+    width,
+    height
+  }
+}
+
 export default utils
