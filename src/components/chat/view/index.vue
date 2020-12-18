@@ -449,8 +449,6 @@ $replyHeight:100px;
           margin: 12px;
         }
         .message-img{
-          width: 200px;
-          height: 150px;
           margin: 12px;
           @include bg-icon;
           cursor: zoom-in;

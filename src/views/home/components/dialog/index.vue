@@ -1,12 +1,12 @@
 <template>
   <div class="dialog-wrap">
     <el-dialog
-    width="80%"
+    width="100%"
     top="0"
     :visible.sync="dialogVisible"
     @close="closeDialog">
-      <div class="image-conatiner" @click="closeDialog">
-        <div class="image-wrap" :style="dynamicImageSize(data.image)"></div>
+      <div class="image-conatiner" @click="closeDialog" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
+        <img class="image-wrap" :src="data.image">
       </div>
     </el-dialog>
   </div>
@@ -24,7 +24,8 @@ export default {
       data: {
         image: ''
       },
-      payImage
+      payImage,
+      loading: false
     }
   },
   components: {
@@ -46,37 +47,32 @@ export default {
       bus.$on('showBigImage', this.showBigImage)
       bus.$on('payMe', this.payMe)
     },
-    // 动态生成图片宽高
-    dynamicImageSize (image) {
-      let width = 200
-      let height = 150
-      const imageData = this.$utils.dynamicImageSize(image)
-      if (imageData.width === width && imageData.height === height) {
-        width = '100%'
-        height = '100%'
-      } else {
-        width = `${imageData.width}px`
-        height = `${imageData.height}px`
-      }
-      return {
-        width,
-        height,
-        'background-image': `url(${image})`
-      }
-    },
     // 查看大图
     showBigImage (value) {
       this.dialogVisible = true
       this.data.image = value
+      this.imageLoading()
     },
     // 请我喝咖啡
     payMe () {
       this.dialogVisible = true
       this.data.image = this.payImage
+      this.imageLoading()
+    },
+    // 图片加载动画
+    imageLoading () {
+      this.loading = true
+      const image = new Image()
+      image.src = this.data.image
+      image.onload = () => {
+        console.log('图片加载完成')
+        this.loading = false
+      }
     },
     // 关闭弹窗
     closeDialog () {
       this.dialogVisible = false
+      this.data.image = ''
     }
   }
 }
@@ -101,10 +97,21 @@ export default {
     width: 100%;
     height: 100%;
     @include flex-center;
+    // el-loading icon
+    .el-loading-spinner .path{
+      stroke: #fff;
+    }
   }
   .image-wrap{
-    @include bg-icon;
-    background-size: contain;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
   }
 }
 </style>
