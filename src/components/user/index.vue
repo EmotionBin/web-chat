@@ -106,7 +106,7 @@ export default {
     // 发起聊天
     startChat () {
       const { username, userId, avatar } = this.userInfo
-      const roomId = `${this.getUserId}${userId}`
+      const roomId = `${this.user.userId}${userId}`
       this.$router.push({
         path: `/home/chat/view/${roomId}`,
         query: {

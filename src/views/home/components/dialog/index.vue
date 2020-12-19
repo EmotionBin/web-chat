@@ -40,6 +40,8 @@ export default {
   mounted () {
   },
   beforeDestroy () {
+    bus.$off('showBigImage', this.showBigImage)
+    bus.$off('payMe', this.payMe)
   },
   methods: {
     // 初始化 监听事件

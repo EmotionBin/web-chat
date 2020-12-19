@@ -7,7 +7,7 @@ module.exports = async ctx => {
     const { userId } = ctx.request.query
     const userList = await databaseQuery('select * from user')
     const messageInfo = await databaseQuery('select * from message')
-    const roomInfo = await databaseQuery(`select * from room where roomId like '%${userId}%' or roomId = 'room1'`)
+    const roomInfo = await databaseQuery(`select * from room where roomId like '%${userId}%' or roomId = 'room1' order by roomId = 'room1' desc`)
     const res = roomInfo.map(item => {
       let lastMessage = null
       // 找到最后一条消息 倒序遍历
@@ -38,7 +38,7 @@ module.exports = async ctx => {
           name: username,
           message: lastMessage,
           avatar,
-          type: 0
+          type: 1
         }
       }
     })

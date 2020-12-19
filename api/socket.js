@@ -72,6 +72,11 @@ const onMessage = async (io, socket, data) => {
   try {
     const { roomId, time, img, message, messageType, userId, type, avatar, username } = data
     console.log('roomId, time, img, message, messageType, userId, type, avatar, username: ', roomId, time, message, messageType, userId, type, avatar, username)
+    const roomInfo = await databaseQuery(`select * from room where roomId = '${roomId}'`)
+    if (!roomInfo.length) {
+      // 没有该房间信息 创建房间
+      await databaseQuery(`insert into room values ('${roomId}','${username}','${avatar}','${type}')`)
+    }
     if (messageType) {
       // 图片消息
       const { path, filePath } = await savefile(img)
