@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import io from 'socket.io-client'
 
-const server = process.env.NODE_ENV === 'development' ? 'http://localhost:3808/' : '//www.huangweibinupup.cn:3808/'
+const server = process.env.NODE_ENV === 'development' ? '//localhost:3808/' : '//www.huangweibinupup.cn:3808/'
 
 // const socket = io(server)
 

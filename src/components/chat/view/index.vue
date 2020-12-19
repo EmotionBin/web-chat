@@ -131,6 +131,13 @@ export default {
     money,
     help
   },
+  // 控制是否向服务端发送加入房间的消息
+  beforeRouteEnter (to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+    next(vm => vm.getMsg(from.name !== 'chat-detail'))
+  },
   computed: {
     getRoomId () {
       return this.$route.params.roomId
@@ -141,15 +148,21 @@ export default {
     console.log(this.getRoomId)
     this.getRoomInfo()
     this.getMessage()
-    this.getMsg()
+    // this.getMsg()
+    window.addEventListener('beforeunload', this.beforeunload)
   },
   mounted () {
   },
   beforeDestroy () {
     // 在销毁之前要取消监听 防止重复监听
     this.$socket.removeAllListeners('broadcast')
+    window.removeEventListener('beforeunload', this.beforeunload)
   },
   methods: {
+    // 关闭前的回调
+    beforeunload () {
+      this.back(false)
+    },
     // 获取当前房间信息
     getRoomInfo () {
       const { name, type, avatar } = this.$route.query
@@ -158,7 +171,7 @@ export default {
       this.roomInfo.avatar = avatar
     },
     // 返回
-    back () {
+    back (flag = true) {
       const message = {
         roomId: this.getRoomId,
         time: '',
@@ -172,7 +185,7 @@ export default {
       }
       // 离开聊天室
       this.$socket.emit('leaveRoom', message)
-      this.$router.go(-1)
+      flag && this.$router.go(-1)
     },
     // 查看聊天详情
     showDetail () {
@@ -220,22 +233,25 @@ export default {
       }
     },
     // 接收聊天消息
-    getMsg () {
+    getMsg (flag = true) {
+      console.log('flag: ', flag)
       const { $socket, reply, roomInfo, user, getRoomId } = this
       const that = this
-      // 告诉服务器加入的聊天室类型 群聊 或者 单聊
-      const message = {
-        roomId: getRoomId,
-        time: '',
-        img: '', // messageType 为 1 的时候才有值
-        message: '',
-        messageType: 0, // 0-文字 1-图片
-        userId: user.userId,
-        type: roomInfo.type, // 0-群聊 1-单聊
-        avatar: '',
-        username: user.username
+      if (flag) {
+        // 告诉服务器加入的聊天室类型 群聊 或者 单聊
+        const message = {
+          roomId: getRoomId,
+          time: '',
+          img: '', // messageType 为 1 的时候才有值
+          message: '',
+          messageType: 0, // 0-文字 1-图片
+          userId: user.userId,
+          type: roomInfo.type, // 0-群聊 1-单聊
+          avatar: '',
+          username: user.username
+        }
+        $socket.emit('joinRoom', message)
       }
-      $socket.emit('joinRoom', message)
       // 接收聊天消息
       $socket.on('broadcast', data => {
         console.log($socket.id)
@@ -376,7 +392,7 @@ $replyHeight:100px;
       position: relative;
       height: 100%;
       overflow-x: hidden;
-      overflow-y: scroll;
+      overflow-y: auto;
       padding: 0px 10px;
     }
     .loading-wrap{

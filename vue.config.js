@@ -1,5 +1,5 @@
-// const CompressionPlugin = require('compression-webpack-plugin');
-// const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   // 打包后的路径
@@ -11,29 +11,29 @@ module.exports = {
     // 如果是生产环境下，则打包采用Gzip压缩的方式，删除console，优化性能，减小体积
     if (process.env.NODE_ENV === 'production') {
       return {
-        // plugins: [
-        //   // 打包后生成.gz压缩文件
-        //   new CompressionPlugin({
-        //     test: /\.js$|\.html$|\.css/,
-        //     threshold: 10240,
-        //     deleteOriginalAssets: false
-        //   })
-        // ],
-        // optimization: {
-        //   minimize: true,
-        //   minimizer: [
-        //     new TerserPlugin({
-        //       test: /\.js$/,
-        //       exclude: /node_modules/,
-        //       terserOptions: {
-        //         compress: {
-        //           // 去除sonsole
-        //           drop_console: true
-        //         }
-        //       }
-        //     }),
-        //   ]
-        // }
+        plugins: [
+          // 打包后生成.gz压缩文件
+          new CompressionPlugin({
+            test: /\.js$|\.css$/,
+            threshold: 10240,
+            deleteOriginalAssets: false
+          })
+        ],
+        optimization: {
+          minimize: true,
+          minimizer: [
+            new TerserPlugin({
+              test: /\.js$/,
+              exclude: /node_modules/,
+              terserOptions: {
+                compress: {
+                  // 去除sonsole
+                  drop_console: true
+                }
+              }
+            })
+          ]
+        }
       }
     } else {
       return {
@@ -42,10 +42,11 @@ module.exports = {
     }
   },
   devServer: {
+    https: true,
     // 配置多个代理
     proxy: {
       '/api': {
-        target: 'http://localhost:3808', // 这里写的是访问接口的域名和端口号
+        target: 'https://localhost:3808', // 这里写的是访问接口的域名和端口号
         changeOrigin: true, // 跨域请求
         pathRewrite: { // 重命名
           '^/api': ''
@@ -73,7 +74,7 @@ module.exports = {
       filename: 'index.html',
       // 当使用 title 选项时，
       // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
-      title: 'Index Page',
+      title: 'web-chat',
       // 在这个页面中包含的块，默认情况下会包含
       // 提取出来的通用 chunk 和 vendor chunk。
       chunks: ['chunk-vendors', 'chunk-common', 'index']
