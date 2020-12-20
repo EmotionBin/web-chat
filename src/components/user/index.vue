@@ -106,7 +106,8 @@ export default {
     // 发起聊天
     startChat () {
       const { username, userId, avatar } = this.userInfo
-      const roomId = `${this.user.userId}${userId}`
+      // 两位用户中 userID 大的排在前面 id 统一化
+      const roomId = this.user.userId > userId ? `${this.user.userId}${userId}` : `${userId}${this.user.userId}`
       this.$router.push({
         path: `/home/chat/view/${roomId}`,
         query: {

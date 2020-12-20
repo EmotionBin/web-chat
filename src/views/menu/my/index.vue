@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import bus from '@/utils/bus'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -69,7 +70,7 @@ export default {
       if (value === 'github') {
         this.$utils.open('https://github.com/EmotionBin/web-chat')
       } else if (value === 'drink') {
-        this.$message.success('请给我付钱嗷!')
+        bus.$emit('payMe')
       } else {
         // 暂未开放的功能列表
         const noDemoList = ['setting', 'expression']

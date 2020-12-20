@@ -114,7 +114,8 @@ export default {
       roomInfo: {
         name: '',
         avatar: '',
-        type: 0 // 0-群聊 1-单聊
+        type: 0, // 0-群聊 1-单聊
+        roomId: ''
       },
       messageList: [],
       reply: {
@@ -131,29 +132,20 @@ export default {
     money,
     help
   },
-  // 控制是否向服务端发送加入房间的消息
-  beforeRouteEnter (to, from, next) {
-    // 在渲染该组件的对应路由被 confirm 前调用
-    // 不！能！获取组件实例 `this`
-    // 因为当守卫执行前，组件实例还没被创建
-    next(vm => vm.getMsg(from.name !== 'chat-detail'))
-  },
   computed: {
-    getRoomId () {
-      return this.$route.params.roomId
-    },
     ...mapGetters(['user'])
   },
   created () {
-    console.log(this.getRoomId)
     this.getRoomInfo()
     this.getMessage()
-    // this.getMsg()
+    this.getMsg()
+    this.toggleRoom(0)
     window.addEventListener('beforeunload', this.beforeunload)
   },
   mounted () {
   },
   beforeDestroy () {
+    this.toggleRoom(1)
     // 在销毁之前要取消监听 防止重复监听
     this.$socket.removeAllListeners('broadcast')
     window.removeEventListener('beforeunload', this.beforeunload)
@@ -161,7 +153,7 @@ export default {
   methods: {
     // 关闭前的回调
     beforeunload () {
-      this.back(false)
+      this.toggleRoom(1)
     },
     // 获取当前房间信息
     getRoomInfo () {
@@ -169,11 +161,12 @@ export default {
       this.roomInfo.name = name
       this.roomInfo.type = +type
       this.roomInfo.avatar = avatar
+      this.roomInfo.roomId = this.$route.params.roomId
     },
-    // 返回
-    back (flag = true) {
+    // 加入或离开房间 flag = 0 加入房间 flag = 1 离开房间
+    toggleRoom (flag) {
       const message = {
-        roomId: this.getRoomId,
+        roomId: this.roomInfo.roomId,
         time: '',
         img: '', // messageType 为 1 的时候才有值
         message: '',
@@ -183,9 +176,13 @@ export default {
         avatar: '',
         username: this.user.username
       }
+      const eventName = flag ? 'leaveRoom' : 'joinRoom'
       // 离开聊天室
-      this.$socket.emit('leaveRoom', message)
-      flag && this.$router.go(-1)
+      this.$socket.emit(eventName, message)
+    },
+    // 返回
+    back () {
+      this.$router.go(-1)
     },
     // 查看聊天详情
     showDetail () {
@@ -204,10 +201,10 @@ export default {
     },
     // 选择了照片
     choosePhoto (value) {
-      const { getRoomId, roomInfo, user, $socket } = this
+      const { roomInfo, user, $socket } = this
       const { userId, avatar, username } = user
       const message = {
-        roomId: getRoomId,
+        roomId: roomInfo.roomId,
         time: +new Date(),
         img: value, // messageType 为 1 的时候才有值
         message: '',
@@ -233,25 +230,9 @@ export default {
       }
     },
     // 接收聊天消息
-    getMsg (flag = true) {
-      console.log('flag: ', flag)
-      const { $socket, reply, roomInfo, user, getRoomId } = this
+    getMsg () {
+      const { $socket, reply } = this
       const that = this
-      if (flag) {
-        // 告诉服务器加入的聊天室类型 群聊 或者 单聊
-        const message = {
-          roomId: getRoomId,
-          time: '',
-          img: '', // messageType 为 1 的时候才有值
-          message: '',
-          messageType: 0, // 0-文字 1-图片
-          userId: user.userId,
-          type: roomInfo.type, // 0-群聊 1-单聊
-          avatar: '',
-          username: user.username
-        }
-        $socket.emit('joinRoom', message)
-      }
       // 接收聊天消息
       $socket.on('broadcast', data => {
         console.log($socket.id)
@@ -269,7 +250,7 @@ export default {
     // 点击发送
     sendMessage () {
       console.log('发送')
-      const { reply, getRoomId, roomInfo, user, $socket } = this
+      const { reply, roomInfo, user, $socket } = this
       const { userId, avatar, username } = user
       if (!reply.message) {
         this.$message.warning('不能发送空消息!')
@@ -277,7 +258,7 @@ export default {
       }
       reply.socketId = $socket.id
       const message = {
-        roomId: getRoomId,
+        roomId: roomInfo.roomId,
         time: +new Date(),
         img: '', // messageType 为 1 的时候才有值
         message: reply.message,
@@ -304,7 +285,7 @@ export default {
         const { data } = await this.$request({
           url: '/api/getMessage',
           params: {
-            roomId: this.getRoomId,
+            roomId: this.roomInfo.roomId,
             messageId: this.messageList[0] ? this.messageList[0].messageId : ''
           }
         })
