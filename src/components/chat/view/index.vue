@@ -427,7 +427,7 @@ $replyHeight:100px;
       @include flex-between;
       color: #666;
       .info-time{
-        margin-right: 30px;
+        margin-right: 10px;
       }
     }
     .message-wrap{

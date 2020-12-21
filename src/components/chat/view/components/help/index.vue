@@ -31,7 +31,7 @@ export default {
       const message = `
       <strong>
         <span>需要帮助?</span>
-        <a href="https://github.com/EmotionBin" target="_blank">github传送门</a>
+        <a href="https://github.com/EmotionBin/web-chat" target="_blank">github传送门</a>
       </strong>
       `
       this.messageId = this.$message({

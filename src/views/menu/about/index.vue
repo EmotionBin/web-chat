@@ -48,7 +48,7 @@ export default {
       list: [
         {
           title: 'github',
-          src: 'https://github.com/EmotionBin'
+          src: 'https://github.com/EmotionBin/web-chat'
         },
         {
           title: '我的博客',
