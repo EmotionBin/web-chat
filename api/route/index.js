@@ -8,6 +8,7 @@ const getWeather = require('./modules/weather')
 const { getUser, getUserList, searchUser, getOnlineUser } = require('./modules/user')
 const getRoom = require('./modules/room')
 const { getMessage, sendMessage } = require('./modules/message')
+const { getCode, wxLogin } = require('./modules/wx')
 const { routerResponse, tokenCheck } = require('../middleware')
 
 const router = new Router()
@@ -23,6 +24,8 @@ router.get('/getRoom', getRoom)
 router.get('/getMessage', getMessage)
 router.get('/getOnlineUser', getOnlineUser)
 router.post('/sendMessage', sendMessage)
+router.get('/wx/getCode', getCode)
+router.post('/wx/login', wxLogin)
 // router.post('/addArticle', koaBody, () => {})
 
 module.exports = app => {

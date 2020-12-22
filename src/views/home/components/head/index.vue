@@ -69,7 +69,7 @@ export default {
     async init () {
       try {
         // 初始化 socket 建立 socket 连接
-        socket.init()
+        if (!this.$socket) socket.init()
         // socket 登录 让服务端知道你的 id
         this.user.userId && this.$socket.emit('login', this.user)
         const code = await this.getLocation()

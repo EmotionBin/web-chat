@@ -4,5 +4,6 @@ module.exports = [
   '/register',
   '/login',
   '/avatar',
-  '/images'
+  '/images',
+  '/wx',
 ]

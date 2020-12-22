@@ -90,7 +90,7 @@ $footColor:#666;
     bottom: 0;
     left: 0;
     @include flex-center;
-    font-size: 24em;
+    font-size: 24vw;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.03);
     overflow: hidden;

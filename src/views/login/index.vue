@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import socket from '@/utils/socket'
 import thirdPartLogin from '@/components/third-part-login/index.vue'
 import { mapMutations } from 'vuex'
 
@@ -72,15 +73,23 @@ export default {
   },
   created () {
     this.getUserInfo()
+    this.createSocket()
   },
   mounted () {
   },
   beforeDestroy () {
+    // 在销毁之前要取消监听 防止重复监听
+    this.$socket.removeAllListeners('wx-login')
   },
   methods: {
     ...mapMutations('user', [
       'updateUser'
     ]),
+    // 初始化 socket 建立 socket 连接
+    createSocket () {
+      if (!this.$socket) socket.init()
+      this.$socket.on('wx-login', this.loginSuccess)
+    },
     // 获取用户信息
     getUserInfo () {
       this.username && (this.form.username = this.username)
@@ -99,13 +108,7 @@ export default {
                 password: this.$md5(password)
               }
             })
-            this.$message.success('登录成功')
-            // 写入 token
-            localStorage.setItem('uuid', data.uuid)
-            // vuex 写入用户信息
-            this.updateUser(data.userInfo)
-            // 登录成功进行重定向 若没有重定向参数 默认进入首页
-            this.$router.replace(this.$route.query.redirect || '/home')
+            this.loginSuccess(data)
           } catch (error) {
             console.log('登录时发生了错误', error)
           }
@@ -114,6 +117,17 @@ export default {
           return false
         }
       })
+    },
+    // 登录成功
+    loginSuccess (data) {
+      console.log('data: ', data)
+      this.$message.success('登录成功')
+      // 写入 token
+      localStorage.setItem('uuid', data.uuid)
+      // vuex 写入用户信息
+      this.updateUser(data.userInfo)
+      // 登录成功进行重定向 若没有重定向参数 默认进入首页
+      this.$router.replace(this.$route.query.redirect || '/home')
     },
     // 点击 邮箱登录 快速注册
     showTips () {

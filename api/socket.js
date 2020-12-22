@@ -114,5 +114,7 @@ const onDisconnecting = async (socket, io) => {
 
 module.exports = server => {
   const io = socket(server, config)
+  // 全局挂载
+  global.io = io
   io.on('connection', socket => connection(io, socket))
 }

@@ -7,8 +7,8 @@ const fs = require('fs')
 const https = require('https')
 
 const options = {
-  key: fs.readFileSync('./ssl/2_www.huangweibinupup.cn.key'),
-  cert: fs.readFileSync('./ssl/1_www.huangweibinupup.cn_bundle.crt')
+  key: fs.readFileSync('./ssl/2_huangweibinupup.cn.key'),
+  cert: fs.readFileSync('./ssl/1_huangweibinupup.cn_bundle.crt')
 }
 
 const app = new Koa()
