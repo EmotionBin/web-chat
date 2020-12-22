@@ -13,7 +13,7 @@ const getCode = async ctx => {
     console.log('code: ', code)
     CODE_MAP[code] = socketId
     ctx.success({
-      code,
+      code
     })
   } catch (error) {
     console.log(error)
@@ -27,7 +27,7 @@ const wxLogin = async ctx => {
   const { username, avatar } = user
   try {
     const socketId = CODE_MAP[code]
-    if (!socketId){
+    if (!socketId) {
       console.log('code: ', code, 'socketId', socketId)
       console.log('登录失败, code校验不通过')
       ctx.fail('', 5009)
