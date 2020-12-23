@@ -38,6 +38,7 @@ const wxLogin = async ctx => {
       // 该用户未注册过 直接写入
       await databaseQuery(`insert into user values ('${username}','${code}','${code}','${avatar}')`)
     }
+    const userId = userInfo.length ? userInfo[0].userId : code
     // 准备生成 token
     const payload = {
       username
@@ -46,7 +47,7 @@ const wxLogin = async ctx => {
     const options = {
       expiresIn: 60 * 60
     }
-    const uuid = await tokenCreate(payload, code, options, username)
+    const uuid = await tokenCreate(payload, userId, options, username)
     ctx.success('wx login success')
     // 登录成功后删除记录
     delete CODE_MAP[code]
@@ -55,7 +56,7 @@ const wxLogin = async ctx => {
       uuid,
       userInfo: {
         username,
-        userId: code,
+        userId,
         avatar
       }
     })

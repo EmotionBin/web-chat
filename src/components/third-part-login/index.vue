@@ -1,7 +1,7 @@
 <template>
   <div class="third-part-login-wrap">
     <el-tooltip effect="dark" content="微信登录" placement="top">
-      <div class="third-login wechat"></div>
+      <div class="third-login wechat" @click="wxLogin"></div>
     </el-tooltip>
     <el-tooltip effect="dark" content="支付宝登录" placement="top">
       <div class="third-login alipay"></div>
@@ -27,6 +27,13 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    // 微信登录
+    wxLogin () {
+      const loginWindow = window.open('https://www.baidu.com/')
+      setTimeout(() => {
+        loginWindow.close()
+      }, 5000)
+    }
   }
 }
 </script>
