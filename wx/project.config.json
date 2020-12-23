@@ -61,7 +61,14 @@
 					"id": 0,
 					"name": "pages/index/index",
 					"pathName": "pages/index/index",
-					"query": "socketId=N6bcesHt5OYOv6jAAAAD",
+					"query": "socketId= yioGhL56Pxjnuf7TAAAD",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "socketId=PzaJAaN-xDicHXO0AAAG",
 					"scene": null
 				}
 			]

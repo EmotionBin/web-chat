@@ -38,6 +38,14 @@ const routes = [
     ]
   },
   {
+    path: '/wx/login',
+    name: 'wx-login',
+    meta: {
+      auth: false
+    },
+    component: () => import('@/views/wx/index.vue')
+  },
+  {
     path: '/redirect/:route',
     name: 'redirect',
     redirect: to => { return { name: to.params.route } }

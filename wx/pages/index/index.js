@@ -8,7 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    code: ''
+    code: '',
+    isLogin:false
   },
 
 
@@ -19,10 +20,11 @@ Page({
   onLoad: async function (options) {
     const { socketId } = options
     console.log('socketId: ', socketId)
-    const { code } = await request({
+    const { data } = await request({
       url: '/wx/getCode',
       data: { socketId }
     })
+    const { code } = data
     console.log('code: ', code)
     this.setData({
       code
@@ -33,7 +35,7 @@ Page({
   handleGetUserInfo: async function (e) {
     const { userInfo } = e.detail
     console.log(userInfo)
-    const data = await request({
+    const { status } = await request({
       url: '/wx/login',
       method: 'post',
       data: {
@@ -44,7 +46,12 @@ Page({
         code: this.data.code
       }
     })
-    console.log('data: ', data)
+    console.log('status: ', status)
+    if (status) {
+      this.setData({
+        isLogin: true
+      })
+    }
   },
 
   /**

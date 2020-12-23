@@ -11,7 +11,7 @@ const getCode = async ctx => {
   try {
     const code = uniqueString()
     console.log('code: ', code)
-    CODE_MAP[code] = socketId
+    CODE_MAP[socketId] = code
     ctx.success({
       code
     })
@@ -26,9 +26,10 @@ const wxLogin = async ctx => {
   const { user, code } = ctx.request.body
   const { username, avatar } = user
   try {
-    const socketId = CODE_MAP[code]
+    const socketId = Object.keys(CODE_MAP).find(item => CODE_MAP[item] === code)
+    console.log('socketId: ', socketId)
     if (!socketId) {
-      console.log('code: ', code, 'socketId', socketId)
+      console.log('code: ', code)
       console.log('登录失败, code校验不通过')
       ctx.fail('', 5009)
       return
@@ -50,7 +51,7 @@ const wxLogin = async ctx => {
     const uuid = await tokenCreate(payload, userId, options, username)
     ctx.success('wx login success')
     // 登录成功后删除记录
-    delete CODE_MAP[code]
+    delete CODE_MAP[socketId]
     // 向客户端推送消息
     global.io.to(socketId).emit('wx-login', {
       uuid,

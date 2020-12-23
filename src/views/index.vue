@@ -84,11 +84,7 @@ $footColor:#666;
   height: 100%;
   background-color: #F0F2F5;
   .time-wrap{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    @include absolute-full;
     @include flex-center;
     font-size: 24vw;
     font-weight: bold;
@@ -96,11 +92,7 @@ $footColor:#666;
     overflow: hidden;
   }
   .block-wrap{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    @include absolute-full;
     overflow: hidden;
     // 背景
     .circles {

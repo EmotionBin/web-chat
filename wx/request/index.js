@@ -7,13 +7,13 @@ export const request = (params) => {
   })
 
   // 定义公共url
-  const baseUrl = 'https://localhost:8081/api'
+  const baseUrl = 'https://www.huangweibinupup.cn:8888/api'
   return new Promise((resolve, reject) => {
     wx.request({
       ...params,
       url: baseUrl + params.url,
       success: (result) => {
-        resolve(result.data.data)
+        resolve(result.data)
       },
       fail: (err) => {
         reject(err)

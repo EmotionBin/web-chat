@@ -22,17 +22,33 @@ export default {
   },
   computed: {
   },
+  created () {
+    this.init()
+  },
   mounted () {
   },
   beforeDestroy () {
+    // 在销毁之前要取消监听 防止重复监听
+    this.$socket.removeAllListeners('wx-login')
   },
   methods: {
+    // 初始化 监听 socket 事件
+    init () {
+      this.$socket.on('wx-login', this.wxClose)
+    },
     // 微信登录
     wxLogin () {
-      const loginWindow = window.open('https://www.baidu.com/')
-      setTimeout(() => {
-        loginWindow.close()
-      }, 5000)
+      const width = 1200
+      const height = 600
+      const top = 100
+      const left = 300
+      const socketId = this.$socket.id
+      const url = `/wx/login?socketId=${socketId}`
+      this.loginWindow = window.open(url, 'wx-login', `width=${width}, height=${height}, top=${top}, left=${left}`)
+    },
+    // 微信登录结束
+    wxClose () {
+      this.loginWindow.close()
     }
   }
 }

@@ -1,1 +1,2 @@
-<button type="primary" plain="{{true}}" open-type="getUserInfo" bindgetuserinfo="handleGetUserInfo">登录</button>
+<button wx:if="{{!isLogin}}" type="primary" plain="{{true}}" open-type="getUserInfo" bindgetuserinfo="handleGetUserInfo">登录</button>
+<text wx:else class="text" selectable="false" space="false" decode="false">登陆成功!</text>

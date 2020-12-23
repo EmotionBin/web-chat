@@ -164,11 +164,7 @@ $headHeight:48px;
       flex-direction: column;
       overflow: hidden;
       .avatar-background{
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
+        @include absolute-full;
         @include bg-icon;
         filter: blur(10px);
         z-index: 1;
