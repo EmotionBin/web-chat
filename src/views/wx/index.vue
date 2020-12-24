@@ -2,6 +2,7 @@
   <div class="wx-login">
     <div class="qrcode-wrap">
       <div class="qrcode-title">请打开手机微信扫描下方二维码</div>
+      <img :src="qrcodeBuffer">
       <div class="qrcode-container" id="qrcode"></div>
     </div>
   </div>
@@ -13,7 +14,13 @@ export default {
   data () {
     return {
       queryList: {},
-      miniProgrameUrl: 'https://open.weixin.qq.com/sns/getexpappinfo?appid=wx6c938764a398ad5d&path=pages%2Findex%2Findex.html#wechat-redirect'
+      qrcodeBuffer: '',
+      miniProgrameUrl: 'https://open.weixin.qq.com/sns/getexpappinfo?appid=wx6c938764a398ad5d&path=pages%2Findex%2Findex.html#wechat-redirect',
+      wxCofig: {
+        appid: 'wx6c938764a398ad5d',
+        secret: '8039f0953e1378f282bcfd5f21784c0b',
+        accessToken: ''
+      }
     }
   },
   components: {
@@ -26,7 +33,8 @@ export default {
     this.getUrlParams()
   },
   mounted () {
-    this.createQrcode()
+    // this.createQrcode()
+    this.getWxQrcode()
   },
   beforeDestroy () {
   },
@@ -51,6 +59,34 @@ export default {
       const socketId = this.queryList.socketId
       console.log('socketId: ', socketId)
       this.miniProgrameUrl.replace('#wechat-redirect', `socketId=${socketId}#wechat-redirect`)
+    },
+    // 调用微信 API 生成小程序二维码
+    async getWxQrcode () {
+      try {
+        const { appid, secret } = this.wxCofig
+        const { data } = await this.$request({
+          url: '/api/wx/getAccessToken',
+          params: {
+            grant_type: 'client_credential',
+            appid,
+            secret
+          }
+        })
+        console.log('data.accessToken: ', data.accessToken)
+        this.wxCofig.accessToken = data.accessToken
+        const res = await this.$request({
+          url: '/api/wx/getWxQrcode',
+          method: 'post',
+          data: {
+            access_token: this.wxCofig.accessToken,
+            path: `page/index/index?socketId=${this.queryList.socketId}`
+          }
+        })
+        this.qrcodeBuffer = res.data.image
+        console.log('res: ', res)
+      } catch (error) {
+        console.log('获取微信小程序的accessToken或qrcode时发生了错误', error)
+      }
     },
     // 生成二维码
     createQrcode () {

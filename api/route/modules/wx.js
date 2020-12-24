@@ -1,8 +1,63 @@
 // 用于实现微信登录
+const axios = require('axios')
 const { uniqueString, databaseQuery, tokenCreate } = require('../../utils')
 
 // 记录用于校验微信登录的唯一 code 值
 const CODE_MAP = {}
+
+// 微信 API 地址
+const wxApi = 'https://api.weixin.qq.com'
+
+// 获取小程序 access_token
+const getAccessToken = async ctx => {
+  const { grant_type, appid, secret } = ctx.request.query
+  try {
+    const res = await axios({
+      url: `${wxApi}/cgi-bin/token`,
+      params: {
+        grant_type,
+        appid,
+        secret
+      }
+    })
+    ctx.success({
+      accessToken: res.data.access_token
+    })
+  } catch (error) {
+    console.log(error)
+    ctx.fail('', 5000)
+  }
+}
+
+// 获取小程序二维码 动态加入 socketId
+const getWxQrcode = async ctx => {
+  const { access_token } = ctx.request.body
+  try {
+    // const res = await axios({
+    //   url: `${wxApi}/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`,
+    //   method: 'post',
+    //   responseType: 'stream',
+    //   data: {
+    //     path: ctx.request.body.path
+    //   }
+    // })
+    const res = await axios({
+      url: `https://localhost:3808/images/wxcode.jpg`,
+    })
+    // const filePath = path.join(__dirname, `../../images/images/wxcode.jpg`)
+    // let data = fs.readFileSync(filePath)
+    // const res = { data }
+    const buffer = Buffer.from(res, 'binary')
+    const imageData = buffer.toString('base64')
+    const image = `data:image/png;base64,${imageData}`
+    ctx.success({
+      image
+    })
+  } catch (error) {
+    console.log(error)
+    ctx.fail('', 5000)
+  }
+}
 
 // 生成唯一字符串 用于验证微信小程序的登录
 const getCode = async ctx => {
@@ -73,6 +128,8 @@ const wxLogin = async ctx => {
 }
 
 module.exports = {
+  getAccessToken,
+  getWxQrcode,
   getCode,
   wxLogin
 }
