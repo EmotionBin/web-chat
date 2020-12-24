@@ -9,10 +9,18 @@ Page({
    */
   data: {
     code: '',
-    isLogin:false
+    isLogin:false,
+    password: ''
   },
 
-
+  getPassword: function () {
+    const timestamp = +new Date() + ''
+    const randomNum = parseInt((1 + Math.random()) * 65536) + ''
+    const password = (+(randomNum + timestamp)).toString(32)
+    this.setData({
+      password
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -20,6 +28,7 @@ Page({
   onLoad: async function (options) {
     const { socketId } = options
     console.log('socketId: ', socketId)
+    if (!socketId) return
     const { data } = await request({
       url: '/wx/getCode',
       data: { socketId }

@@ -26,9 +26,14 @@ const wxLogin = async ctx => {
   const { user, code } = ctx.request.body
   const { username, avatar } = user
   try {
+    if (!code) {
+      console.log('无效的code')
+      ctx.fail('', 5009)
+      return
+    }
     const socketId = Object.keys(CODE_MAP).find(item => CODE_MAP[item] === code)
-    console.log('socketId: ', socketId)
-    if (!socketId) {
+    console.log('socketId: ', socketId, !socketId, socketId === 'undefined')
+    if (socketId === 'undefined') {
       console.log('code: ', code)
       console.log('登录失败, code校验不通过')
       ctx.fail('', 5009)
