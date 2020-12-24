@@ -1,6 +1,6 @@
 // 用于实现微信登录
 const axios = require('axios')
-const { uniqueString, databaseQuery, tokenCreate } = require('../../utils')
+const { uniqueString, databaseQuery, tokenCreate, savefile } = require('../../utils')
 
 // 记录用于校验微信登录的唯一 code 值
 const CODE_MAP = {}
@@ -31,27 +31,20 @@ const getAccessToken = async ctx => {
 
 // 获取小程序二维码 动态加入 socketId
 const getWxQrcode = async ctx => {
-  const { access_token } = ctx.request.body
+  const { access_token, path } = ctx.request.body
   try {
-    // const res = await axios({
-    //   url: `${wxApi}/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`,
-    //   method: 'post',
-    //   responseType: 'stream',
-    //   data: {
-    //     path: ctx.request.body.path
-    //   }
-    // })
     const res = await axios({
-      url: `https://localhost:3808/images/wxcode.jpg`,
+      url: `${wxApi}/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`,
+      method: 'post',
+      responseType: 'stream',
+      data: {
+        path
+      }
     })
-    // const filePath = path.join(__dirname, `../../images/images/wxcode.jpg`)
-    // let data = fs.readFileSync(filePath)
-    // const res = { data }
-    const buffer = Buffer.from(res, 'binary')
-    const imageData = buffer.toString('base64')
-    const image = `data:image/png;base64,${imageData}`
+    // const res = await axios.get('https://huangweibinupup.cn:8888/api/images/wxcode.jpg', { responseType: 'stream' })
+    const filePath = await savefile(res.data, 1)
     ctx.success({
-      image
+      filePath
     })
   } catch (error) {
     console.log(error)

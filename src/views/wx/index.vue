@@ -2,7 +2,7 @@
   <div class="wx-login">
     <div class="qrcode-wrap">
       <div class="qrcode-title">请打开手机微信扫描下方二维码</div>
-      <img :src="qrcodeBuffer">
+      <img :src="qrcodeData">
       <div class="qrcode-container" id="qrcode"></div>
     </div>
   </div>
@@ -14,7 +14,7 @@ export default {
   data () {
     return {
       queryList: {},
-      qrcodeBuffer: '',
+      qrcodeData: '',
       miniProgrameUrl: 'https://open.weixin.qq.com/sns/getexpappinfo?appid=wx6c938764a398ad5d&path=pages%2Findex%2Findex.html#wechat-redirect',
       wxCofig: {
         appid: 'wx6c938764a398ad5d',
@@ -33,7 +33,6 @@ export default {
     this.getUrlParams()
   },
   mounted () {
-    // this.createQrcode()
     this.getWxQrcode()
   },
   beforeDestroy () {
@@ -82,17 +81,11 @@ export default {
             path: `page/index/index?socketId=${this.queryList.socketId}`
           }
         })
-        this.qrcodeBuffer = res.data.image
+        this.qrcodeData = res.data.filePath
         console.log('res: ', res)
       } catch (error) {
         console.log('获取微信小程序的accessToken或qrcode时发生了错误', error)
       }
-    },
-    // 生成二维码
-    createQrcode () {
-      const dom = document.getElementById('qrcode')
-      const code = new window.QRCode(dom, this.miniProgrameUrl)
-      console.log('code: ', code)
     }
   }
 }
