@@ -3,12 +3,12 @@
     <view class="password-title">
       这是一个随机密码生成器
     </view>
-    <button class="password-btn" bindtap="getPassword" type="primary" plain="{{true}}">生成密码</button>
+    <button class="password-btn" size="default" bindtap="getPassword" type="primary" plain="{{true}}">生成密码</button>
     <view class="password-data">{{password}}</view>
   </view>
 </block>
 <block wx:else>
-  <button wx:if="{{!isLogin}}" type="primary" plain="{{true}}" open-type="getUserInfo" bindgetuserinfo="handleGetUserInfo">
+  <button class="login-btn"  size="default" wx:if="{{!isLogin}}" type="primary" plain="{{true}}" open-type="getUserInfo" bindgetuserinfo="handleGetUserInfo">
     登录
   </button>
   <text wx:else class="text" selectable="false" space="false" decode="false">登陆成功!</text>

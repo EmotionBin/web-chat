@@ -5,6 +5,17 @@ page{
   justify-content: center;
 }
 
+button {
+  white-space: nowrap;
+}
+
+text {
+  width: 100%;
+  text-align: center;
+  font-size: 60rpx;
+  color: #52b95f;
+}
+
 .password-title,
 .password-data{
   text-align: center;
@@ -14,13 +25,6 @@ page{
   margin: 40rpx 0;
 }
 
-button{
+.login-btn{
   width: 50%;
-}
-
-text{
-  width: 100%;
-  text-align: center;
-  font-size: 60rpx;
-  color: #52b95f;
 }

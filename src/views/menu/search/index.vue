@@ -42,7 +42,7 @@ export default {
 
   },
   created () {
-
+    this.getData('')
   },
   mounted () {
   },
@@ -52,13 +52,8 @@ export default {
     // 在搜索栏输入值
     inputWord (value) {
       console.log('value: ', value)
-      if (value) {
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => this.getData(value), 300)
-      } else {
-        // 清空结果
-        this.result = []
-      }
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => this.getData(value), 300)
     },
     // 远程搜索
     async getData (value) {
@@ -103,6 +98,7 @@ $padding:12px;
       color: #666;
       padding: 0 $padding;
       background-color: #fff;
+      border-bottom: 1px solid #d1d1d1;
       cursor: pointer;
       &:hover{
         background-color: rgba(0,0,0,.1);
