@@ -1,6 +1,6 @@
 // 用于实现微信登录
 const axios = require('axios')
-const { uniqueString, databaseQuery, tokenCreate, savefile } = require('../../utils')
+const { uniqueString, databaseQuery, tokenCreate, saveFile } = require('../../utils')
 
 // 记录用于校验微信登录的唯一 code 值
 const CODE_MAP = {}
@@ -42,7 +42,7 @@ const getWxQrcode = async ctx => {
       }
     })
     // const res = await axios.get('https://huangweibinupup.cn:8888/api/images/wxcode.jpg', { responseType: 'stream' })
-    const filePath = await savefile(res.data, 1)
+    const filePath = await saveFile(res.data, 1)
     ctx.success({
       filePath
     })

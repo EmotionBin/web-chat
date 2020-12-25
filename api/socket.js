@@ -1,5 +1,5 @@
 const socket = require('socket.io')
-const { databaseQuery, savefile } = require('./utils/index')
+const { databaseQuery, saveFile } = require('./utils/index')
 
 // socket 配置
 const config = {
@@ -79,7 +79,7 @@ const onMessage = async (io, socket, data) => {
     }
     if (messageType) {
       // 图片消息
-      const { path, filePath } = await savefile(img)
+      const { path, filePath } = await saveFile(img)
       console.log('保存图片完成', filePath, path)
       // 将图片路径写入数据库
       await databaseQuery(`insert into message values 

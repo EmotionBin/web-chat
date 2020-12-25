@@ -8,7 +8,7 @@ const uniqueString = require('./unique-string')
  * @param {String|Buffer} file base64 字符串或文件流
  * @param {*} type 0-保存 base64 字符串为文件 1-保存文件
  */
-const savefile = (file, type = 0) => {
+const saveFile = (file, type = 0) => {
   return new Promise((resolve, reject) => {
     if (type === 0) {
       // base64
@@ -47,5 +47,5 @@ const savefile = (file, type = 0) => {
 }
 
 module.exports = {
-  savefile
+  saveFile
 }

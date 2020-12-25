@@ -3,7 +3,7 @@ const uniqueString = require('./modules/unique-string')
 const getClientIp = require('./modules/ip')
 const { tokenCreate, tokenRefresh } = require('./modules/token-create')
 const avatarCreate = require('./modules/avatar-create')
-const { savefile } = require('./modules/file')
+const { saveFile } = require('./modules/file')
 
 module.exports = {
   databaseQuery,
@@ -12,5 +12,5 @@ module.exports = {
   tokenRefresh,
   getClientIp,
   avatarCreate,
-  savefile
+  saveFile
 }
