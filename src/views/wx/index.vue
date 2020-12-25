@@ -78,7 +78,7 @@ export default {
           method: 'post',
           data: {
             access_token: this.wxCofig.accessToken,
-            path: `page/index/index?socketId=${this.queryList.socketId}`
+            path: `pages/index/index?socketId=${this.queryList.socketId}`
           }
         })
         this.qrcodeData = res.data.filePath
