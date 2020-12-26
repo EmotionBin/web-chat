@@ -37,7 +37,9 @@ const saveFile = (file, type = 0) => {
         const writeStream = fs.createWriteStream(filePath)
         // 通过管道流将获取的文件写入
         file.pipe(writeStream)
-        resolve('/api/images/wxcode.jpg')
+        writeStream.on('finish', () => {
+          resolve('/api/images/wxcode.jpg')
+        })
       } catch (error) {
         console.log(error, '写入文件发生了错误')
         reject(error)
