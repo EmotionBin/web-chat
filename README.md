@@ -16,8 +16,7 @@ PS: 服务器于 2021 年 4 月 17 日到期，如果无法访问，就是服务
 - [x] 查看聊天历史记录
 - [x] 发送图片
 - [x] 图片预览
-- [x] 客户端登录城市、温度、天气
-- [x] 当前在线用户列表
+- [x] 客户端所在城市、温度、天气
 - [x] 当前在线用户列表
 - [x] 通讯录
 - [x] 个人信息查看
@@ -27,23 +26,23 @@ PS: 服务器于 2021 年 4 月 17 日到期，如果无法访问，就是服务
 
 **前端**  
 
-- vue 2.6.11
-- vue-router 3.2.0
-- vuex 3.4.0
-- element-ui 2.14.1
-- axios 0.21.0
-- dayjs 1.9.6
-- md5 2.3.0
-- nprogress 0.2.0
-- socket.io-client 3.0.4
+- vue@2.6.11
+- vue-router@3.2.0
+- vuex@3.4.0
+- element-ui@2.14.1
+- axios@0.21.0
+- dayjs@1.9.6
+- md5@2.3.0
+- nprogress@0.2.0
+- socket.io-client@3.0.4
 
 **后端**  
 
-- koa 2.13.0
-- axios 0.21.0
-- image-size 0.9.3
-- jsonwebtoken 8.5.1
-- socket.io 3.0.4
+- koa@2.13.0
+- axios@0.21.0
+- image-size@0.9.3
+- jsonwebtoken@8.5.1
+- socket.io@3.0.4
 
 ## 项目运行
 
@@ -59,14 +58,14 @@ cd web-chat
 # 安装依赖
 npm install
 
-# 也可以使用淘宝镜像 cnpm 进行依赖的安装
+# 也可以使用淘宝镜像 cnpm 进行依赖的安装，需要进行换源
 cnpm install
 
 # 启动服务
 npm run serve
 ```
 
-浏览器访问即可  
+项目启动后，打开浏览器访问即可  
 
 ## 联系我
 
