@@ -1,20 +1,28 @@
 // 统一处理返回信息的中间件
+const { log } = require('../../utils')
 
 module.exports = function routerResponse (option = {}) {
   return async function (ctx, next) {
     ctx.success = function (data, code = 0) {
+      const status = 1
       ctx.type = option.type || 'json'
       ctx.body = {
-        status: 1,
+        status,
         msg: 'success',
         data,
         code
       }
+      console.log(data)
+      log({
+        ctx,
+        status
+      })
     }
     ctx.fail = function (data, code) {
+      const status = 0
       ctx.type = option.type || 'json'
       ctx.body = {
-        status: 0,
+        status,
         msg: 'fail',
         data,
         code

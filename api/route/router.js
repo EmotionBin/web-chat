@@ -17,7 +17,7 @@ const route = [
     type: 'post', // 请求类型
     path: '/register', // 请求路径
     callback: register, // 接收到请求后的回调
-    auth: false, // 是否需要检测 token 
+    auth: false, // 是否需要检测 token
     log, // 是否需要写入日志
     name: '注册' // 接口名称
   },
