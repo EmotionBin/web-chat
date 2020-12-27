@@ -28,8 +28,8 @@ export default {
   mounted () {
   },
   beforeDestroy () {
-    // 在销毁之前要取消监听 防止重复监听
-    this.$socket.removeAllListeners('wx-login')
+    // 在销毁之前要取消监听 防止重复监听 不能取消监听 否则从登录切换到注册再切换回登录会监听不到事件
+    // this.$socket.removeAllListeners('wx-login')
   },
   methods: {
     // 初始化 监听 socket 事件
@@ -38,6 +38,10 @@ export default {
     },
     // 微信登录
     wxLogin () {
+      // 如果不在登录页面强制跳转到登录页面
+      if (this.$route.name !== 'login') {
+        this.$router.push('/login')
+      }
       const width = 1200
       const height = 600
       const top = 100
@@ -64,6 +68,7 @@ export default {
     height: 28px;
     margin: 0 15px;
     @include bg-icon;
+    outline: none;
     cursor: pointer;
     &.wechat{
       background-image: url('~@/assets/login/wechat.png');
