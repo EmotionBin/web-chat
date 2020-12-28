@@ -1,6 +1,11 @@
 // // 日志写入
 const databaseQuery = require('./database-query')
 
+const databaseWrite = async ({ username, userId, time, action, status }) => {
+  await databaseQuery(`insert into log values ('${username}','${userId}','${time}','${action}','${status}',null)`)
+  console.log('写入完成')
+}
+
 module.exports = async function ({ ctx, status, router }) {
   const { path, headers: { uuid }, body: { username } } = ctx.request
   const { name } = router.find(item => item.path === path)
@@ -21,4 +26,5 @@ module.exports = async function ({ ctx, status, router }) {
   logInfo.username = userData[0].username
   logInfo.userId = userData[0].userId
   console.log('日志写入', logInfo)
+  await databaseWrite(logInfo)
 }

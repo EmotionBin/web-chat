@@ -59,7 +59,7 @@ const route = [
     callback: getUserList,
     auth,
     log,
-    name: '通讯录'
+    name: '查看通讯录'
   },
   {
     type: 'get',
