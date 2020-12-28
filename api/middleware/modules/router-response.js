@@ -1,5 +1,6 @@
 // 统一处理返回信息的中间件
 const { log } = require('../../utils')
+const router = require('../../route/router')
 
 module.exports = function routerResponse (option = {}) {
   return async function (ctx, next) {
@@ -12,10 +13,10 @@ module.exports = function routerResponse (option = {}) {
         data,
         code
       }
-      console.log(data)
       log({
         ctx,
-        status
+        status,
+        router
       })
     }
     ctx.fail = function (data, code) {
@@ -27,6 +28,11 @@ module.exports = function routerResponse (option = {}) {
         data,
         code
       }
+      log({
+        ctx,
+        status,
+        router
+      })
     }
     await next()
   }
