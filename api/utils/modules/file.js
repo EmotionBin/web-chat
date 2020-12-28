@@ -41,7 +41,7 @@ const saveFile = (file, type = 0) => {
           resolve('/api/images/wxcode.jpg')
         })
       } catch (error) {
-        console.log(error, '写入文件发生了错误')
+        console.log(error, '写入文件发生了错误.')
         reject(error)
       }
     }
