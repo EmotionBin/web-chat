@@ -11,11 +11,16 @@ const getUser = async ctx => {
       return
     }
     const { username, avatar } = userInfo[0]
-    ctx.success({
+    const data = {
       username,
       userId,
       avatar
-    })
+    }
+    const logInfo = {
+      type: 'getUser',
+      condition: `select * from user where userId = '${userId}'`
+    }
+    ctx.success(data, 0, logInfo)
   } catch (error) {
     console.log('发生了错误', error)
     ctx.fail('', 5000)
@@ -46,7 +51,11 @@ const searchUser = async ctx => {
       delete item.password
       return item
     })
-    ctx.success(result)
+    const logInfo = {
+      type: 'searchUser',
+      condition: username
+    }
+    ctx.success(result, 0, logInfo)
   } catch (error) {
     console.log('发生了错误', error)
     ctx.fail('', 5000)

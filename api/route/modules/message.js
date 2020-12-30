@@ -16,7 +16,11 @@ const getMessage = async ctx => {
         message: decodeURI(item.message)
       }
     })
-    ctx.success(data)
+    const logInfo = {
+      type: 'getMessage',
+      condition: `select * from room where roomId='${roomId}'`
+    }
+    ctx.success(data, 0, logInfo)
   } catch (error) {
     console.log('发生了错误', error)
     ctx.fail('', 5000)

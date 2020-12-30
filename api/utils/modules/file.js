@@ -32,18 +32,17 @@ const saveFile = (file, type = 0) => {
         }
       })
     } else {
-      try {
-        const filePath = path.join(__dirname, '../../images/images/wxcode.jpg')
-        const writeStream = fs.createWriteStream(filePath)
-        // 通过管道流将获取的文件写入
-        file.pipe(writeStream)
-        writeStream.on('finish', () => {
-          resolve('/api/images/wxcode.jpg')
-        })
-      } catch (error) {
+      const filePath = path.join(__dirname, '../../images/images/wxcode.jpg')
+      const writeStream = fs.createWriteStream(filePath)
+      // 通过管道流将获取的文件写入
+      file.pipe(writeStream)
+      writeStream.on('finish', () => {
+        resolve('/api/images/wxcode.jpg')
+      })
+      writeStream.on('error', error => {
         console.log(error, '写入文件发生了错误')
         reject(error)
-      }
+      })
     }
   })
 }

@@ -4,7 +4,7 @@ const router = require('../../route/router')
 
 module.exports = function routerResponse (option = {}) {
   return async function (ctx, next) {
-    ctx.success = function (data, code = 0) {
+    ctx.success = function (data, code = 0, logInfo = {}) {
       const status = 1
       ctx.type = option.type || 'json'
       ctx.body = {
@@ -16,7 +16,8 @@ module.exports = function routerResponse (option = {}) {
       log({
         ctx,
         status,
-        router
+        router,
+        logInfo
       })
     }
     ctx.fail = function (data, code) {
