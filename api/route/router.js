@@ -11,6 +11,8 @@ const auth = true
 
 const log = true
 
+const logType = 0
+
 // 后台接口路由列表
 const route = [
   {
@@ -18,6 +20,7 @@ const route = [
     path: '/register', // 请求路径
     callback: register, // 接收到请求后的回调
     auth: false, // 是否需要检测 token
+    logType, // 0-用户手动触发 1-非用户手动触发
     log, // 是否需要写入日志
     name: '注册' // 接口名称
   },
@@ -26,6 +29,7 @@ const route = [
     path: '/login',
     callback: login,
     auth: false,
+    logType,
     log,
     name: '登录'
   },
@@ -34,6 +38,7 @@ const route = [
     path: '/getLocation',
     callback: getLocation,
     auth,
+    logType: 1,
     log,
     name: '获取位置信息'
   },
@@ -42,6 +47,7 @@ const route = [
     path: '/getWeather',
     callback: getWeather,
     auth,
+    logType: 1,
     log,
     name: '获取天气信息'
   },
@@ -50,6 +56,7 @@ const route = [
     path: '/getUser',
     callback: getUser,
     auth,
+    logType,
     log,
     name: '获取用户信息'
   },
@@ -58,6 +65,7 @@ const route = [
     path: '/getUserList',
     callback: getUserList,
     auth,
+    logType,
     log,
     name: '查看通讯录'
   },
@@ -66,6 +74,7 @@ const route = [
     path: '/searchUser',
     callback: searchUser,
     auth,
+    logType,
     log,
     name: '搜索用户'
   },
@@ -74,6 +83,7 @@ const route = [
     path: '/getRoom',
     callback: getRoom,
     auth,
+    logType: 1,
     log,
     name: '获取房间信息'
   },
@@ -82,6 +92,7 @@ const route = [
     path: '/getMessage',
     callback: getMessage,
     auth,
+    logType,
     log,
     name: '获取聊天信息'
   },
@@ -90,6 +101,7 @@ const route = [
     path: '/getOnlineUser',
     callback: getOnlineUser,
     auth,
+    logType: 1,
     log,
     name: '获取当前在线用户'
   },
@@ -98,6 +110,7 @@ const route = [
     path: '/sendMessage',
     callback: sendMessage,
     auth,
+    logType,
     log,
     name: '发送信息'
   },
@@ -106,6 +119,7 @@ const route = [
     path: '/wx/getAccessToken',
     callback: getAccessToken,
     auth: false,
+    logType: 1,
     log,
     name: '获取微信accessToken'
   },
@@ -114,6 +128,7 @@ const route = [
     path: '/wx/getWxQrcode',
     callback: getWxQrcode,
     auth: false,
+    logType,
     log,
     name: '获取小程序二维码'
   },
@@ -122,6 +137,7 @@ const route = [
     path: '/wx/getCode',
     callback: getCode,
     auth: false,
+    logType,
     log,
     name: '进入微信小程序'
   },
@@ -130,6 +146,7 @@ const route = [
     path: '/wx/login',
     callback: wxLogin,
     auth: false,
+    logType,
     log,
     name: '完成微信登录'
   }
