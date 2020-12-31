@@ -1,6 +1,5 @@
 const socket = require('socket.io')
-const { log } = require('./utils')
-const { databaseQuery, saveFile } = require('./utils/index')
+const { databaseQuery, saveFile, log } = require('./utils/index')
 
 // socket 配置
 const config = {

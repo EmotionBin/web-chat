@@ -4,10 +4,10 @@
       <div class="third-login wechat" @click="wxLogin"></div>
     </el-tooltip>
     <el-tooltip effect="dark" content="支付宝登录" placement="top">
-      <div class="third-login alipay"></div>
+      <div class="third-login alipay" @click="showTips"></div>
     </el-tooltip>
     <el-tooltip effect="dark" content="钉钉登录" placement="top">
-      <div class="third-login dingding"></div>
+      <div class="third-login dingding" @click="showTips"></div>
     </el-tooltip>
   </div>
 </template>
@@ -35,6 +35,13 @@ export default {
     // 初始化 监听 socket 事件
     init () {
       this.$socket.on('wx-login', this.wxClose)
+    },
+    showTips () {
+      this.$alert('该功能暂未开放，请使用微信登录!', {
+        confirmButtonText: '确定'
+      }).catch(() => {
+        console.log('关闭提示')
+      })
     },
     // 微信登录
     wxLogin () {

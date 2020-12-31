@@ -56,11 +56,24 @@ const onMessage = async function ({ logData, data }) {
 
 // 用户退出
 const onDisconnecting = async function ({ logData, data }) {
+  if (!data) {
+    console.log('用户刷新')
+    return
+  }
   const { userId } = data
   const user = await databaseQuery(`select * from user where userId='${userId}'`)
   logData.username = user[0].username
   logData.userId = userId
   logData.action = '退出系统'
+  await databaseWrite(logData)
+}
+
+// 微信登录
+const onWxLogin = async function ({ logData, data }) {
+  const { username, userId } = data
+  logData.username = username
+  logData.userId = userId
+  logData.action = '微信登录'
   await databaseWrite(logData)
 }
 
@@ -80,7 +93,8 @@ const logTypeList = {
   getUser,
   searchUser,
   onMessage,
-  onDisconnecting
+  onDisconnecting,
+  onWxLogin
 }
 
 module.exports = async function ({ ctx, status, router, logInfo }) {
@@ -108,7 +122,7 @@ module.exports = async function ({ ctx, status, router, logInfo }) {
       logData.userId = userData[0].userId
       logInfo.type ? logTypeList[logInfo.type]({ logData, ...logInfo }) : await databaseWrite(logData)
     } else {
-      // socket 消息
+      // socket 消息 或 微信登录
       const logData = {
         username: '',
         userId: '',
