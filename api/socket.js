@@ -1,7 +1,6 @@
 const socket = require('socket.io')
-const router = require('./route/router')
+const { log } = require('./utils')
 const { databaseQuery, saveFile } = require('./utils/index')
-console.log('router: ', router)
 
 // socket 配置
 const config = {
@@ -98,6 +97,15 @@ const onMessage = async (io, socket, data) => {
       ...lastMessage,
       message: decodeURI(lastMessage.message)
     })
+    // 写入日志
+    const logInfo = {
+      type: 'onMessage',
+      data
+    }
+    log({
+      status: 1,
+      logInfo
+    })
   } catch (error) {
     console.log('接收到了消息，但是发生了错误', error)
   }
@@ -107,8 +115,19 @@ const onMessage = async (io, socket, data) => {
 const onDisconnecting = async (socket, io) => {
   try {
     console.log(`${socket.id}退出`)
+    // 先查出信息再删除记录 因为要写入日志
+    const user = await databaseQuery(`select * from online_user where socketId = '${socket.id}'`)
     await databaseQuery(`delete from online_user where socketId = '${socket.id}'`)
     socket.broadcast.emit('exit')
+    // 写入日志
+    const logInfo = {
+      type: 'onDisconnecting',
+      data: user[0]
+    }
+    log({
+      status: 1,
+      logInfo
+    })
   } catch (error) {
     console.log('用户退出，发生了错误', error)
   }
