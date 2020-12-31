@@ -1,5 +1,7 @@
 const socket = require('socket.io')
+const router = require('./route/router')
 const { databaseQuery, saveFile } = require('./utils/index')
+console.log('router: ', router)
 
 // socket 配置
 const config = {
