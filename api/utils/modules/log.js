@@ -102,7 +102,11 @@ module.exports = async function ({ ctx, status, router, logInfo }) {
     if (ctx) {
       // 普通网络请求
       const { path, headers: { uuid }, body: { username } } = ctx.request
-      const { name, logType } = router.find(item => item.path === path)
+      const { name, logType, log } = router.find(item => item.path === path)
+      if (!log) {
+        // 不需要写入日志
+        return
+      }
       const logData = {
         username: '',
         userId: '',

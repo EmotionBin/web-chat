@@ -16,7 +16,7 @@
         <div class="loading-wrap" v-show="isLoading">
           <i class="el-icon-loading"></i>
         </div>
-        <div class="top-tips-wrap" v-show="isTop">
+        <div class="top-tips-wrap" v-show="isTop && messageList.length">
           到顶了~
         </div>
         <template v-for="item in messageList">
