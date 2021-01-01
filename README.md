@@ -83,4 +83,4 @@ npm run serve
 
 MIT License  
 
-Copyright (c) 2020 EmotionBin  
+Copyright (c) 2021 EmotionBin  

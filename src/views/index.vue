@@ -23,7 +23,7 @@
           <span> • Version 1.0.0 • ALL RIGHTS RESERVED</span>
         </div>
         <div class="beian-year">
-          huangweibinupup.cn © 2020
+          huangweibinupup.cn © 2021
         </div>
       </div>
     </div>
