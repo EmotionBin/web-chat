@@ -11,10 +11,13 @@
         <i class="el-icon-more"></i>
       </div>
     </div>
-    <div class="chat-view-message" :class="{'isEdit':isEdit}">
-      <div class="chat-list" ref="chatList" @scroll="this.scrollToTop">
+    <div class="chat-view-message">
+      <div class="chat-list" ref="chatList" @scroll="this.scrollDebounce">
         <div class="loading-wrap" v-show="isLoading">
           <i class="el-icon-loading"></i>
+        </div>
+        <div class="top-tips-wrap" v-show="isTop">
+          到顶了~
         </div>
         <template v-for="item in messageList">
           <div class="list-item" :key="item.messageId">
@@ -55,12 +58,8 @@
         </template>
       </div>
     </div>
-    <div class="chat-view-reply" :class="{'isEdit':isEdit}">
+    <div class="chat-view-reply">
       <div class="reply-wrap">
-        <div class="arrow-wrap" v-show="false">
-          <div class="arrow-icon" @click="toggleEdit"></div>
-          <div class="arrow-mask"></div>
-        </div>
         <div class="input-wrap">
           <div class="input-media">
             <div class="media-item">
@@ -110,7 +109,6 @@ export default {
   name: 'chat-view',
   data () {
     return {
-      isEdit: true,
       roomInfo: {
         name: '',
         avatar: '',
@@ -122,6 +120,7 @@ export default {
         message: '',
         socketId: ''
       },
+      isTop: false,
       isLoading: false,
       isFirstJoin: true
     }
@@ -270,10 +269,6 @@ export default {
       }
       $socket.emit('message', message)
     },
-    // 切换编辑状态
-    toggleEdit () {
-      this.isEdit = !this.isEdit
-    },
     // 查看用户详细信息
     goUserDetail (userId) {
       console.log('userId: ', userId)
@@ -290,6 +285,10 @@ export default {
           }
         })
         console.log('data: ', data)
+        if (!data.length) {
+          this.isTop = true
+          return
+        }
         const messageInfo = data.map(item => {
           return {
             ...item,
@@ -306,19 +305,32 @@ export default {
         console.log('获取聊天信息发生了错误', error)
       }
     },
+    // 滚动防抖
+    scrollDebounce (e) {
+      if (this.isTop) {
+        // 滚动到顶部 所有数据已经加载完毕 没有必要继续加载数据了
+        return
+      }
+      clearTimeout(this.scrollTimer)
+      this.scrollTimer = setTimeout(() => {
+        if (e.target.scrollTop >= 0 && e.target.scrollTop < 150) {
+          console.log('滚动')
+          this.handleScroll()
+        }
+      }, 500)
+    },
     // 滚动条滚动到顶部
-    async scrollToTop () {
-      const { scrollTop } = this.$refs.chatList
+    async handleScroll () {
+      const { scrollTop, scrollHeight } = this.$refs.chatList
       if (scrollTop === 0) {
         console.log('滚动收到了顶部')
-        // 强制更改滚动条距离 否则滚动条会一直在顶部
-        this.$refs.chatList.scrollTop = 1
-        if (this.isLoading) {
-          // 在加载数据的时候不做判断 否则会造成请求容易 必要时可以用防抖处理
-          return
-        }
         this.isLoading = true
         await this.getMessage()
+        // 保持滚动条位置 否则滚动条会自动置顶
+        const newScrollHeight = this.$refs.chatList.scrollHeight
+        if (newScrollHeight !== scrollHeight) {
+          this.$refs.chatList.scrollTop = newScrollHeight - scrollHeight
+        }
         this.isLoading = false
       }
     },
@@ -365,10 +377,7 @@ $replyHeight:100px;
     }
   }
   .chat-view-message{
-    height: calc(100% - #{$headHeight});
-    &.isEdit{
-      height: calc(100% - #{$headHeight + $replyHeight});
-    }
+    height: calc(100% - #{$headHeight + $replyHeight});
     .chat-list{
       position: relative;
       height: 100%;
@@ -381,6 +390,10 @@ $replyHeight:100px;
       top: 0;
       width: 100%;
       @include flex-center;
+    }
+    .top-tips-wrap{
+      text-align: center;
+      color: #666;
     }
     .list-item{
       margin: 4px 0;
@@ -473,14 +486,6 @@ $replyHeight:100px;
     height: $replyHeight;
     @include card-mode;
     box-shadow: $commonShadow;
-    transform: translateY(90px);
-    transition: transform .3s cubic-bezier(.9,0,.3,.7),-webkit-transform .3s cubic-bezier(.9,0,.3,.7);
-    &.isEdit{
-      transform: translateY(0);
-      .arrow-icon{
-        transform:rotate(0deg) !important;
-      }
-    }
     .reply-wrap{
       position: relative;
       height: 100%;
