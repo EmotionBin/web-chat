@@ -29,8 +29,8 @@ module.exports = async (ctx, next) => {
         if (err) {
           // token 验证失败 删除记录的信息
           console.log(err, 'token验证失败')
-          await databaseQuery(`delete from token where userId='${userId}'`)
           ctx.fail('', 4001)
+          await databaseQuery(`delete from token where userId='${userId}'`)
           return
         }
         // 如果 token 还有十分钟过期 刷新token

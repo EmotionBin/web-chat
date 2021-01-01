@@ -35,6 +35,8 @@ export default {
     // 初始化 监听 socket 事件
     init () {
       this.$socket.on('wx-login', this.wxClose)
+      this.loginWindow = this.$route.params.wxLoginWindow || null
+      console.log('this.loginWindow: ', this.loginWindow)
     },
     showTips () {
       this.$alert('该功能暂未开放，请使用微信登录!', {
@@ -45,10 +47,6 @@ export default {
     },
     // 微信登录
     wxLogin () {
-      // 如果不在登录页面强制跳转到登录页面
-      if (this.$route.name !== 'login') {
-        this.$router.push('/login')
-      }
       const width = 1200
       const height = 600
       const top = 100
@@ -56,6 +54,15 @@ export default {
       const socketId = this.$socket.id
       const url = `/wx/login?socketId=${socketId}`
       this.loginWindow = window.open(url, 'wx-login', `width=${width}, height=${height}, top=${top}, left=${left}`)
+      // 如果不在登录页面强制跳转到登录页面
+      if (this.$route.name !== 'login') {
+        this.$router.push({
+          name: 'login',
+          params: {
+            wxLoginWindow: this.loginWindow
+          }
+        })
+      }
     },
     // 微信登录结束
     wxClose () {

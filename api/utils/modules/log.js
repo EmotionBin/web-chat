@@ -97,7 +97,7 @@ const logTypeList = {
   onWxLogin
 }
 
-module.exports = async function ({ ctx, status, router, logInfo }) {
+module.exports = async function ({ ctx, status, router, logInfo = {} }) {
   try {
     if (ctx) {
       // 普通网络请求
@@ -119,7 +119,6 @@ module.exports = async function ({ ctx, status, router, logInfo }) {
       // 查询用户信息
       const userData = await databaseQuery(sql)
       if (!userData.length) {
-        // token 过期
         return
       }
       logData.username = userData[0].username
