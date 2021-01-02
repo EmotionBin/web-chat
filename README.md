@@ -1,5 +1,7 @@
 # web-chat
 
+[中文版](./README.md) [English](./zh_en.md)
+
 [web-chat](https://www.huangweibinupup.cn:8888) 是一个 web 在线聊天室，前端基于 [vue](https://github.com/vuejs/vue) 和 [element-ui](https://github.com/ElemeFE/element) 实现，后端采用  [Koa](https://koa.bootcss.com) 与 [mysql](https://www.mysql.com) 实现  
 
 - [在线预览](https://www.huangweibinupup.cn:8888)
