@@ -39,7 +39,7 @@ export default {
           title: 'All rights reserved'
         },
         {
-          title: 'huangweibinupup.cn © 2020'
+          title: 'huangweibinupup.cn © 2021'
         },
         {
           title: '备案号: 桂ICP备2020008115号'

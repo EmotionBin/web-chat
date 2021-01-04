@@ -120,7 +120,7 @@ const route = [
     callback: getAccessToken,
     auth: false,
     logType: 1,
-    log,
+    log: false,
     name: '获取微信accessToken'
   },
   {
@@ -129,7 +129,7 @@ const route = [
     callback: getWxQrcode,
     auth: false,
     logType,
-    log,
+    log: false,
     name: '获取小程序二维码'
   },
   {
@@ -138,7 +138,7 @@ const route = [
     callback: getCode,
     auth: false,
     logType,
-    log,
+    log: false,
     name: '进入微信小程序'
   },
   {

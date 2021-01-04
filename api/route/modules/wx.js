@@ -1,6 +1,6 @@
 // 用于实现微信登录
 const axios = require('axios')
-const { uniqueString, databaseQuery, tokenCreate, saveFile } = require('../../utils')
+const { uniqueString, databaseQuery, tokenCreate, saveFile, log } = require('../../utils')
 
 // 记录用于校验微信登录的唯一 code 值
 const CODE_MAP = {}
@@ -113,6 +113,18 @@ const wxLogin = async ctx => {
         userId,
         avatar
       }
+    })
+    // 写入日志
+    const logInfo = {
+      type: 'onWxLogin',
+      data: {
+        username,
+        userId
+      }
+    }
+    log({
+      status: 1,
+      logInfo
     })
   } catch (error) {
     console.log(error)
