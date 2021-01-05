@@ -1,7 +1,7 @@
 <template>
   <div class="account-wrap">
     <div class="account-head">
-      <span class="head-text">当前在线列表({{list.length}})</span>
+      <span class="head-text">当前在线用户列表({{list.length}})</span>
     </div>
     <div class="account-list">
       <div class="list-wrap">
