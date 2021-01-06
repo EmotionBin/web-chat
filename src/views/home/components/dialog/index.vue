@@ -40,14 +40,14 @@ export default {
   mounted () {
   },
   beforeDestroy () {
-    bus.$off('showBigImage', this.showBigImage)
-    bus.$off('payMe', this.payMe)
+    bus.$off('show-big-image', this.showBigImage)
+    bus.$off('pay-me', this.payMe)
   },
   methods: {
     // 初始化 监听事件
     init () {
-      bus.$on('showBigImage', this.showBigImage)
-      bus.$on('payMe', this.payMe)
+      bus.$on('show-big-image', this.showBigImage)
+      bus.$on('pay-me', this.payMe)
     },
     // 查看大图
     showBigImage (value) {

@@ -217,7 +217,7 @@ export default {
     },
     // 点击查看图片大图
     showImage (image) {
-      bus.$emit('showBigImage', image)
+      bus.$emit('show-big-image', image)
     },
     // 动态生成图片宽高
     dynamicImageSize (image) {

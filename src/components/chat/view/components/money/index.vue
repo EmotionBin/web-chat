@@ -29,7 +29,7 @@ export default {
   methods: {
     // 请我和咖啡
     payMe () {
-      bus.$emit('payMe')
+      bus.$emit('pay-me')
     }
   }
 }
