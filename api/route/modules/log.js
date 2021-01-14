@@ -3,7 +3,7 @@
  */
 const { databaseQuery, getTimeRange } = require('../../utils')
 
-// 获取数据概览
+// 数据概览
 const getStatisticsOverview = async ctx => {
   try {
     const today = +new Date()
@@ -45,6 +45,54 @@ const getStatisticsOverview = async ctx => {
   }
 }
 
+// 数据分析
+const getStatisticsAnalysis = async ctx => {
+  try {
+    const { startTime, endTime } = ctx.request.query
+    const logList = await databaseQuery('select * from log where logType = 0')
+    const logTimeList = logList.filter(item => +item.time >= startTime && +item.time < endTime)
+    let wxLoginTime = 0
+    let loginTime = 0
+    const timeRange = {
+      '0:00-8:00': 0,
+      '8:00-12:00': 0,
+      '12:00-18:00': 0,
+      '18:00-0:00': 0
+    }
+    logTimeList.forEach(({ action, time }) => {
+      action === '微信登录' && wxLoginTime++
+      action === '登录' && loginTime++
+      if (action === '微信登录' || action === '登录') {
+        // 根据用户登录时间统计用户使用时间段
+        const date = new Date(+time)
+        const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+        let key = null
+        if (hour < 8) {
+          key = '0:00-8:00'
+        } else if (hour >= 8 && hour < 12) {
+          key = '8:00-12:00'
+        } else if (hour >= 12 && hour < 18) {
+          key = '12:00-18:00'
+        } else {
+          key = '18:00-0:00'
+        }
+        timeRange[key]++
+      }
+    })
+    console.log('微信登录次数', wxLoginTime)
+    console.log('普通登录次数', loginTime)
+    ctx.success({
+      wxLoginTime,
+      loginTime,
+      timeRange
+    })
+  } catch (error) {
+    console.log(error)
+    ctx.fail('', 5000)
+  }
+}
+
 module.exports = {
-  getStatisticsOverview
+  getStatisticsOverview,
+  getStatisticsAnalysis
 }
