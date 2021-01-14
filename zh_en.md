@@ -15,6 +15,7 @@ PS: the server will expire on April 17 2021，if it cannot be accessed，the ser
 - [x] single login
 - [x] automatic refresh token of active user
 - [x] group chat and single chat
+- [x] prompt for users to join or quit group chat
 - [x] check chat history
 - [x] send pictures
 - [x] picture preview

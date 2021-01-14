@@ -70,7 +70,7 @@ export default {
       if (value === 'github') {
         this.$utils.open('https://github.com/EmotionBin/web-chat')
       } else if (value === 'drink') {
-        bus.$emit('payMe')
+        bus.$emit('pay-me')
       } else {
         // 暂未开放的功能列表
         const noDemoList = ['setting', 'expression']
