@@ -140,6 +140,8 @@ export default {
     margin: 0 10px;
   }
   .info-user{
+    display: flex;
+    align-items: center;
     margin: 0 10px;
     .el-dropdown{
       max-width: 160px;
