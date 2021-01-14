@@ -6,6 +6,7 @@ const { getUser, getUserList, searchUser, getOnlineUser } = require('./modules/u
 const getRoom = require('./modules/room')
 const { getMessage, sendMessage } = require('./modules/message')
 const { getAccessToken, getWxQrcode, getCode, wxLogin } = require('./modules/wx')
+const { getStatisticsOverview } = require('./modules/log')
 
 const auth = true
 
@@ -149,6 +150,15 @@ const route = [
     logType,
     log,
     name: '完成微信登录'
+  },
+  {
+    type: 'get',
+    path: '/log/getStatisticsOverview',
+    callback: getStatisticsOverview,
+    auth,
+    logType,
+    log: false,
+    name: '获取数据概览数据'
   }
 ]
 

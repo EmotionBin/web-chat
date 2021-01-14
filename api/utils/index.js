@@ -5,6 +5,7 @@ const { tokenCreate, tokenRefresh } = require('./modules/token-create')
 const avatarCreate = require('./modules/avatar-create')
 const { saveFile } = require('./modules/file')
 const log = require('./modules/log')
+const { getTimeRange } = require('./modules/day')
 
 module.exports = {
   databaseQuery,
@@ -14,5 +15,6 @@ module.exports = {
   getClientIp,
   avatarCreate,
   saveFile,
-  log
+  log,
+  getTimeRange
 }
