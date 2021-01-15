@@ -6,7 +6,7 @@ const { getUser, getUserList, searchUser, getOnlineUser } = require('./modules/u
 const getRoom = require('./modules/room')
 const { getMessage, sendMessage } = require('./modules/message')
 const { getAccessToken, getWxQrcode, getCode, wxLogin } = require('./modules/wx')
-const { getStatisticsOverview, getStatisticsAnalysis } = require('./modules/log')
+const { getStatisticsOverview, getStatisticsAnalysis, getUserOperation, getLogUserList } = require('./modules/log')
 
 const auth = true
 
@@ -168,6 +168,24 @@ const route = [
     logType,
     log: false,
     name: '获取数据分析数据'
+  },
+  {
+    type: 'get',
+    path: '/log/getUserOperation',
+    callback: getUserOperation,
+    auth,
+    logType,
+    log: false,
+    name: '获取用户行为数据'
+  },
+  {
+    type: 'get',
+    path: '/log/getLogUserList',
+    callback: getLogUserList,
+    auth,
+    logType,
+    log: false,
+    name: '获取用户列表'
   }
 ]
 

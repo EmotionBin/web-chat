@@ -10,7 +10,7 @@ const getStatisticsOverview = async ctx => {
     const todayZero = getTimeRange(0)
     const yesterday = getTimeRange(-1)
     const lastWeek = getTimeRange(-6) // 最近一周 包括今天则为 -6 否则为 -7
-    const lastThirty = getTimeRange(-30)
+    const lastThirty = getTimeRange(-29) // 最近三十天 包括今天则为 -29 否则为 -30
     const logList = await databaseQuery('select * from log where logType = 0')
     // 查昨天的数据必须精确到今天 00:00:00
     const yesterdayData = logList.filter(item => yesterday <= (+item.time) && (+item.time) < todayZero)
@@ -18,7 +18,7 @@ const getStatisticsOverview = async ctx => {
     const sumActivity = logList.length
     const yesterdayActivity = yesterdayData.length
     const yesterdayDataPeople = [...new Set(yesterdayData.map(item => item.userId))]
-    const lastThirtyDataPeople = [...new Set(lastThirtyData.map(item => item.userId))]
+    const lastThirtyDataPeople = lastThirtyData.map(item => item.userId)
     const weekData = []
     const oneDay = 24 * 60 * 60 * 1000
     for (let i = 0; i < 7; i++) {
@@ -49,8 +49,7 @@ const getStatisticsOverview = async ctx => {
 const getStatisticsAnalysis = async ctx => {
   try {
     const { startTime, endTime } = ctx.request.query
-    const logList = await databaseQuery('select * from log where logType = 0')
-    const logTimeList = logList.filter(item => +item.time >= startTime && +item.time < endTime)
+    const logList = await databaseQuery(`select * from log where logType = 0 and time >= '${ startTime }' and time < '${ endTime }'`)
     let wxLoginTime = 0
     let loginTime = 0
     const timeRange = {
@@ -59,7 +58,7 @@ const getStatisticsAnalysis = async ctx => {
       '12:00-18:00': 0,
       '18:00-0:00': 0
     }
-    logTimeList.forEach(({ action, time }) => {
+    logList.forEach(({ action, time }) => {
       action === '微信登录' && wxLoginTime++
       action === '登录' && loginTime++
       if (action === '微信登录' || action === '登录') {
@@ -92,7 +91,40 @@ const getStatisticsAnalysis = async ctx => {
   }
 }
 
+// 用户行为
+const getUserOperation = async ctx => {
+  try {
+    const { userId, startTime, endTime, size, number } = ctx.request.query
+    const logList = await databaseQuery(`select * from log where logType = 0 and userId like '%${userId}%' and time >= '${startTime}' and time < '${endTime}'`)
+    const logPageList = logList.filter((item, index) => index < number * size && index >= (number - 1) * size)
+    ctx.success({
+      sum: logList.length,
+      logPageList
+    })
+  } catch (error) {
+    console.log(error)
+    ctx.fail('', 5000)
+  }
+}
+
+// 获取用户列表
+const getLogUserList = async ctx => {
+  try {
+    const userInfo = await databaseQuery('select * from user')
+    const result = userInfo.map(item => {
+      delete item.password
+      return item
+    })
+    ctx.success(result)
+  } catch (error) {
+    console.log('发生了错误', error)
+    ctx.fail('', 5000)
+  }
+}
+
 module.exports = {
   getStatisticsOverview,
-  getStatisticsAnalysis
+  getStatisticsAnalysis,
+  getUserOperation,
+  getLogUserList
 }
