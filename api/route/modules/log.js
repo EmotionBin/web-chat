@@ -56,7 +56,7 @@ const getStatisticsAnalysis = async ctx => {
       '0:00-8:00': 0,
       '8:00-12:00': 0,
       '12:00-18:00': 0,
-      '18:00-0:00': 0
+      '18:00-24:00': 0
     }
     logList.forEach(({ action, time }) => {
       action === '微信登录' && wxLoginTime++
@@ -73,7 +73,7 @@ const getStatisticsAnalysis = async ctx => {
         } else if (hour >= 12 && hour < 18) {
           key = '12:00-18:00'
         } else {
-          key = '18:00-0:00'
+          key = '18:00-24:00'
         }
         timeRange[key]++
       }
