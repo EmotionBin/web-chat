@@ -18,7 +18,7 @@ const getStatisticsOverview = async ctx => {
     const sumActivity = logList.length
     const yesterdayActivity = yesterdayData.length
     const yesterdayDataPeople = [...new Set(yesterdayData.map(item => item.userId))]
-    const lastThirtyDataPeople = lastThirtyData.map(item => item.userId)
+    const lastThirtyDataPeople = lastThirtyData.filter(item => item.action === '登录' || item.action === '微信登录')
     const weekData = []
     const oneDay = 24 * 60 * 60 * 1000
     for (let i = 0; i < 7; i++) {
@@ -122,9 +122,48 @@ const getLogUserList = async ctx => {
   }
 }
 
+// 获取用户数据
+const getUserData = async ctx => {
+  try {
+    const { userId, startTime, endTime } = ctx.request.query
+    const logList = await databaseQuery(`select * from log where logType = 0 and userId like '%${userId}%' and time >= '${startTime}' and time < '${endTime}'
+    and (action = '登录' or action = '微信登录')`)
+    const timeRange = {
+      '0:00-8:00': 0,
+      '8:00-12:00': 0,
+      '12:00-18:00': 0,
+      '18:00-24:00': 0
+    }
+    logList.forEach(({ time }) => {
+      // 根据用户登录时间统计用户使用时间段
+      const date = new Date(+time)
+      const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+      let key = null
+      if (hour < 8) {
+        key = '0:00-8:00'
+      } else if (hour >= 8 && hour < 12) {
+        key = '8:00-12:00'
+      } else if (hour >= 12 && hour < 18) {
+        key = '12:00-18:00'
+      } else {
+        key = '18:00-24:00'
+      }
+      timeRange[key]++
+    })
+    ctx.success({
+      sum: logList.length,
+      timeRange
+    })
+  } catch (error) {
+    console.log(error)
+    ctx.fail('', 5000)
+  }
+}
+
 module.exports = {
   getStatisticsOverview,
   getStatisticsAnalysis,
   getUserOperation,
-  getLogUserList
+  getLogUserList,
+  getUserData
 }
