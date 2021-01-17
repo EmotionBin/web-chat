@@ -2,7 +2,7 @@ const register = require('./modules/register')
 const login = require('./modules/login')
 const getLocation = require('./modules/location')
 const getWeather = require('./modules/weather')
-const { getUser, getUserList, searchUser, getOnlineUser } = require('./modules/user')
+const { getUser, getUserList, searchUser, getOnlineUser, uuidCheck } = require('./modules/user')
 const getRoom = require('./modules/room')
 const { getMessage, sendMessage } = require('./modules/message')
 const { getAccessToken, getWxQrcode, getCode, wxLogin } = require('./modules/wx')
@@ -150,6 +150,15 @@ const route = [
     logType,
     log,
     name: '完成微信登录'
+  },
+  {
+    type: 'get',
+    path: '/uuidCheck',
+    callback: uuidCheck,
+    auth,
+    logType,
+    log: false,
+    name: '检测用户 uuid'
   },
   {
     type: 'get',

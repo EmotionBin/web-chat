@@ -82,9 +82,38 @@ const getOnlineUser = async ctx => {
   }
 }
 
+// 检测用户 uuid
+const uuidCheck = async ctx => {
+  try {
+    const { uuid } = ctx.request.query
+    const user = await databaseQuery(`select * from token where uuid = '${uuid}'`)
+    if (!user.length) {
+      // 检验不通过
+      ctx.fail('', 4001)
+      return
+    }
+    const { userId } = user[0]
+    const userInfo = await databaseQuery(`select * from user where userId = '${userId}'`)
+    console.log('userInfo: ', userInfo)
+    const { username, avatar } = userInfo[0]
+    ctx.success({
+      uuid,
+      userInfo: {
+        username,
+        userId,
+        avatar
+      }
+    })
+  } catch (error) {
+    console.log('发生了错误', error)
+    ctx.fail('', 5000)
+  }
+}
+
 module.exports = {
   getUser,
   getUserList,
   searchUser,
-  getOnlineUser
+  getOnlineUser,
+  uuidCheck
 }
