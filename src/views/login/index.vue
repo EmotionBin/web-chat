@@ -127,7 +127,7 @@ export default {
       // vuex 写入用户信息
       this.updateUser(data.userInfo)
       // 将 uuid 写入 cookie 中
-      document.cookie = `web-chat-uuid = ${data.uuid}`
+      document.cookie = `web-chat-uuid = ${data.uuid};path=/`
       // 登录成功进行重定向 若没有重定向参数 默认进入首页
       this.$router.replace(this.$route.query.redirect || '/home')
     },

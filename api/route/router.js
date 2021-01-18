@@ -155,7 +155,7 @@ const route = [
     type: 'get',
     path: '/uuidCheck',
     callback: uuidCheck,
-    auth,
+    auth: false,
     logType,
     log: false,
     name: '检测用户 uuid'

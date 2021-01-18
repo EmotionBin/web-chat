@@ -38,7 +38,7 @@ service.interceptors.response.use(
         router.push({
           name: 'login',
           query: {
-            redirect: router.history._startLocation || '/home'
+            redirect: '/home'
           }
         })
       }
