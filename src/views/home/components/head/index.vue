@@ -104,6 +104,8 @@ export default {
       if (item.command === 'logout') {
         // 进行注销操作
         localStorage.removeItem('uuid')
+        // 删除 cookie
+        document.cookie = 'web-chat-uuid ='
         // vuex 清空用户信息
         this.updateUser({
           username: '',
