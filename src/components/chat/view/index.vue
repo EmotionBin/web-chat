@@ -83,7 +83,8 @@
                 show-word-limit
                 :autosize="{ minRows: 1, maxRows: 4}"
                 placeholder="请输入内容"
-                v-model="reply.message">
+                v-model="reply.message"
+                @keydown.enter.native="textareaEnter">
               </el-input>
             </div>
             <div class="input-btn">
@@ -182,6 +183,11 @@ export default {
     // 返回
     back () {
       this.$router.go(-1)
+    },
+    // textarea 按下回车 阻止默认事件 不换行
+    textareaEnter (event) {
+      event.preventDefault()
+      this.sendMessage()
     },
     // 查看聊天详情
     showDetail () {
