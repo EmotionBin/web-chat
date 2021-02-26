@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     // 选择了图片
-    choosePhoto (e) {
+    choosePhoto (event) {
       const file = event.target.files[0]
       const reader = new FileReader()
       reader.readAsDataURL(file)
